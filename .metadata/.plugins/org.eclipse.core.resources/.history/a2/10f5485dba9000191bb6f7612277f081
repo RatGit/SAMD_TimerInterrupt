@@ -1,0 +1,223 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                    //
+//  PROJECT:      Wireless Sensor Controller                                                                          //
+//                                                                                                                    //
+//  MODULE:       client.h                                                                                            //
+//                                                                                                                    //
+//  DESCRIPTION:  Low Power LoRa Packet Radio Client. Used for testing Power Utilisation, Comms Contention etc.       //
+//                                                                                                                    //
+//  AUTHORS:      Keith Willis (keith.willis@vutronix.com)                                                            //
+//                                                                                                                    //
+//  NOTES:        Hardware Requirements: Mini Ultra Pro board powered by a single cell Li-Ion/Pol 3.7V battery.       //
+//                                                                                                                    //
+//                Creates a reliable packet radio client with support for pairing, addressing, retries and low power. //
+//                                                                                                                    //
+//                It is designed to work with the "link-test-server" sketch                                           //
+//                                                                                                                    //
+//                **Important**: When using the "SerialFlash.sleep()" function, the only function that the serial     //
+//                flash chip will then respond to is "SerialFlash.wakeup()".                                          //
+//                                                                                                                    //
+//                Radio Defaults after init:                                                                          //
+//                 434.0MHz, 13dBm, Bw = 125 kHz, Cr = 4/5, Sf = 128chips/symbol, CRC ON //                           //
+//                 Transmitter power is 13dBm, using PA_BOOST.                                                        //
+//                 The RFM95 module, which uses the PA_BOOST pin, can set transmitter power from 5 to 23 dBm          //
+//                                                                                                                    //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                              COMMERCIAL IN CONFIDENCE                                              //
+//  This material may not in whole or part be copied, stored electronically or communicated to third                  //
+//  parties without <YOUR ORGANISATION NAME HERE>'s prior agreement in writing.                                       //
+//                                                                                                                    //
+//  You may not remove this confidentiality or copyright notice or modify the contents of this file                   //
+//  without <YOUR ORGANISATION NAME HERE>'s prior agreement in writing.                                               //
+//                                                                                                                    //
+//                                      CopyRight 2018 <YOUR ORGANISATION NAME HERE>                                  //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                    //
+//  FUNCTIONS:                                                                                                        //
+//  ----------------------------------------------------------------------------------------------------------------  //
+//                                                                                                                    //
+//   Function:     serialPrint                                                                                        //
+//   Description:  Wrapper function for Serial.print and Serial.println                                               //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    const char* str                                                                                    //
+//                 bool addLF                                                                                         //
+//   Returns:      int                                                                                                //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:        None                                                                                               //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+//                                                                                                                    //
+//   Function:     serialPrintf                                                                                       //
+//   Description:  Wrapper function for sprintf, Serial.print and Serial.println                                      //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    char* str                                                                                          //
+//                 const char* format                                                                                 //
+//                 bool addLF                                                                                         //
+//                 variadic arguments                                                                                 //
+//   Returns:      int                                                                                                //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:        None                                                                                               //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+//                                                                                                                    //
+//   Function:     getUID                                                                                             //
+//   Description:  This function returns a 64-bit UID read from the 24AA02E64 IC                                      //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    char* _uidstr                                                                                      //
+//   Returns:      uint64_t                                                                                           //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:        It replaces the 24AA02E64 OUI with a custom one, (CLIENT_OUI).                                     //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+//                                                                                                                    //
+//   Function:     getTimestampStr                                                                                    //
+//   Description:  This function returns a formatted timestamp string. (= seconds since 1st January 2000, 00:00:00)   //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    char* dateTimeStr                                                                                  //
+//   Returns:      None                                                                                               //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:        None                                                                                               //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+//                                                                                                                    //
+//   Function:     getDateTime                                                                                        //
+//   Description:  This function updates the global dateTime struct from the RTC.                                     //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    char* dateTimeStr                                                                                  //
+//                 const char* format                                                                                 //
+//   Returns:      None                                                                                               //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:        None                                                                                               //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+//                                                                                                                    //
+//   Function:     getDateTimeStr                                                                                     //
+//   Description:  This function updates the global dateTime struct and returns a formatted date time string as       //
+//                 ddd, d mmm yyyy hh:mm:ss                                                                           //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    char* dateTimeStr                                                                                  //
+//   Returns:      None                                                                                               //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:        Year must be greater than 2000                                                                     //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+//                                                                                                                    //
+//   Function:     createDatagram                                                                                     //
+//   Description:  Write the 64-Bit OUI+UID, Timestamp (secs since Power On) and last SNR.                            //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    None                                                                                               //
+//   Returns:      None                                                                                               //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:        Called in "radioHandshake"                                                                         //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+//                                                                                                                    //
+//   Function:     alarmMatch                                                                                         //
+//   Description:  RTC Alarm Interrupt Handler.                                                                       //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    None                                                                                               //
+//   Returns:      None                                                                                               //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:        This function is simply a placeholder.                                                             //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+//                                                                                                                    //
+//   Function:     pair                                                                                               //
+//   Description:  This function attempts to pair the Client to a LoRa Master node                                    //
+//                 If not in Low Power mode, it wakes up the USB port and sends serial status messages                //
+//                 as well as toggling the LED on a successful handshake.                                             //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    None                                                                                               //
+//   Returns:      None                                                                                               //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:                                                                                                           //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+//                                                                                                                    //
+//   Function:     sendData                                                                                           //
+//   Description:  This function is called once every program loop. It sends a test message to the server and then    //
+//                 waits for a reply.                                                                                 //
+//                 If not in Low Power mode, it wakes up the USB port and sends serial status messages                //
+//                 as well as toggling the LED on a successful handshake.                                             //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    None                                                                                               //
+//   Returns:      None                                                                                               //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:                                                                                                           //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+//                                                                                                                    //
+//   Function:     radioHandshake                                                                                     //
+//   Description:  This function is called once every program loop. It sends a test mesage to the server and then     //
+//                 waits for a reply. It wakes up the USB port and sends serial status messages as well as toggling   //
+//                 the LED on a successful handshake.                                                                 //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    None                                                                                               //
+//   Returns:      None                                                                                               //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:        Called in "loop"                                                                                   //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+//                                                                                                                    //
+//   Function:     setup                                                                                              //
+//   Description:  Main sketch initialisation function. Sets unused IO pins to their lowest power mode, (ie. Input    //
+//                 + PullUp), puts the Serial Flash to sleep, detaches the USB port, configures the LoRa radio module //
+//                 and then puts it to sleep. Finally it configures the RTC to wake once every minute                 //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    None                                                                                               //
+//   Returns:      None                                                                                               //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:                                                                                                           //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+//                                                                                                                    //
+//   Function:     loop                                                                                               //
+//   Description:  Main sketch program loop. Calls the "radioHandshake" function once every program loop then places  //
+//                 the RTC back into StandBy mode.                                                                    //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    None                                                                                               //
+//   Returns:      None                                                                                               //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:                                                                                                           //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+//                                                                                                                    //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#ifndef _client_h_
+#define _client_h_
+
+
+//////////////////////////////////////
+//  Included Modules and Functions  //
+//////////////////////////////////////
+
+#include "common.h"
+
+
+/////////////////////////
+//  Macro Definitions  //
+/////////////////////////
+
+//#define LOW_POWER        // Define to enable low power mode
+#define LOOP_DELAY 5000  // Time in milliseconds to wait each loop (when in low power mode)
+
+
+//////////////////////////////////////
+//  Global Variables and Constants  //
+//////////////////////////////////////
+
+bool isPaired;
+
+
+/////////////////////////////
+//  Function Declarations  //
+/////////////////////////////
+
+uint64_t getUID(char* _uidstr);
+void pair();
+void sendData();
+void radioHandshake();
+
+
+#endif

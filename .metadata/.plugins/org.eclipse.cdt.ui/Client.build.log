@@ -1,0 +1,30 @@
+17:27:25 **** Incremental Build of configuration Debug for project Client ****
+make all 
+Building target: Client
+Printing size:
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-size" -A "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Client/Debug/Client.elf"
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Client/Debug/Client.elf  :
+section             size        addr
+.text              42856           0
+.ARM.exidx             8       42856
+.data                432   536870912
+.bss                3604   536871344
+.ARM.attributes       40           0
+.comment             128           0
+.debug_info       321896           0
+.debug_abbrev      32137           0
+.debug_loc         46186           0
+.debug_aranges      4704           0
+.debug_ranges       8768           0
+.debug_line        45247           0
+.debug_str         51970           0
+.debug_frame       15516           0
+.stabstr             441           0
+Total             573933
+
+
+Finished building target: Client
+ 
+
+17:27:25 Build Finished. 0 errors, 0 warnings. (took 264ms)
+

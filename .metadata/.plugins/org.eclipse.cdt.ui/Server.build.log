@@ -1,0 +1,30 @@
+17:29:29 **** Incremental Build of configuration Debug for project Server ****
+make all 
+Building target: Server
+Printing size:
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-size" -A "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Debug/Server.elf"
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Debug/Server.elf  :
+section             size        addr
+.text              48920           0
+.ARM.exidx             8       48920
+.data                448   536870912
+.bss                4480   536871360
+.ARM.attributes       40           0
+.comment             128           0
+.debug_info       337277           0
+.debug_abbrev      33649           0
+.debug_loc         49955           0
+.debug_aranges      4856           0
+.debug_ranges       9160           0
+.debug_line        47084           0
+.debug_str         52525           0
+.debug_frame       16080           0
+.stabstr             441           0
+Total             605051
+
+
+Finished building target: Server
+ 
+
+17:29:30 Build Finished. 0 errors, 0 warnings. (took 265ms)
+
