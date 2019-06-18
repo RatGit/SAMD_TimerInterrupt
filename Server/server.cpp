@@ -558,7 +558,7 @@ void alarmMatch()
 //   ---------------------------------------------------------------------------------------------------------------  //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void radioRead()
+bool radioRead()
 {
  char buf[255];
 
@@ -581,7 +581,7 @@ void radioRead()
     uint8_t tempChar = msgBuffer[6];
     msgBuffer[6] = 0;
     uint32_t clientOUI = strtoul((char*)msgBuffer, NULL, 16);  // Convert first 6 hex chars int a 24bit OUI
-    if (VERBOSE && clientOUI != serverOUI) {serialPrint((char*)"Ignoring Pairing Request, (different OUI)\n"); return;}  // Ignore pairing requests from clients that don't belong to us, (ie. different OUI)
+    if (VERBOSE && clientOUI != serverOUI) {serialPrint((char*)"Ignoring Pairing Request, (different OUI)\n"); return false;}  // Ignore pairing requests from clients that don't belong to us, (ie. different OUI)
     msgBuffer[6] = tempChar;
 
     uint8_t clientAddress = findClient(clientUID);
@@ -669,15 +669,23 @@ void radioRead()
    }
    else if (VERBOSE) serialPrint((char *)"Pairing disabled");
   }
-  else if (len == PACKET_LENGTH) // Data Packet: <OUI><UID>:<TEMP>:<RH>  eg: 0004A30B001AC4A3:125:034
+  else if (len == PACKET_LENGTH) // Data Packet: <OUI><UID>:<TEMP>:<RH>:<CRC>  eg: "0004A30B001A531C:DF7:234:7E"
   {
+   uint8_t calc_crc = crc((void*)msgBuffer, PACKET_LENGTH-2);                             // Calculate message CRC
+   uint8_t msg_crc = (uint8_t)strtoul((char*)(&(msgBuffer[PACKET_LENGTH-2])), NULL, 16);  // Convert last 2 hex chars into an 8bit CRC
+   if (calc_crc != msg_crc)                                                               // Ignore messages with invalid CRC
+   {
+    if (VERBOSE) serialPrint((char *)"Invalid Message CRC\n");
+    return false;
+   }
+
    uint8_t swapChar = msgBuffer[6];
    msgBuffer[6] = 0;
    uint32_t clientOUI = strtoul((char*)msgBuffer, NULL, 16);  // Convert first 6 hex chars into a 24bit OUI
    if (clientOUI != serverOUI)                                // Ignore messages from clients that don't belong to us, (ie. different OUI)
    {
     if (VERBOSE) serialPrint((char *)"Client does not belong to this organisation\n");
-    return;
+    return false;
    }
    msgBuffer[6] = swapChar;
 
@@ -687,7 +695,7 @@ void radioRead()
    if (findClient(clientUID) == NUM_CLIENTS)                   // Ignore messages from clients not managed by this gateway
    {
     if (VERBOSE) serialPrint((char *)"Client not managed by this gateway\n");
-    return;
+    return false;
    }
    msgBuffer[16] = swapChar;
 
@@ -706,6 +714,8 @@ void radioRead()
 
   if (VERBOSE) serialPrint((char *)"");
  }
+
+ return true;
 }
 
 
@@ -860,38 +870,6 @@ void setup()
  #if !defined(LOW_POWER) && defined(VERBOSE)
   if (!serialFlashOk) serialPrint("Failed to Initialise Serial Flash", true);
  #endif
-
-
-
-  unsigned char buf[256]; //, sig[256], buf2[8];
-  unsigned long address, count, chipsize, blocksize;
-//  unsigned long usec;
-//  bool first;
-
-  // Read the chip identification
-  Serial.println();
-  Serial.println("Read Chip Identification:");
-  SerialFlash.readID(buf);
-  Serial.print("  JEDEC ID:     ");
-  Serial.print(buf[0], HEX);
-  Serial.print(" ");
-  Serial.print(buf[1], HEX);
-  Serial.print(" ");
-  Serial.println(buf[2], HEX);
-  Serial.print("  Part Number: ");
-  Serial.println(id2chip(buf));
-  Serial.print("  Memory Size:  ");
-  chipsize = SerialFlash.capacity(buf);
-  Serial.print(chipsize);
-  Serial.println(" bytes");
-//  if (chipsize == 0) return false;
-  Serial.print("  Block Size:   ");
-  blocksize = SerialFlash.blockSize();
-  Serial.print(blocksize);
-  Serial.println(" bytes");
-
-
-
 
  // I2C Initialisation
  Wire.begin();

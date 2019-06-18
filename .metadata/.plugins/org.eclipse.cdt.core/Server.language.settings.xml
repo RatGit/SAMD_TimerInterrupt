@@ -8085,6 +8085,12 @@
                         					
                     </entry>
                     					
+                    <entry kind="macro" name="__TA_IBIT__" value="unsigned int">
+                        						
+                        <flag value="BUILTIN|READONLY"/>
+                        					
+                    </entry>
+                    					
                     <entry kind="macro" name="__TA_IBIT__" value="64">
                         						
                         <flag value="BUILTIN|READONLY"/>
@@ -8692,12 +8698,6 @@
                     </entry>
                     					
                     <entry kind="macro" name="__WCHAR_MIN__" value="0U">
-                        						
-                        <flag value="BUILTIN|READONLY"/>
-                        					
-                    </entry>
-                    					
-                    <entry kind="macro" name="__WCHAR_TYPE__" value="unsigned int">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					

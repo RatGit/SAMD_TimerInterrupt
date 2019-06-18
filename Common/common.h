@@ -144,7 +144,7 @@
 #define DEFAULT_SERVER_ADDRESS 253
 #define PAIRING_ENABLED true
 #define PAIRING_ADDRESS  RH_PAIRING_ADDRESS  // RH_BROADCAST_ADDRESS
-#define PACKET_LENGTH 24  // = 24bit OUI + 40bit UID + ':' + 12bit Temperature + ':' + 12bit Relative Humidity  (All in hexadecimal)
+#define PACKET_LENGTH 27  // = 24bit OUI + 40bit UID + ':' + 12bit Temperature + ':' + 12bit Relative Humidity + ':' + 8bit CRC  (All in hexadecimal), eg: "0004A30B001A531C:DF7:234:7E"
 #define CLIENT_ACK_TIMEOUT 5000
 #define NUM_RETRIES 10
 
@@ -209,6 +209,7 @@ extern bool radioInitialised;  // Flag is set to the manager.init() result durin
 //  Function Declarations  //
 /////////////////////////////
 
+uint8_t crc(void *data_pointer, uint16_t number_of_bytes);
 int serialPrint(const char *str=NULL, bool addLF=true);
 int serialPrintf(char* str=NULL, const char* format=NULL, bool addLF=true, ...);
 void getTimestampStr(char* dateTimeStr);

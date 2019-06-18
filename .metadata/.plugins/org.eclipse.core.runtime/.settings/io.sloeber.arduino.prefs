@@ -1,7 +1,7 @@
 Automatically\ import\ libraries=true
-FbStatus=5
-FsStatus=10
-FuStatus=4
+FbStatus=17
+FsStatus=11
+FuStatus=15
 JANTJE.TEMPLATE_USE_DEFAULT=defaultCPP
 Last\ Used\ Upload\ port=
 Last\ used\ Board=arduino_zero_edbg
@@ -12,5 +12,6 @@ Private\ hardware\ Path=/root/Arduino/hardware
 Use\ the\ algoritm\ to\ find\ the\ toolchain\ like\ Arduino\ IDE=true
 add\ pragma\ once\ to\ headers=true
 eclipse.preferences.version=1
+lFsStatus=30
 last\ Used\ upload\ Protocol=Atmel-ICE
 last\ used\ Board\ custom\ option\ selections=

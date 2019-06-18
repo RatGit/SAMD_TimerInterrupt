@@ -379,11 +379,14 @@ void sendData()
  #endif
 
  // Send Data: <64bit OUI|UID>:<12-bit Data>:<12-bit Data>
- datalen = 24;
- data = new uint8_t[25];
- strcpy((char*)data, uidstr);                            // Write 64-bit OUI|UID to datagram
- sprintf((char*)(&(data[16])), ":%03X", rand() % 4096);  // Random integer in the range 0 to 4095, (simulate 12-bit sensor data)
- sprintf((char*)(&(data[20])), ":%03X", rand() % 4096);  // Random integer in the range 0 to 4095, (simulate 12-bit sensor data)
+ datalen = PACKET_LENGTH;
+ data = new uint8_t[PACKET_LENGTH+1];
+ strcpy((char*)data, uidstr);                             // Write 64-bit OUI|UID to datagram
+ sprintf((char*)(&(data[16])), ":%03X", rand() % 4096);   // Random integer in the range 0 to 4095, (simulate 12-bit sensor data)
+ sprintf((char*)(&(data[20])), ":%03X:", rand() % 4096);  // Random integer in the range 0 to 4095, (simulate 12-bit sensor data)
+ sprintf((char*)(&(data[25])), "%02X", crc((void*)data, PACKET_LENGTH-2));  // 8-Bit CRC  eg. "0004A30B001A531C:DF7:234:7E"
+
+ uint8_t calc_crc = crc((void*)msgBuffer, PACKET_LENGTH-2);                             // Calculate message CRC
 
  #ifndef LOW_POWER
   serialPrintf(buf, "CLIENT: [%u > %u]: \"%s\"[%d]", true, (uint8_t)(manager.thisAddress()), serverAddress, (char*)data, datalen);

@@ -222,7 +222,7 @@ uint8_t findClient(uint64_t clientUID);
 uint8_t addClient(uint64_t clientUID);
 uint8_t nextClient(uint64_t clientUID);
 bool removeClient(uint64_t clientUID);
-void radioRead();
+bool radioRead();
 uint32_t convertStrToUint(char* str);
 void serialRead();
 

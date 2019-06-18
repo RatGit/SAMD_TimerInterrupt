@@ -156,6 +156,43 @@ bool radioInitialised;                       // Flag is set to the manager.init(
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//   Function:     crc                                                                                                //
+//   Description:  Calculate an 8-Bit CRC                                                                             //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    void* data_pointer                                                                                 //
+//                 uint16_t number_of_bytes                                                                           //
+//   Returns:      uint8_t                                                                                            //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:        None                                                                                               //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+uint8_t crc(void *data_pointer, uint16_t number_of_bytes)
+{
+ uint8_t temp1, bit_counter, feedback_bit, crc8_result = 0;
+ uint8_t *ptr = (uint8_t *) data_pointer;
+
+ while (number_of_bytes--)
+ {
+  temp1 = *ptr++;
+  for (bit_counter=8; bit_counter; bit_counter--)
+  {
+   feedback_bit = (crc8_result & 0x01);
+   crc8_result >>= 1;
+   if (feedback_bit ^ (temp1 & 0x01))
+   {
+    crc8_result ^= 0x8c;
+   }
+   temp1 >>= 1;
+  }
+ }
+
+ return (crc8_result);
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //   Function:     serialPrint                                                                                        //
 //   Description:  Wrapper function for Serial.print and Serial.println                                               //
 //                 -------------------------------------------------------------------------------------------------  //
