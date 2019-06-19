@@ -1,13 +1,13 @@
-13:20:17 **** Incremental Build of configuration Debug for project Server ****
+15:58:23 **** Build of configuration Debug for project Client ****
 make all 
-Building file: ../server.cpp
+Building file: ../client.cpp
 Starting C++ compile
-"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"server.cpp.d" -MT"server.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "../server.cpp"  -o  "server.cpp.o"
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"client.cpp.d" -MT"client.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "../client.cpp"  -o  "client.cpp.o"
 In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericDriver.h:9:0,
                  from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSPIDriver.h:9,
                  from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF95.h:15,
                  from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common/common.h:123,
-                 from ../server.cpp:184:
+                 from ../client.cpp:125:
 /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
  cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
  ^
@@ -18,87 +18,808 @@ In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libra
                  from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSPIDriver.h:10,
                  from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF95.h:15,
                  from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common/common.h:123,
-                 from ../server.cpp:184:
+                 from ../client.cpp:125:
 /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.h:145:18: warning: unused parameter 'interruptNumber' [-Wunused-parameter]
      virtual void usingInterrupt(uint8_t interruptNumber){}
                   ^
-../server.cpp:490:9: warning: unused parameter 'clientUID' [-Wunused-parameter]
- uint8_t nextClient(uint64_t clientUID)
-         ^
-../server.cpp: In function 'bool radioRead()':
-../server.cpp:608:15: warning: unused variable 'clientAddress2' [-Wunused-variable]
-       uint8_t clientAddress2, retries=NUM_RETRIES;
-               ^
-../server.cpp: In function 'void serialRead()':
-../server.cpp:782:9: warning: unused variable 'pbuf' [-Wunused-variable]
-    char pbuf[255];
-         ^
-../server.cpp: In function 'void setup()':
-../server.cpp:877:17: warning: unused variable 'address' [-Wunused-variable]
-   unsigned long address, count, chipsize, blocksize;
-                 ^
-../server.cpp:877:26: warning: unused variable 'count' [-Wunused-variable]
-   unsigned long address, count, chipsize, blocksize;
-                          ^
-Finished building: ../server.cpp
+../client.cpp: In function 'void sendData()':
+../client.cpp:389:10: warning: unused variable 'calc_crc' [-Wunused-variable]
+  uint8_t calc_crc = crc((void*)msgBuffer, PACKET_LENGTH-2);                             // Calculate message CRC
+          ^
+Finished building: ../client.cpp
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire/Wire.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"libraries/Wire/Wire.cpp.d" -MT"libraries/Wire/Wire.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire/Wire.cpp"  -o  "libraries/Wire/Wire.cpp.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire/Wire.cpp
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI/SPI.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"libraries/SPI/SPI.cpp.d" -MT"libraries/SPI/SPI.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI/SPI.cpp"  -o  "libraries/SPI/SPI.cpp.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI/SPI.cpp
+ 
+Building file: /opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src/RTCZero.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"libraries/RTCZero/src/RTCZero.cpp.d" -MT"libraries/RTCZero/src/RTCZero.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src/RTCZero.cpp"  -o  "libraries/RTCZero/src/RTCZero.cpp.o"
+/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src/RTCZero.cpp: In member function 'void RTCZero::begin(bool)':
+/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src/RTCZero.cpp:88:39: warning: 'oldTime.RTC_MODE2_CLOCK_Type::reg' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     RTC->MODE2.CLOCK.reg = oldTime.reg;
+                                       ^
+Finished building: /opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src/RTCZero.cpp
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero/variant.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/variant/variant.cpp.d" -MT"core/variant/variant.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero/variant.cpp"  -o  "core/variant/variant.cpp.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero/variant.cpp
+ 
+Building file: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0/SerialFlashChip.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"Common/Libraries/SerialFlash/SerialFlashChip.cpp.d" -MT"Common/Libraries/SerialFlash/SerialFlashChip.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0/SerialFlashChip.cpp"  -o  "Common/Libraries/SerialFlash/SerialFlashChip.cpp.o"
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0/SerialFlashChip.cpp
+ 
+Building file: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0/SerialFlashDirectory.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"Common/Libraries/SerialFlash/SerialFlashDirectory.cpp.d" -MT"Common/Libraries/SerialFlash/SerialFlashDirectory.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0/SerialFlashDirectory.cpp"  -o  "Common/Libraries/SerialFlash/SerialFlashDirectory.cpp.o"
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0/SerialFlashDirectory.cpp
+ 
+Building file: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHutil/HardwareSerial.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"Common/Libraries/RadioHeadPairing/RHutil/HardwareSerial.cpp.d" -MT"Common/Libraries/RadioHeadPairing/RHutil/HardwareSerial.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHutil/HardwareSerial.cpp"  -o  "Common/Libraries/RadioHeadPairing/RHutil/HardwareSerial.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHutil/HardwareSerial.cpp:6:0:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHutil/HardwareSerial.cpp
+ 
+Building file: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHutil/RasPi.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"Common/Libraries/RadioHeadPairing/RHutil/RasPi.cpp.d" -MT"Common/Libraries/RadioHeadPairing/RHutil/RasPi.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHutil/RasPi.cpp"  -o  "Common/Libraries/RadioHeadPairing/RHutil/RasPi.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHutil/RasPi.cpp:9:0:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHutil/RasPi.cpp
+ 
+Building file: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHCRC.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"Common/Libraries/RadioHeadPairing/RHCRC.cpp.d" -MT"Common/Libraries/RadioHeadPairing/RHCRC.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHCRC.cpp"  -o  "Common/Libraries/RadioHeadPairing/RHCRC.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHCRC.h:12:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHCRC.cpp:43:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHCRC.cpp
+ 
+Building file: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHDatagram.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"Common/Libraries/RadioHeadPairing/RHDatagram.cpp.d" -MT"Common/Libraries/RadioHeadPairing/RHDatagram.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHDatagram.cpp"  -o  "Common/Libraries/RadioHeadPairing/RHDatagram.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericDriver.h:9:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHDatagram.h:9,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHDatagram.cpp:6:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHDatagram.cpp
+ 
+Building file: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHEncryptedDriver.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"Common/Libraries/RadioHeadPairing/RHEncryptedDriver.cpp.d" -MT"Common/Libraries/RadioHeadPairing/RHEncryptedDriver.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHEncryptedDriver.cpp"  -o  "Common/Libraries/RadioHeadPairing/RHEncryptedDriver.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericDriver.h:9:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHEncryptedDriver.h:15,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHEncryptedDriver.cpp:7:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHEncryptedDriver.cpp
+ 
+Building file: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericDriver.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"Common/Libraries/RadioHeadPairing/RHGenericDriver.cpp.d" -MT"Common/Libraries/RadioHeadPairing/RHGenericDriver.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericDriver.cpp"  -o  "Common/Libraries/RadioHeadPairing/RHGenericDriver.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericDriver.h:9:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericDriver.cpp:6:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericDriver.cpp
+ 
+Building file: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"Common/Libraries/RadioHeadPairing/RHGenericSPI.cpp.d" -MT"Common/Libraries/RadioHeadPairing/RHGenericSPI.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.cpp"  -o  "Common/Libraries/RadioHeadPairing/RHGenericSPI.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.h:10:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.cpp:7:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.cpp:7:0:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.h:145:18: warning: unused parameter 'interruptNumber' [-Wunused-parameter]
+     virtual void usingInterrupt(uint8_t interruptNumber){}
+                  ^
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.cpp
+ 
+Building file: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHHardwareSPI.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"Common/Libraries/RadioHeadPairing/RHHardwareSPI.cpp.d" -MT"Common/Libraries/RadioHeadPairing/RHHardwareSPI.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHHardwareSPI.cpp"  -o  "Common/Libraries/RadioHeadPairing/RHHardwareSPI.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.h:10:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHHardwareSPI.h:10,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHHardwareSPI.cpp:7:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHHardwareSPI.h:10:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHHardwareSPI.cpp:7:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.h:145:18: warning: unused parameter 'interruptNumber' [-Wunused-parameter]
+     virtual void usingInterrupt(uint8_t interruptNumber){}
+                  ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHHardwareSPI.cpp:440:6: warning: unused parameter 'interrupt' [-Wunused-parameter]
+ void RHHardwareSPI::usingInterrupt(uint8_t interrupt)
+      ^
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHHardwareSPI.cpp
+ 
+Building file: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHMesh.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"Common/Libraries/RadioHeadPairing/RHMesh.cpp.d" -MT"Common/Libraries/RadioHeadPairing/RHMesh.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHMesh.cpp"  -o  "Common/Libraries/RadioHeadPairing/RHMesh.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericDriver.h:9:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHDatagram.h:9,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHReliableDatagram.h:10,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHRouter.h:10,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHMesh.h:10,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHMesh.cpp:14:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHMesh.cpp
+ 
+Building file: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHNRFSPIDriver.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"Common/Libraries/RadioHeadPairing/RHNRFSPIDriver.cpp.d" -MT"Common/Libraries/RadioHeadPairing/RHNRFSPIDriver.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHNRFSPIDriver.cpp"  -o  "Common/Libraries/RadioHeadPairing/RHNRFSPIDriver.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericDriver.h:9:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHNRFSPIDriver.h:9,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHNRFSPIDriver.cpp:6:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHHardwareSPI.h:10:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHNRFSPIDriver.h:10,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHNRFSPIDriver.cpp:6:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.h:145:18: warning: unused parameter 'interruptNumber' [-Wunused-parameter]
+     virtual void usingInterrupt(uint8_t interruptNumber){}
+                  ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHNRFSPIDriver.cpp: In member function 'uint8_t RHNRFSPIDriver::spiCommand(uint8_t)':
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHNRFSPIDriver.cpp:41:12: warning: 'status' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     return status;
+            ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHNRFSPIDriver.cpp: In member function 'uint8_t RHNRFSPIDriver::spiRead(uint8_t)':
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHNRFSPIDriver.cpp:55:12: warning: 'val' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     return val;
+            ^
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHNRFSPIDriver.cpp
+ 
+Building file: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHReliableDatagram.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"Common/Libraries/RadioHeadPairing/RHReliableDatagram.cpp.d" -MT"Common/Libraries/RadioHeadPairing/RHReliableDatagram.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHReliableDatagram.cpp"  -o  "Common/Libraries/RadioHeadPairing/RHReliableDatagram.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericDriver.h:9:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHDatagram.h:9,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHReliableDatagram.h:10,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHReliableDatagram.cpp:14:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHReliableDatagram.cpp: In member function 'bool RHReliableDatagram::sendtoWait(uint8_t*, uint8_t, uint8_t)':
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHReliableDatagram.cpp:50:6: warning: unused variable 'buffer' [-Wunused-variable]
+ char buffer[255];
+      ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHReliableDatagram.cpp: In member function 'bool RHReliableDatagram::recvfromAck(uint8_t*, uint8_t*, uint8_t*, uint8_t*, uint8_t*, uint8_t*)':
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHReliableDatagram.cpp:123:6: warning: unused variable 'buffer' [-Wunused-variable]
+ char buffer[255];
+      ^
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHReliableDatagram.cpp
+ 
+Building file: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHRouter.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"Common/Libraries/RadioHeadPairing/RHRouter.cpp.d" -MT"Common/Libraries/RadioHeadPairing/RHRouter.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHRouter.cpp"  -o  "Common/Libraries/RadioHeadPairing/RHRouter.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericDriver.h:9:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHDatagram.h:9,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHReliableDatagram.h:10,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHRouter.h:10,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHRouter.cpp:14:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHRouter.cpp
+ 
+Building file: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSPIDriver.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"Common/Libraries/RadioHeadPairing/RHSPIDriver.cpp.d" -MT"Common/Libraries/RadioHeadPairing/RHSPIDriver.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSPIDriver.cpp"  -o  "Common/Libraries/RadioHeadPairing/RHSPIDriver.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericDriver.h:9:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSPIDriver.h:9,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSPIDriver.cpp:6:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHHardwareSPI.h:10:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSPIDriver.h:10,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSPIDriver.cpp:6:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.h:145:18: warning: unused parameter 'interruptNumber' [-Wunused-parameter]
+     virtual void usingInterrupt(uint8_t interruptNumber){}
+                  ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSPIDriver.cpp: In member function 'uint8_t RHSPIDriver::spiRead(uint8_t)':
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSPIDriver.cpp:39:12: warning: 'val' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     return val;
+            ^
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSPIDriver.cpp
+ 
+Building file: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSoftwareSPI.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"Common/Libraries/RadioHeadPairing/RHSoftwareSPI.cpp.d" -MT"Common/Libraries/RadioHeadPairing/RHSoftwareSPI.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSoftwareSPI.cpp"  -o  "Common/Libraries/RadioHeadPairing/RHSoftwareSPI.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.h:10:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSoftwareSPI.h:9,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSoftwareSPI.cpp:6:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSoftwareSPI.h:9:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSoftwareSPI.cpp:6:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.h:145:18: warning: unused parameter 'interruptNumber' [-Wunused-parameter]
+     virtual void usingInterrupt(uint8_t interruptNumber){}
+                  ^
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSoftwareSPI.cpp
+ 
+Building file: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_ASK.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"Common/Libraries/RadioHeadPairing/RH_ASK.cpp.d" -MT"Common/Libraries/RadioHeadPairing/RH_ASK.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_ASK.cpp"  -o  "Common/Libraries/RadioHeadPairing/RH_ASK.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericDriver.h:9:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_ASK.h:9,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_ASK.cpp:6:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_ASK.cpp: In member function 'void RH_ASK::timerSetup()':
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_ASK.cpp:179:14: warning: unused variable 'nticks' [-Wunused-variable]
+     uint16_t nticks; // number of prescaled ticks needed
+              ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_ASK.cpp:180:13: warning: unused variable 'prescaler' [-Wunused-variable]
+     uint8_t prescaler; // Bit values for CS0[2:0]
+             ^
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_ASK.cpp
+ 
+Building file: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_CC110.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"Common/Libraries/RadioHeadPairing/RH_CC110.cpp.d" -MT"Common/Libraries/RadioHeadPairing/RH_CC110.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_CC110.cpp"  -o  "Common/Libraries/RadioHeadPairing/RH_CC110.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericDriver.h:9:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHNRFSPIDriver.h:9,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_CC110.h:17,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_CC110.cpp:8:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHHardwareSPI.h:10:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHNRFSPIDriver.h:10,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_CC110.h:17,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_CC110.cpp:8:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.h:145:18: warning: unused parameter 'interruptNumber' [-Wunused-parameter]
+     virtual void usingInterrupt(uint8_t interruptNumber){}
+                  ^
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_CC110.cpp
+ 
+Building file: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_E32.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"Common/Libraries/RadioHeadPairing/RH_E32.cpp.d" -MT"Common/Libraries/RadioHeadPairing/RH_E32.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_E32.cpp"  -o  "Common/Libraries/RadioHeadPairing/RH_E32.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericDriver.h:9:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_E32.h:14,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_E32.cpp:6:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_E32.cpp
+ 
+Building file: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_MRF89.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"Common/Libraries/RadioHeadPairing/RH_MRF89.cpp.d" -MT"Common/Libraries/RadioHeadPairing/RH_MRF89.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_MRF89.cpp"  -o  "Common/Libraries/RadioHeadPairing/RH_MRF89.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericDriver.h:9:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHNRFSPIDriver.h:9,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_MRF89.h:15,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_MRF89.cpp:6:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHHardwareSPI.h:10:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHNRFSPIDriver.h:10,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_MRF89.h:15,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_MRF89.cpp:6:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.h:145:18: warning: unused parameter 'interruptNumber' [-Wunused-parameter]
+     virtual void usingInterrupt(uint8_t interruptNumber){}
+                  ^
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_MRF89.cpp
+ 
+Building file: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_NRF24.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"Common/Libraries/RadioHeadPairing/RH_NRF24.cpp.d" -MT"Common/Libraries/RadioHeadPairing/RH_NRF24.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_NRF24.cpp"  -o  "Common/Libraries/RadioHeadPairing/RH_NRF24.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.h:10:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_NRF24.h:10,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_NRF24.cpp:6:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_NRF24.h:10:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_NRF24.cpp:6:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.h:145:18: warning: unused parameter 'interruptNumber' [-Wunused-parameter]
+     virtual void usingInterrupt(uint8_t interruptNumber){}
+                  ^
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_NRF24.cpp
+ 
+Building file: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_NRF51.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"Common/Libraries/RadioHeadPairing/RH_NRF51.cpp.d" -MT"Common/Libraries/RadioHeadPairing/RH_NRF51.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_NRF51.cpp"  -o  "Common/Libraries/RadioHeadPairing/RH_NRF51.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericDriver.h:9:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_NRF51.h:10,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_NRF51.cpp:9:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_NRF51.cpp
+ 
+Building file: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_NRF905.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"Common/Libraries/RadioHeadPairing/RH_NRF905.cpp.d" -MT"Common/Libraries/RadioHeadPairing/RH_NRF905.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_NRF905.cpp"  -o  "Common/Libraries/RadioHeadPairing/RH_NRF905.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.h:10:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_NRF905.h:10,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_NRF905.cpp:6:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_NRF905.h:10:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_NRF905.cpp:6:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.h:145:18: warning: unused parameter 'interruptNumber' [-Wunused-parameter]
+     virtual void usingInterrupt(uint8_t interruptNumber){}
+                  ^
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_NRF905.cpp
+ 
+Building file: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF22.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"Common/Libraries/RadioHeadPairing/RH_RF22.cpp.d" -MT"Common/Libraries/RadioHeadPairing/RH_RF22.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF22.cpp"  -o  "Common/Libraries/RadioHeadPairing/RH_RF22.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.h:10:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF22.h:10,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF22.cpp:6:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF22.h:10:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF22.cpp:6:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.h:145:18: warning: unused parameter 'interruptNumber' [-Wunused-parameter]
+     virtual void usingInterrupt(uint8_t interruptNumber){}
+                  ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF22.cpp: In member function 'bool RH_RF22::setCRCPolynomial(RH_RF22::CRCPolynomial)':
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF22.cpp:701:23: warning: comparison is always true due to limited range of data type [-Wtype-limits]
+     if (polynomial >= CRC_CCITT &&
+                       ^
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF22.cpp
+ 
+Building file: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF24.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"Common/Libraries/RadioHeadPairing/RH_RF24.cpp.d" -MT"Common/Libraries/RadioHeadPairing/RH_RF24.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF24.cpp"  -o  "Common/Libraries/RadioHeadPairing/RH_RF24.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.h:10:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF24.h:24,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF24.cpp:6:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF24.h:24:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF24.cpp:6:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.h:145:18: warning: unused parameter 'interruptNumber' [-Wunused-parameter]
+     virtual void usingInterrupt(uint8_t interruptNumber){}
+                  ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF24.cpp: In member function 'bool RH_RF24::setCRCPolynomial(RH_RF24::CRCPolynomial)':
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF24.cpp:440:23: warning: comparison is always true due to limited range of data type [-Wtype-limits]
+     if (polynomial >= CRC_NONE &&
+                       ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF24.cpp: In member function 'uint8_t RH_RF24::frr_read(uint8_t)':
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF24.cpp:775:12: warning: 'ret' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     return ret;
+            ^
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF24.cpp
+ 
+Building file: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF69.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"Common/Libraries/RadioHeadPairing/RH_RF69.cpp.d" -MT"Common/Libraries/RadioHeadPairing/RH_RF69.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF69.cpp"  -o  "Common/Libraries/RadioHeadPairing/RH_RF69.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.h:10:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF69.h:12,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF69.cpp:6:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF69.h:12:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF69.cpp:6:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.h:145:18: warning: unused parameter 'interruptNumber' [-Wunused-parameter]
+     virtual void usingInterrupt(uint8_t interruptNumber){}
+                  ^
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF69.cpp
+ 
+Building file: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF95.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"Common/Libraries/RadioHeadPairing/RH_RF95.cpp.d" -MT"Common/Libraries/RadioHeadPairing/RH_RF95.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF95.cpp"  -o  "Common/Libraries/RadioHeadPairing/RH_RF95.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericDriver.h:9:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSPIDriver.h:9,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF95.h:15,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF95.cpp:6:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHHardwareSPI.h:10:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSPIDriver.h:10,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF95.h:15,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF95.cpp:6:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.h:145:18: warning: unused parameter 'interruptNumber' [-Wunused-parameter]
+     virtual void usingInterrupt(uint8_t interruptNumber){}
+                  ^
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF95.cpp
+ 
+Building file: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_Serial.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"Common/Libraries/RadioHeadPairing/RH_Serial.cpp.d" -MT"Common/Libraries/RadioHeadPairing/RH_Serial.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_Serial.cpp"  -o  "Common/Libraries/RadioHeadPairing/RH_Serial.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericDriver.h:9:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_Serial.h:12,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_Serial.cpp:6:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_Serial.cpp
+ 
+Building file: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_TCP.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"Common/Libraries/RadioHeadPairing/RH_TCP.cpp.d" -MT"Common/Libraries/RadioHeadPairing/RH_TCP.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_TCP.cpp"  -o  "Common/Libraries/RadioHeadPairing/RH_TCP.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_TCP.cpp:6:0:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_TCP.cpp
+ 
+Building file: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common/common.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"Common/common.cpp.d" -MT"Common/common.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common/common.cpp"  -o  "Common/common.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericDriver.h:9:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSPIDriver.h:9,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF95.h:15,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common/common.h:123,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common/common.cpp:111:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHHardwareSPI.h:10:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSPIDriver.h:10,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF95.h:15,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common/common.h:123,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common/common.cpp:111:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.h:145:18: warning: unused parameter 'interruptNumber' [-Wunused-parameter]
+     virtual void usingInterrupt(uint8_t interruptNumber){}
+                  ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common/common.cpp: In function 'int serialPrintf(char*, const char*, bool, ...)':
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common/common.cpp:241:6: warning: variable 'result' set but not used [-Wunused-but-set-variable]
+  int result;
+      ^
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common/common.cpp
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/avr/dtostrf.c
+Starting C compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-gcc" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu11 -ffunction-sections -fdata-sections -nostdlib --param max-inline-insns-single=500 -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/core/avr/dtostrf.c.d" -MT"core/core/avr/dtostrf.c.o" -D__IN_ECLIPSE__=1 "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/avr/dtostrf.c"  -o  "core/core/avr/dtostrf.c.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/avr/dtostrf.c
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/USB/CDC.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/core/USB/CDC.cpp.d" -MT"core/core/USB/CDC.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/USB/CDC.cpp"  -o  "core/core/USB/CDC.cpp.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/USB/CDC.cpp
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/USB/PluggableUSB.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/core/USB/PluggableUSB.cpp.d" -MT"core/core/USB/PluggableUSB.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/USB/PluggableUSB.cpp"  -o  "core/core/USB/PluggableUSB.cpp.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/USB/PluggableUSB.cpp
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/USB/USBCore.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/core/USB/USBCore.cpp.d" -MT"core/core/USB/USBCore.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/USB/USBCore.cpp"  -o  "core/core/USB/USBCore.cpp.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/USB/USBCore.cpp
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/USB/samd21_host.c
+Starting C compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-gcc" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu11 -ffunction-sections -fdata-sections -nostdlib --param max-inline-insns-single=500 -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/core/USB/samd21_host.c.d" -MT"core/core/USB/samd21_host.c.o" -D__IN_ECLIPSE__=1 "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/USB/samd21_host.c"  -o  "core/core/USB/samd21_host.c.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/USB/samd21_host.c
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/IPAddress.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/core/IPAddress.cpp.d" -MT"core/core/IPAddress.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/IPAddress.cpp"  -o  "core/core/IPAddress.cpp.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/IPAddress.cpp
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/Print.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/core/Print.cpp.d" -MT"core/core/Print.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/Print.cpp"  -o  "core/core/Print.cpp.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/Print.cpp
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/Reset.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/core/Reset.cpp.d" -MT"core/core/Reset.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/Reset.cpp"  -o  "core/core/Reset.cpp.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/Reset.cpp
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/SERCOM.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/core/SERCOM.cpp.d" -MT"core/core/SERCOM.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/SERCOM.cpp"  -o  "core/core/SERCOM.cpp.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/SERCOM.cpp
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/Stream.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/core/Stream.cpp.d" -MT"core/core/Stream.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/Stream.cpp"  -o  "core/core/Stream.cpp.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/Stream.cpp
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/Tone.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/core/Tone.cpp.d" -MT"core/core/Tone.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/Tone.cpp"  -o  "core/core/Tone.cpp.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/Tone.cpp
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/Uart.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/core/Uart.cpp.d" -MT"core/core/Uart.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/Uart.cpp"  -o  "core/core/Uart.cpp.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/Uart.cpp
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/WInterrupts.c
+Starting C compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-gcc" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu11 -ffunction-sections -fdata-sections -nostdlib --param max-inline-insns-single=500 -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/core/WInterrupts.c.d" -MT"core/core/WInterrupts.c.o" -D__IN_ECLIPSE__=1 "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/WInterrupts.c"  -o  "core/core/WInterrupts.c.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/WInterrupts.c
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/WMath.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/core/WMath.cpp.d" -MT"core/core/WMath.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/WMath.cpp"  -o  "core/core/WMath.cpp.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/WMath.cpp
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/WString.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/core/WString.cpp.d" -MT"core/core/WString.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/WString.cpp"  -o  "core/core/WString.cpp.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/WString.cpp
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/abi.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/core/abi.cpp.d" -MT"core/core/abi.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/abi.cpp"  -o  "core/core/abi.cpp.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/abi.cpp
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/cortex_handlers.c
+Starting C compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-gcc" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu11 -ffunction-sections -fdata-sections -nostdlib --param max-inline-insns-single=500 -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/core/cortex_handlers.c.d" -MT"core/core/cortex_handlers.c.o" -D__IN_ECLIPSE__=1 "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/cortex_handlers.c"  -o  "core/core/cortex_handlers.c.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/cortex_handlers.c
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/delay.c
+Starting C compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-gcc" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu11 -ffunction-sections -fdata-sections -nostdlib --param max-inline-insns-single=500 -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/core/delay.c.d" -MT"core/core/delay.c.o" -D__IN_ECLIPSE__=1 "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/delay.c"  -o  "core/core/delay.c.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/delay.c
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/hooks.c
+Starting C compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-gcc" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu11 -ffunction-sections -fdata-sections -nostdlib --param max-inline-insns-single=500 -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/core/hooks.c.d" -MT"core/core/hooks.c.o" -D__IN_ECLIPSE__=1 "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/hooks.c"  -o  "core/core/hooks.c.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/hooks.c
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/itoa.c
+Starting C compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-gcc" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu11 -ffunction-sections -fdata-sections -nostdlib --param max-inline-insns-single=500 -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/core/itoa.c.d" -MT"core/core/itoa.c.o" -D__IN_ECLIPSE__=1 "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/itoa.c"  -o  "core/core/itoa.c.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/itoa.c
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/main.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/core/main.cpp.d" -MT"core/core/main.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/main.cpp"  -o  "core/core/main.cpp.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/main.cpp
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/new.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/core/new.cpp.d" -MT"core/core/new.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/new.cpp"  -o  "core/core/new.cpp.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/new.cpp
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/pulse.c
+Starting C compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-gcc" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu11 -ffunction-sections -fdata-sections -nostdlib --param max-inline-insns-single=500 -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/core/pulse.c.d" -MT"core/core/pulse.c.o" -D__IN_ECLIPSE__=1 "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/pulse.c"  -o  "core/core/pulse.c.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/pulse.c
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/pulse_asm.S
+Starting S compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-gcc" -c -g -x assembler-with-cpp -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/core/pulse_asm.S.d" -MT"core/core/pulse_asm.S.o"  "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/pulse_asm.S"  -o  "core/core/pulse_asm.S.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/pulse_asm.S
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/startup.c
+Starting C compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-gcc" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu11 -ffunction-sections -fdata-sections -nostdlib --param max-inline-insns-single=500 -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/core/startup.c.d" -MT"core/core/startup.c.o" -D__IN_ECLIPSE__=1 "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/startup.c"  -o  "core/core/startup.c.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/startup.c
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/wiring.c
+Starting C compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-gcc" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu11 -ffunction-sections -fdata-sections -nostdlib --param max-inline-insns-single=500 -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/core/wiring.c.d" -MT"core/core/wiring.c.o" -D__IN_ECLIPSE__=1 "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/wiring.c"  -o  "core/core/wiring.c.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/wiring.c
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/wiring_analog.c
+Starting C compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-gcc" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu11 -ffunction-sections -fdata-sections -nostdlib --param max-inline-insns-single=500 -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/core/wiring_analog.c.d" -MT"core/core/wiring_analog.c.o" -D__IN_ECLIPSE__=1 "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/wiring_analog.c"  -o  "core/core/wiring_analog.c.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/wiring_analog.c
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/wiring_digital.c
+Starting C compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-gcc" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu11 -ffunction-sections -fdata-sections -nostdlib --param max-inline-insns-single=500 -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/core/wiring_digital.c.d" -MT"core/core/wiring_digital.c.o" -D__IN_ECLIPSE__=1 "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/wiring_digital.c"  -o  "core/core/wiring_digital.c.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/wiring_digital.c
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/wiring_private.c
+Starting C compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-gcc" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu11 -ffunction-sections -fdata-sections -nostdlib --param max-inline-insns-single=500 -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/core/wiring_private.c.d" -MT"core/core/wiring_private.c.o" -D__IN_ECLIPSE__=1 "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/wiring_private.c"  -o  "core/core/wiring_private.c.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/wiring_private.c
+ 
+Building file: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/wiring_shift.c
+Starting C compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-gcc" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu11 -ffunction-sections -fdata-sections -nostdlib --param max-inline-insns-single=500 -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SerialFlash/0.5.0" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"core/core/wiring_shift.c.d" -MT"core/core/wiring_shift.c.o" -D__IN_ECLIPSE__=1 "/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/wiring_shift.c"  -o  "core/core/wiring_shift.c.o"
+Finished building: /opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino/wiring_shift.c
+ 
+Starting archiver
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-ar" rcs     /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Client/Debug/arduino.ar  ./core/core/avr/dtostrf.c.o  ./core/core/USB/CDC.cpp.o ./core/core/USB/PluggableUSB.cpp.o ./core/core/USB/USBCore.cpp.o ./core/core/USB/samd21_host.c.o  ./core/core/IPAddress.cpp.o ./core/core/Print.cpp.o ./core/core/Reset.cpp.o ./core/core/SERCOM.cpp.o ./core/core/Stream.cpp.o ./core/core/Tone.cpp.o ./core/core/Uart.cpp.o ./core/core/WInterrupts.c.o ./core/core/WMath.cpp.o ./core/core/WString.cpp.o ./core/core/abi.cpp.o ./core/core/cortex_handlers.c.o ./core/core/delay.c.o ./core/core/hooks.c.o ./core/core/itoa.c.o ./core/core/main.cpp.o ./core/core/new.cpp.o ./core/core/pulse.c.o ./core/core/pulse_asm.S.o ./core/core/startup.c.o ./core/core/wiring.c.o ./core/core/wiring_analog.c.o ./core/core/wiring_digital.c.o ./core/core/wiring_private.c.o ./core/core/wiring_shift.c.o 
+Finished building: /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Client/Debug/arduino.ar
  
 Starting combiner
-"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-gcc"  "-L/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Debug" -Os -Wl,--gc-sections -save-temps  "-T/opt/sloeber//arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero/linker_scripts/gcc/flash_without_bootloader.ld" "-Wl,-Map,/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Debug/Server.map" --specs=nano.specs --specs=nosys.specs -mcpu=cortex-m0plus -mthumb -Wl,--cref -Wl,--check-sections -Wl,--gc-sections -Wl,--unresolved-symbols=report-all -Wl,--warn-common -Wl,--warn-section-align -o "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Debug/Server.elf"    ./server.cpp.o  ./libraries/Wire/Wire.cpp.o  ./libraries/SPI/SPI.cpp.o  ./libraries/RTCZero/src/RTCZero.cpp.o  ./core/variant/variant.cpp.o  ./Common/Libraries/SerialFlash/SerialFlashChip.cpp.o ./Common/Libraries/SerialFlash/SerialFlashDirectory.cpp.o  ./Common/Libraries/RadioHeadPairing/RHutil/HardwareSerial.cpp.o ./Common/Libraries/RadioHeadPairing/RHutil/RasPi.cpp.o  ./Common/Libraries/RadioHeadPairing/RHCRC.cpp.o ./Common/Libraries/RadioHeadPairing/RHDatagram.cpp.o ./Common/Libraries/RadioHeadPairing/RHEncryptedDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHGenericDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHGenericSPI.cpp.o ./Common/Libraries/RadioHeadPairing/RHHardwareSPI.cpp.o ./Common/Libraries/RadioHeadPairing/RHMesh.cpp.o ./Common/Libraries/RadioHeadPairing/RHNRFSPIDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHReliableDatagram.cpp.o ./Common/Libraries/RadioHeadPairing/RHRouter.cpp.o ./Common/Libraries/RadioHeadPairing/RHSPIDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHSoftwareSPI.cpp.o ./Common/Libraries/RadioHeadPairing/RH_ASK.cpp.o ./Common/Libraries/RadioHeadPairing/RH_CC110.cpp.o ./Common/Libraries/RadioHeadPairing/RH_E32.cpp.o ./Common/Libraries/RadioHeadPairing/RH_MRF89.cpp.o ./Common/Libraries/RadioHeadPairing/RH_NRF24.cpp.o ./Common/Libraries/RadioHeadPairing/RH_NRF51.cpp.o ./Common/Libraries/RadioHeadPairing/RH_NRF905.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF22.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF24.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF69.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF95.cpp.o ./Common/Libraries/RadioHeadPairing/RH_Serial.cpp.o ./Common/Libraries/RadioHeadPairing/RH_TCP.cpp.o  ./Common/common.cpp.o   -Wl,--start-group "-L/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Lib/GCC/" -larm_cortexM0l_math -lm  /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Debug/arduino.ar  -Wl,--end-group
-Finished building: Server.elf
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-gcc"  "-L/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Client/Debug" -Os -Wl,--gc-sections -save-temps  "-T/opt/sloeber//arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero/linker_scripts/gcc/flash_without_bootloader.ld" "-Wl,-Map,/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Client/Debug/Client.map" --specs=nano.specs --specs=nosys.specs -mcpu=cortex-m0plus -mthumb -Wl,--cref -Wl,--check-sections -Wl,--gc-sections -Wl,--unresolved-symbols=report-all -Wl,--warn-common -Wl,--warn-section-align -o "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Client/Debug/Client.elf"    ./client.cpp.o  ./libraries/Wire/Wire.cpp.o  ./libraries/SPI/SPI.cpp.o  ./libraries/RTCZero/src/RTCZero.cpp.o  ./core/variant/variant.cpp.o  ./Common/Libraries/SerialFlash/SerialFlashChip.cpp.o ./Common/Libraries/SerialFlash/SerialFlashDirectory.cpp.o  ./Common/Libraries/RadioHeadPairing/RHutil/HardwareSerial.cpp.o ./Common/Libraries/RadioHeadPairing/RHutil/RasPi.cpp.o  ./Common/Libraries/RadioHeadPairing/RHCRC.cpp.o ./Common/Libraries/RadioHeadPairing/RHDatagram.cpp.o ./Common/Libraries/RadioHeadPairing/RHEncryptedDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHGenericDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHGenericSPI.cpp.o ./Common/Libraries/RadioHeadPairing/RHHardwareSPI.cpp.o ./Common/Libraries/RadioHeadPairing/RHMesh.cpp.o ./Common/Libraries/RadioHeadPairing/RHNRFSPIDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHReliableDatagram.cpp.o ./Common/Libraries/RadioHeadPairing/RHRouter.cpp.o ./Common/Libraries/RadioHeadPairing/RHSPIDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHSoftwareSPI.cpp.o ./Common/Libraries/RadioHeadPairing/RH_ASK.cpp.o ./Common/Libraries/RadioHeadPairing/RH_CC110.cpp.o ./Common/Libraries/RadioHeadPairing/RH_E32.cpp.o ./Common/Libraries/RadioHeadPairing/RH_MRF89.cpp.o ./Common/Libraries/RadioHeadPairing/RH_NRF24.cpp.o ./Common/Libraries/RadioHeadPairing/RH_NRF51.cpp.o ./Common/Libraries/RadioHeadPairing/RH_NRF905.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF22.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF24.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF69.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF95.cpp.o ./Common/Libraries/RadioHeadPairing/RH_Serial.cpp.o ./Common/Libraries/RadioHeadPairing/RH_TCP.cpp.o  ./Common/common.cpp.o   -Wl,--start-group "-L/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Lib/GCC/" -larm_cortexM0l_math -lm  /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Client/Debug/arduino.ar  -Wl,--end-group
+Finished building: Client.elf
  
 Do all objcopy commands
-"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-objcopy" -O binary  "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Debug/Server.elf" "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Debug/Server.bin"
-"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-objcopy" -O ihex -R .eeprom  "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Debug/Server.elf" "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Debug/Server.hex"
-Finished building: Server.hex
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-objcopy" -O binary  "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Client/Debug/Client.elf" "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Client/Debug/Client.bin"
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-objcopy" -O ihex -R .eeprom  "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Client/Debug/Client.elf" "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Client/Debug/Client.hex"
+Finished building: Client.hex
  
-Building target: Server
+Building target: Client
 Printing size:
-"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-size" -A "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Debug/Server.elf"
-/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Debug/Server.elf  :
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-size" -A "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Client/Debug/Client.elf"
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Client/Debug/Client.elf  :
 section             size        addr
-.text              49072           0
-.ARM.exidx             8       49072
-.data                448   536870912
-.bss                4480   536871360
+.text              42960           0
+.ARM.exidx             8       42960
+.data                432   536870912
+.bss                3604   536871344
 .ARM.attributes       40           0
 .comment             128           0
-.debug_info       337615           0
-.debug_abbrev      33687           0
-.debug_loc         50329           0
-.debug_aranges      4864           0
-.debug_ranges       9208           0
-.debug_line        47145           0
-.debug_str         52611           0
-.debug_frame       16108           0
+.debug_info       322171           0
+.debug_abbrev      32188           0
+.debug_loc         46479           0
+.debug_aranges      4712           0
+.debug_ranges       8776           0
+.debug_line        45283           0
+.debug_str         52048           0
+.debug_frame       15544           0
 .stabstr             441           0
-Total             606184
+Total             574814
 
 
-Finished building target: Server
+Finished building target: Client
  
-13:20:23 **** Incremental Build of configuration Debug for project Server ****
+16:00:32 **** Incremental Build of configuration Debug for project Client ****
+make all 
+Building target: Client
+Printing size:
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-size" -A "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Client/Debug/Client.elf"
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Client/Debug/Client.elf  :
+section             size        addr
+.text              42960           0
+.ARM.exidx             8       42960
+.data                432   536870912
+.bss                3604   536871344
+.ARM.attributes       40           0
+.comment             128           0
+.debug_info       322171           0
+.debug_abbrev      32188           0
+.debug_loc         46479           0
+.debug_aranges      4712           0
+.debug_ranges       8776           0
+.debug_line        45283           0
+.debug_str         52048           0
+.debug_frame       15544           0
+.stabstr             441           0
+Total             574814
+
+
+Finished building target: Client
+ 
+16:01:17 **** Incremental Build of configuration Debug for project Server ****
 make all 
 Building target: Server
 Printing size:
 "/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-size" -A "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Debug/Server.elf"
 /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Debug/Server.elf  :
 section             size        addr
-.text              49072           0
-.ARM.exidx             8       49072
+.text              48704           0
+.ARM.exidx             8       48704
 .data                448   536870912
 .bss                4480   536871360
 .ARM.attributes       40           0
 .comment             128           0
-.debug_info       337615           0
-.debug_abbrev      33687           0
-.debug_loc         50329           0
+.debug_info       337218           0
+.debug_abbrev      33676           0
+.debug_loc         50443           0
 .debug_aranges      4864           0
-.debug_ranges       9208           0
-.debug_line        47145           0
-.debug_str         52611           0
-.debug_frame       16108           0
+.debug_ranges       9280           0
+.debug_line        47166           0
+.debug_str         52617           0
+.debug_frame       16104           0
 .stabstr             441           0
-Total             606184
+Total             605617
 
 
 Finished building target: Server

@@ -125,7 +125,7 @@
 //                 successful handshake.                                                                              //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Arguments:    None                                                                                               //
-//   Returns:      None                                                                                               //
+//   Returns:      bool, (true if Successful, false if Fail)                                                          //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Notes:        Called in "loop"                                                                                   //
 //   Known Bugs:   None                                                                                               //
@@ -145,7 +145,7 @@
 //   Description:  Read serial data and assemble into a data packet.                                                  //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Arguments:    None                                                                                               //
-//   Returns:      None                                                                                               //
+//   Returns:      bool, (true if Successful, false if Fail)                                                          //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Notes:        If serial data overflows message buffer, the buffer pointer is reset to start                      //
 //                 Packets have an initial command character, followed by optional data and terminated with a         //
@@ -224,7 +224,7 @@ uint8_t nextClient(uint64_t clientUID);
 bool removeClient(uint64_t clientUID);
 bool radioRead();
 uint32_t convertStrToUint(char* str);
-void serialRead();
+bool serialRead();
 
 
 #endif

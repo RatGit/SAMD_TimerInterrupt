@@ -125,7 +125,7 @@
 //                 successful handshake.                                                                              //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Arguments:    None                                                                                               //
-//   Returns:      None                                                                                               //
+//   Returns:      bool, (true if Successful, false if Fail)                                                          //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Notes:        Called in "loop"                                                                                   //
 //   Known Bugs:   None                                                                                               //
@@ -145,11 +145,11 @@
 //   Description:  Read serial data and assemble into a data packet.                                                  //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Arguments:    None                                                                                               //
-//   Returns:      None                                                                                               //
+//   Returns:      bool, (true if Successful, false if Fail)                                                          //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Notes:        If serial data overflows message buffer, the buffer pointer is reset to start                      //
-//                 Packets have an initial command character, followed by optional data and terminated with a         //
-//                 Line Feed character                                                                                //
+//                 Packets have an initial command character, followed by optional data, an 8-bit CRC and             //
+//                 terminated with a  Line Feed character                                                             //
 //   Known Bugs:   None                                                                                               //
 //   ---------------------------------------------------------------------------------------------------------------  //
 //                                                                                                                    //
@@ -193,6 +193,7 @@ RHReliableDatagram manager(radio, DEFAULT_SERVER_ADDRESS);  // Class to manage m
 
 uint64_t clientList[NUM_CLIENTS];                           // List of paired client UID's
 char CLIENT_LIST_FILENAME [] = "CLIENT_LIST_FILENAME";      // Serial Flash File Name to store list of Clients
+bool pairingEnabled = false;                                // Enable Pairing
 bool serialFlashOk;                                         // Boolean Flag to indicate if Serial Flash was properly initialised
 bool clientListFileExists;                                  // Boolean Flag to indicate if Serial Flash Client List File was successfully created
 
@@ -551,7 +552,7 @@ void alarmMatch()
 //                 successful handshake.                                                                              //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Arguments:    None                                                                                               //
-//   Returns:      None                                                                                               //
+//   Returns:      bool, (true if Successful, false if Fail)                                                          //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Notes:        Called in "loop"                                                                                   //
 //   Known Bugs:   None                                                                                               //
@@ -574,7 +575,7 @@ bool radioRead()
 
   if (manager.headerTo() == PAIRING_ADDRESS  && len == 16)  // This is a Pairing Request (with a 16byte message = 24bit OUI + 40bit UID)  Pairing Packet: <OUI><UID>  eg: 0004A30B001A534A
   {
-   if (PAIRING_ENABLED)
+   if (pairingEnabled)
    {
     uint64_t clientUID = strtoull((char*)msgBuffer, NULL, 16);  // Convert 16 hex chars into a 64bit OUI+UID
 
@@ -751,16 +752,16 @@ uint32_t convertStrToUint(char* str)
 //   Description:  Read serial data and assemble into a data packet.                                                  //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Arguments:    None                                                                                               //
-//   Returns:      None                                                                                               //
+//   Returns:      bool, (true if Successful, false if Fail)                                                          //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Notes:        If serial data overflows message buffer, the buffer pointer is reset to start                      //
-//                 Packets have an initial command character, followed by optional data and terminated with a         //
-//                 Line Feed character                                                                                //
+//                 Packets have an initial command character, followed by optional data, an 8-bit CRC and             //
+//                 terminated with a  Line Feed character                                                             //
 //   Known Bugs:   None                                                                                               //
 //   ---------------------------------------------------------------------------------------------------------------  //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void serialRead()
+bool serialRead()
 {
  while (Serial.available() > 0)
  {
@@ -771,32 +772,100 @@ void serialRead()
 
  if (serialReceived)
  {
-  serialData[serialPtr] = 0;
+  serialData[serialPtr] = 0;  // Append a NULL to the end of the string
 
-  if (serialData[0] == 'T')  // Timestamp <T0123456789>
+  uint8_t calc_crc = crc((void*)serialData, serialPtr-2);                             // Calculate message CRC
+  uint8_t msg_crc = (uint8_t)strtoul((char*)(&(serialData[serialPtr-2])), NULL, 16);  // Convert last 2 hex chars into an 8bit CRC
+  if (calc_crc != msg_crc)                                                            // Ignore messages with invalid CRC
   {
-//   uint32_t timestamp = strtoul(&(serialData[1]), NULL, 10);  // Convert remaining chars into a 32-bit timestamp
-   uint32_t timestamp = convertStrToUint(&(serialData[1]));  // Convert remaining chars into a 32-bit timestamp
-   rtc.setY2kEpoch(timestamp);
+   #if !defined(LOW_POWER) && defined(VERBOSE)
+    serialPrint("Invalid Serial Message CRC");
+   #endif
+   serialPtr = 0;
+   serialReceived = false;
+   return false;
+  }
 
-   char pbuf[255];
-////   serialPrint((char*)(&(serialData[1])));
-//   serialPrintf(pbuf, "Timestamp = %u", (uint32_t)(strtoul(&(serialData[1]), NULL, 10)));
-//   serialPrintf(pbuf, "Timestamp = %u", convertStrToUint(serialData));
+  switch (serialData[0])
+  {
+   case 'T':  // Timestamp "T0123456789<CRC><LF>"
+   {
+//    uint32_t timestamp = strtoul(&(serialData[1]), NULL, 10);  // Convert remaining chars into a 32-bit timestamp
+    uint32_t timestamp = convertStrToUint(&(serialData[1]));  // Convert remaining chars into a 32-bit timestamp
+    rtc.setY2kEpoch(timestamp);
 
-   getDateTime();
-//   serialPrintf(pbuf, "rtc.getY2kEpoch() = %u", rtc.getY2kEpoch());
-//   serialPrintf(pbuf, "rtc.getDay() = %u", dateTime.day);
-//   serialPrintf(pbuf, "rtc.getMonth() = %u", dateTime.month);
-//   serialPrintf(pbuf, "rtc.getYear() = %u", dateTime.year);
-//   serialPrintf(pbuf, "rtc.getHours() = %u", dateTime.hour);
-//   serialPrintf(pbuf, "rtc.getMinutes() = %u", dateTime.minute);
-//   serialPrintf(pbuf, "rtc.getSeconds() = %u", dateTime.second);
+    char pbuf[255];
+////    serialPrint((char*)(&(serialData[1])));
+//    serialPrintf(pbuf, "Timestamp = %u", (uint32_t)(strtoul(&(serialData[1]), NULL, 10)));
+//    serialPrintf(pbuf, "Timestamp = %u", convertStrToUint(serialData));
+
+    getDateTime();
+//    serialPrintf(pbuf, "rtc.getY2kEpoch() = %u", rtc.getY2kEpoch());
+//    serialPrintf(pbuf, "rtc.getDay() = %u", dateTime.day);
+//    serialPrintf(pbuf, "rtc.getMonth() = %u", dateTime.month);
+//    serialPrintf(pbuf, "rtc.getYear() = %u", dateTime.year);
+//    serialPrintf(pbuf, "rtc.getHours() = %u", dateTime.hour);
+//    serialPrintf(pbuf, "rtc.getMinutes() = %u", dateTime.minute);
+//    serialPrintf(pbuf, "rtc.getSeconds() = %u", dateTime.second);
+   }
+   break;
+
+   case 'C':  // Clear Client List, eg "CA4<LF>"
+   {
+    clientListFileExists = SerialFlash.exists(CLIENT_LIST_FILENAME);
+    if (clientListFileExists)
+    {
+     SerialFlashFile clientListFile;
+     clientListFile = SerialFlash.open(CLIENT_LIST_FILENAME);
+     if ((bool)clientListFile)
+     {
+      char clientListBuffer[NUM_CLIENTS * 64];
+
+      for (uint8_t i=0; i<NUM_CLIENTS; i++) ((uint64_t*)clientListBuffer)[i] = 0;
+
+      clientListFile.seek(0);
+      clientListFile.write(clientListBuffer, NUM_CLIENTS * 64);
+      clientListFile.close();
+     }
+    }
+
+    for (uint8_t i=0; i<NUM_CLIENTS; i++) clientList[i] = 0;
+
+    #if !defined(LOW_POWER) && defined(VERBOSE)
+     serialPrint("Client List Cleared");
+    #endif
+   }
+   break;
+
+   case 'P':  // Enable/Disable Pairing Mode eg. "P197<LF>", "P0C9<LF>"
+   {
+    switch(serialData[1])  // First digit in command packet
+    {
+     case '0':
+      pairingEnabled = false;
+      #if !defined(LOW_POWER) && defined(VERBOSE)
+       serialPrint("Pairing Disabled");
+      #endif
+     break;
+     case '1':
+      pairingEnabled = true;
+      #if !defined(LOW_POWER) && defined(VERBOSE)
+       serialPrint("Pairing Enabled");
+      #endif
+     break;
+    }
+   }
+   break;
+
+//   default:
+//   break;
   }
 
   serialPtr = 0;
   serialReceived = false;
  }
+
+ return true;
 }
 
 

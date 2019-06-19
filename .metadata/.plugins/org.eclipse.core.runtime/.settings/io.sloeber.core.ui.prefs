@@ -1,11 +1,12 @@
 Build\ before\ upload\ option=ASK
 Clean\ Serial\ Monitor\ after\ upload=false
-FmStatus=3
+FmStatus=4
 Gui\ entry\ for\ private\ hardware\ paths=/root/Arduino/hardware\:
 Gui\ entry\ for\ private\ library\ paths=/root/Arduino/libraries\:
 Hide\ json\ files\ in\ preferences\ platform\ selection\ page=true
 Open\ serial\ connections\ with\ the\ monitor=true
+Serial\ Monitor\ Last\ Used\ Line\ Ending\ index=2
 Serial\ Monitor\ Last\ Used\ auto\ scroll\ setting=true
-Serial\ monitor\ last\ selected\ Port=/dev/ttyACM1
+Serial\ monitor\ last\ selected\ Port=/dev/ttyACM3
 Serial\ monitor\ last\ selected\ rate=115200
 eclipse.preferences.version=1
