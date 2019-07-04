@@ -8728,3 +8728,26 @@ java.lang.Exception
 
 !ENTRY org.eclipse.cdt.codan.core.cxx 4 1 2019-07-04 20:39:08.260
 !MESSAGE Unsupported statement type: CPPASTDefaultStatement.
+
+!ENTRY org.eclipse.cdt.ui 4 4 2019-07-04 21:11:23.190
+!MESSAGE Error
+!STACK 1
+org.eclipse.core.runtime.CoreException: Corrupted database: Client.1560649942115.pdom
+	at org.eclipse.cdt.internal.core.pdom.db.Database.databaseCorruptionDetected(Database.java:318)
+	at org.eclipse.cdt.internal.core.pdom.db.Database.getChunk(Database.java:298)
+	at org.eclipse.cdt.internal.core.pdom.db.Database.getInt(Database.java:505)
+	at org.eclipse.cdt.internal.core.pdom.db.Database.getString(Database.java:613)
+	at org.eclipse.cdt.internal.core.pdom.dom.PDOMFile.getLocation(PDOMFile.java:923)
+	at org.eclipse.cdt.internal.core.index.CIndex$NameKey.<init>(CIndex.java:831)
+	at org.eclipse.cdt.internal.core.index.CIndex.findNames(CIndex.java:191)
+	at org.eclipse.cdt.internal.ui.search.actions.OpenDeclarationsJob.findDefinitions(OpenDeclarationsJob.java:446)
+	at org.eclipse.cdt.internal.ui.search.actions.OpenDeclarationsJob.findNames(OpenDeclarationsJob.java:395)
+	at org.eclipse.cdt.internal.ui.search.actions.OpenDeclarationsJob.navigationFallBack(OpenDeclarationsJob.java:943)
+	at org.eclipse.cdt.internal.ui.search.actions.OpenDeclarationsJob.runOnAST(OpenDeclarationsJob.java:359)
+	at org.eclipse.cdt.internal.core.model.ASTCache.runOnAST(ASTCache.java:221)
+	at org.eclipse.cdt.internal.ui.editor.ASTProvider.runOnAST(ASTProvider.java:336)
+	at org.eclipse.cdt.internal.ui.search.actions.OpenDeclarationsJob.performNavigation(OpenDeclarationsJob.java:170)
+	at org.eclipse.cdt.internal.ui.search.actions.OpenDeclarationsJob.run(OpenDeclarationsJob.java:146)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:60)
+!SUBENTRY 1 org.eclipse.cdt.core 4 0 2019-07-04 21:11:23.190
+!MESSAGE Corrupted database: Client.1560649942115.pdom
