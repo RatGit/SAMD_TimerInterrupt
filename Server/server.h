@@ -49,7 +49,7 @@
 //   Function:     initClients                                                                                        //
 //   Description:  Clear list of client UID's                                                                         //
 //                 -------------------------------------------------------------------------------------------------  //
-//   Arguments:    none                                                                                               //
+//   Arguments:    None                                                                                               //
 //   Returns:      None                                                                                               //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Notes:        None                                                                                               //
@@ -80,7 +80,7 @@
 //   Function:     nextClient                                                                                         //
 //   Description:  Find next available client address                                                                 //
 //                 -------------------------------------------------------------------------------------------------  //
-//   Arguments:    uint64_t clientUID                                                                                 //
+//   Arguments:    None                                                                                               //
 //   Returns:      uint8_t                                                                                            //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Notes:        Returns next available client address on success                                                   //
@@ -202,7 +202,6 @@
 /////////////////////////
 
 #define WAIT_SERIAL true     // Wait for serial port to be available (This will cause it to hang when not connected to a USB serial port)
-#define MONITOR_SERIAL true  // Enable Serial Monitoring, (this adds a 15 second delay after initialising the serial port to allow enough time to connect a serial monitor
 
 #define NUM_CLIENTS 100
 
@@ -220,7 +219,7 @@ void initClients();
 uint8_t numClients();
 uint8_t findClient(uint64_t clientUID);
 uint8_t addClient(uint64_t clientUID);
-uint8_t nextClient(uint64_t clientUID);
+uint8_t nextClient();
 bool removeClient(uint64_t clientUID);
 bool radioRead();
 uint32_t convertStrToUint(char* str);

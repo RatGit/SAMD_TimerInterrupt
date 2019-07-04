@@ -8722,3 +8722,9 @@ org.eclipse.core.internal.expressions.CountExpression@fc8b68b6
 java.lang.Exception
 	at io.sloeber.core.api.Serial.serialEvent(Serial.java:282)
 	at jssc.SerialPort$LinuxEventThread.run(SerialPort.java:1299)
+
+!ENTRY org.eclipse.cdt.codan.core.cxx 4 1 2019-07-04 20:39:08.260
+!MESSAGE Unsupported statement type: CPPASTCaseStatement.
+
+!ENTRY org.eclipse.cdt.codan.core.cxx 4 1 2019-07-04 20:39:08.260
+!MESSAGE Unsupported statement type: CPPASTDefaultStatement.

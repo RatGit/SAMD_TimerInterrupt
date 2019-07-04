@@ -36,6 +36,28 @@
 //  FUNCTIONS:                                                                                                        //
 //  ----------------------------------------------------------------------------------------------------------------  //
 //                                                                                                                    //
+//   Function:     crc                                                                                                //
+//   Description:  Calculate an 8-Bit CRC                                                                             //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    void* data_pointer                                                                                 //
+//                 uint16_t number_of_bytes                                                                           //
+//   Returns:      uint8_t                                                                                            //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:        None                                                                                               //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+//                                                                                                                    //
+//   Function:     ulltohex                                                                                           //
+//   Description:  Convert uint64_t to Zero-Padded Hex String                                                         //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    char* str                                                                                          //
+//                 uint64_t value                                                                                     //
+//   Returns:      char* (NULL on Fail)                                                                               //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:        None                                                                                               //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+//                                                                                                                    //
 //   Function:     serialPrint                                                                                        //
 //   Description:  Wrapper function for Serial.print and Serial.println                                               //
 //                 -------------------------------------------------------------------------------------------------  //
@@ -128,8 +150,7 @@
 //  Macro Definitions  //
 /////////////////////////
 
-#define VERBOSE true         // Enable/Disable verbose output
-#define ALLOW_PRINT true  // Enable printing of diagnostic messages out of USB serial port
+#define VERBOSE false     // Enable/Disable verbose output, (set to false for production)
 #define USE_SERIAL true   // Enable/Disable use of serial port
 
 #define BAUD_RATE 115200
@@ -148,6 +169,16 @@
 #define NUM_RETRIES 10
 
 #define Serial SerialUSB  // Need this on Arduino Zero with SerialUSB port (eg RocketScream Mini Ultra Pro)
+
+// Serial Message Codes
+// Error Codes
+#define ERROR_FLASH_MEMORY    "0001"  // Flash Memory Failed to Initialise
+#define ERROR_INVALID_CRC     "0002"  // Invalid Serial Message CRC
+#define ERROR_UNKNOWN_MESSAGE "0003"  // Unknown Serial Command
+
+// Command Response Codes
+#define MESSAGE_RCVD_OK "1000"  // Serial command received and handled correctly
+#define CLIENT_PAIRED   "1001"  // Client Paired Successfully
 
 
 ////////////////////////
@@ -209,8 +240,9 @@ extern bool radioInitialised;  // Flag is set to the manager.init() result durin
 /////////////////////////////
 
 uint8_t crc(void *data_pointer, uint16_t number_of_bytes);
-int serialPrint(const char *str=NULL, bool addLF=true);
-int serialPrintf(char* str=NULL, const char* format=NULL, bool addLF=true, ...);
+char* ulltohex(char* str, uint64_t value);
+int serialPrint(const char *str=NULL, bool addLF=true, bool addCRC=false);
+int serialPrintf(char* str=NULL, const char* format=NULL, bool addLF=true, bool addCRC=false, ...);
 void getTimestampStr(char* dateTimeStr);
 void getDateTime();
 void getDateTimeStr(char* dateTimeStr);

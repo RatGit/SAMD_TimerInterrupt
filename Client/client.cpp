@@ -214,8 +214,8 @@ void pair()
  serverAddress = PAIRING_ADDRESS;
 
  #ifndef LOW_POWER
-  serialPrintf(buf, "CLIENT: [%u > %u]: \"%s\"[%d]", true, (uint8_t)(manager.thisAddress()), serverAddress, (char*)data, datalen);
-//  serialPrintf(buf, "Sending Message: \"%s\" Length=%d To=%u From=%u", true, (char*)data, datalen, serverAddress, (uint8_t)(manager.thisAddress()));
+  serialPrintf(buf, "CLIENT: [%u > %u]: \"%s\"[%d]", true, false, (uint8_t)(manager.thisAddress()), serverAddress, (char*)data, datalen);
+//  serialPrintf(buf, "Sending Message: \"%s\" Length=%d To=%u From=%u", true, false, (char*)data, datalen, serverAddress, (uint8_t)(manager.thisAddress()));
  #endif
 
  if (manager.sendtoWait(data, datalen, serverAddress))  // Send a message to the LoRa Server
@@ -240,7 +240,7 @@ void pair()
     msgBuffer[22] = 0;
 
     #ifndef LOW_POWER
-     serialPrintf(buf, "Message Received: \"%s\" Length=%u To=%u From=%u",true, (char*)msgBuffer, len, manager.headerTo(), from);
+     serialPrintf(buf, "Message Received: \"%s\" Length=%u To=%u From=%u", true, false, (char*)msgBuffer, len, manager.headerTo(), from);
     #endif
 
     if (len == 22)
@@ -256,7 +256,7 @@ void pair()
   {
    #ifndef LOW_POWER
     msgBuffer[16] = ':';
-    serialPrintf(buf, "Pairing Request Response Received: \"%s\" Length=%u To=%u From=%u", true, (char*)msgBuffer, len, manager.headerTo(), from);
+    serialPrintf(buf, "Pairing Request Response Received: \"%s\" Length=%u To=%u From=%u", true, false, (char*)msgBuffer, len, manager.headerTo(), from);
    #endif
 
    uint8_t clientAddress = strtoul((char*)(&(msgBuffer[20])), NULL, 16);     // Convert last 2 hex chars into an 8bit Client Address
@@ -269,7 +269,7 @@ void pair()
    sprintf((char*)response, "%s:%02X",  uidstr, clientAddress);  // Create Pairing Request Response Handshake datagram: <64-bit OUI|UID>:<8bit CLIENT ADDRESS>
 
    #ifndef LOW_POWER
-    serialPrintf(buf, "Sending Pairing Request Response Handshake: \"%s\" To: %u", true, (char*)response, PAIRING_ADDRESS);
+    serialPrintf(buf, "Sending Pairing Request Response Handshake: \"%s\" To: %u", true, false, (char*)response, PAIRING_ADDRESS);
    #endif
 
    if (manager.sendtoWait(response, 19, PAIRING_ADDRESS))  // Send Pairing Response Handshake: <64bit OUI:UID><8bit CLIENT ADDRESS> From CLIENT_ADDRESS To PAIRING_ADDRESS
@@ -288,7 +288,7 @@ void pair()
       msgBuffer[33] = 0;
 
       #ifndef LOW_POWER
-       serialPrintf(buf, "Message Received: \"%s\" Length=%u To=%u From=%u", true, (char*)msgBuffer, len, manager.headerTo(), from);
+       serialPrintf(buf, "Message Received: \"%s\" Length=%u To=%u From=%u", true, false, (char*)msgBuffer, len, manager.headerTo(), from);
       #endif
 
       if (len == 33)
@@ -317,7 +317,7 @@ void pair()
      #ifndef LOW_POWER
       msgBuffer[16] = ':';
       msgBuffer[19] = ':';
-      serialPrintf(buf, "Pairing Request Response Handshake Acknowledgment Validated: Server Address=%u : This Address=%u", true, serverAddress, clientAddress);
+      serialPrintf(buf, "Pairing Request Response Handshake Acknowledgment Validated: Server Address=%u : This Address=%u", true, false, serverAddress, clientAddress);
      #endif
 
      isPaired = true;
@@ -386,11 +386,9 @@ void sendData()
  sprintf((char*)(&(data[20])), ":%03X:", rand() % 4096);  // Random integer in the range 0 to 4095, (simulate 12-bit sensor data)
  sprintf((char*)(&(data[25])), "%02X", crc((void*)data, PACKET_LENGTH-2));  // 8-Bit CRC  eg. "0004A30B001A531C:DF7:234:7E"
 
- uint8_t calc_crc = crc((void*)msgBuffer, PACKET_LENGTH-2);                             // Calculate message CRC
-
  #ifndef LOW_POWER
-  serialPrintf(buf, "CLIENT: [%u > %u]: \"%s\"[%d]", true, (uint8_t)(manager.thisAddress()), serverAddress, (char*)data, datalen);
-//  serialPrintf(buf, "Sending Message: \"%s\" Length=%d To=%u From=%u", true, (char*)data, datalen, serverAddress, (uint8_t)(manager.thisAddress()));
+  serialPrintf(buf, "CLIENT: [%u > %u]: \"%s\"[%d]", true, false, (uint8_t)(manager.thisAddress()), serverAddress, (char*)data, datalen);
+//  serialPrintf(buf, "Sending Message: \"%s\" Length=%d To=%u From=%u", true, false, (char*)data, datalen, serverAddress, (uint8_t)(manager.thisAddress()));
  #endif
 
  if (manager.sendtoWait(data, datalen, serverAddress))  // Send a message to the LoRa Server
@@ -486,8 +484,8 @@ void oldradioHandshake(bool pairing=false)
  }
 
  #ifndef LOW_POWER
-  serialPrintf(buf, "CLIENT: [%u > %u]: \"%s\"[%d]", true, (uint8_t)(manager.thisAddress()), serverAddress, (char*)data, datalen);
-//  serialPrintf(buf, "Sending Message: \"%s\" Length=%d To=%u From=%u", true, (char*)data, datalen, serverAddress, (uint8_t)(manager.thisAddress()));
+  serialPrintf(buf, "CLIENT: [%u > %u]: \"%s\"[%d]", true, false, (uint8_t)(manager.thisAddress()), serverAddress, (char*)data, datalen);
+//  serialPrintf(buf, "Sending Message: \"%s\" Length=%d To=%u From=%u", true, false, (char*)data, datalen, serverAddress, (uint8_t)(manager.thisAddress()));
  #endif
 
  if (manager.sendtoWait(data, datalen, serverAddress))  // Send a message to the LoRa Server
@@ -513,7 +511,7 @@ void oldradioHandshake(bool pairing=false)
      msgBuffer[22] = 0;
 
      #ifndef LOW_POWER
-      serialPrintf(buf, "Message Received: \"%s\" Length=%u To=%u From=%u",true, (char*)msgBuffer, len, manager.headerTo(), from);
+      serialPrintf(buf, "Message Received: \"%s\" Length=%u To=%u From=%u", true, false, (char*)msgBuffer, len, manager.headerTo(), from);
      #endif
 
      if (len == 22)
@@ -529,7 +527,7 @@ void oldradioHandshake(bool pairing=false)
    {
     #ifndef LOW_POWER
      msgBuffer[16] = ':';
-     serialPrintf(buf, "Pairing Request Response Received: \"%s\" Length=%u To=%u From=%u", true, (char*)msgBuffer, len, manager.headerTo(), from);
+     serialPrintf(buf, "Pairing Request Response Received: \"%s\" Length=%u To=%u From=%u", true, false, (char*)msgBuffer, len, manager.headerTo(), from);
     #endif
 
     uint8_t clientAddress = strtoul((char*)(&(msgBuffer[20])), NULL, 16);     // Convert last 2 hex chars into an 8bit Client Address
@@ -542,7 +540,7 @@ void oldradioHandshake(bool pairing=false)
     sprintf((char*)response, "%s:%02X",  uidstr, clientAddress);  // Create Pairing Request Response Handshake datagram: <64-bit OUI|UID>:<8bit CLIENT ADDRESS>
 
     #ifndef LOW_POWER
-     serialPrintf(buf, "Sending Pairing Request Response Handshake: \"%s\" To: %u", true, (char*)response, PAIRING_ADDRESS);
+     serialPrintf(buf, "Sending Pairing Request Response Handshake: \"%s\" To: %u", true, false, (char*)response, PAIRING_ADDRESS);
     #endif
 
     if (manager.sendtoWait(response, 19, PAIRING_ADDRESS))  // Send Pairing Response Handshake: <64bit OUI:UID><8bit CLIENT ADDRESS> From CLIENT_ADDRESS To PAIRING_ADDRESS
@@ -561,7 +559,7 @@ void oldradioHandshake(bool pairing=false)
        msgBuffer[33] = 0;
 
        #ifndef LOW_POWER
-        serialPrintf(buf, "Message Received: \"%s\" Length=%u To=%u From=%u", true, (char*)msgBuffer, len, manager.headerTo(), from);
+        serialPrintf(buf, "Message Received: \"%s\" Length=%u To=%u From=%u", true, false, (char*)msgBuffer, len, manager.headerTo(), from);
        #endif
 
        if (len == 33)
@@ -590,7 +588,7 @@ void oldradioHandshake(bool pairing=false)
       #ifndef LOW_POWER
        msgBuffer[16] = ':';
        msgBuffer[19] = ':';
-       serialPrintf(buf, "Pairing Request Response Handshake Acknowledgment Validated: Server Address=%u : This Address=%u", true, serverAddress, clientAddress);
+       serialPrintf(buf, "Pairing Request Response Handshake Acknowledgment Validated: Server Address=%u : This Address=%u", true, false, serverAddress, clientAddress);
       #endif
 
       isPaired = true;

@@ -36,6 +36,28 @@
 //  FUNCTIONS:                                                                                                        //
 //  ----------------------------------------------------------------------------------------------------------------  //
 //                                                                                                                    //
+//   Function:     crc                                                                                                //
+//   Description:  Calculate an 8-Bit CRC                                                                             //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    void* data_pointer                                                                                 //
+//                 uint16_t number_of_bytes                                                                           //
+//   Returns:      uint8_t                                                                                            //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:        None                                                                                               //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+//                                                                                                                    //
+//   Function:     ulltohex                                                                                           //
+//   Description:  Convert uint64_t to Zero-Padded Hex String                                                         //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    char* str                                                                                          //
+//                 uint64_t value                                                                                     //
+//   Returns:      char* (NULL on Fail)                                                                               //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:        None                                                                                               //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+//                                                                                                                    //
 //   Function:     serialPrint                                                                                        //
 //   Description:  Wrapper function for Serial.print and Serial.println                                               //
 //                 -------------------------------------------------------------------------------------------------  //
@@ -193,6 +215,38 @@ uint8_t crc(void *data_pointer, uint16_t number_of_bytes)
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//   Function:     ulltohex                                                                                           //
+//   Description:  Convert uint64_t to Zero-Padded Hex String                                                         //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    char* str                                                                                          //
+//                 uint64_t value                                                                                     //
+//   Returns:      char* (NULL on Fail)                                                                               //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:        None                                                                                               //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+char* ulltohex(char* str, uint64_t value)
+{
+ if (str == NULL) return NULL;
+
+ uint16_t Word3, Word2, Word1, Word0;
+
+ Word3 = (value & 0xFFFF000000000000) >> 48;
+ Word2 = (value & 0x0000FFFF00000000) >> 32;
+ Word1 = (value & 0x00000000FFFF0000) >> 16;
+ Word0 = value & 0x000000000000FFFF;
+
+ sprintf(str, "%04X", Word3);
+ sprintf(&(str[4]), "%04X", Word2);
+ sprintf(&(str[8]), "%04X", Word1);
+ sprintf(&(str[12]), "%04X", Word0);
+
+ return str;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //   Function:     serialPrint                                                                                        //
 //   Description:  Wrapper function for Serial.print and Serial.println                                               //
 //                 -------------------------------------------------------------------------------------------------  //
@@ -205,14 +259,31 @@ uint8_t crc(void *data_pointer, uint16_t number_of_bytes)
 //   ---------------------------------------------------------------------------------------------------------------  //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int serialPrint(const char *str, bool addLF)
+int serialPrint(const char *str, bool addLF, bool addCRC)
 {
  int result = -1;
 
- if (str == NULL || !ALLOW_PRINT || !USE_SERIAL || !Serial) return result;
+ if (str == NULL || !USE_SERIAL || !Serial) return result;
 
- if (addLF) {result = Serial.println(str);}
- else {result = Serial.print(str);}
+ if (addCRC)
+ {
+  char* strbuff = new char[strlen(str)+3];
+//  try
+//  {
+   sprintf(strbuff, "%s%02X", str, crc((void*)str, strlen(str)));  // Append calculated message CRC
+
+   if (addLF) {result = Serial.println(strbuff);}
+   else {result = Serial.print(strbuff);}
+//  }
+//  catch(...) {delete [] strbuff; strbuff = NULL;}
+//  if (strbuff != NULL) {delete [] strbuff; strbuff = NULL;}
+  delete [] strbuff;
+ }
+ else
+ {
+  if (addLF) {result = Serial.println(str);}
+  else {result = Serial.print(str);}
+ }
 
  return result;
 }
@@ -233,18 +304,20 @@ int serialPrint(const char *str, bool addLF)
 //   ---------------------------------------------------------------------------------------------------------------  //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int serialPrintf(char* str, const char* format, bool addLF, ...)
+int serialPrintf(char* str, const char* format, bool addLF, bool addCRC, ...)
 {
- if (str == NULL || format == NULL || !ALLOW_PRINT || !USE_SERIAL || !Serial) return -1;
+ if (str == NULL || format == NULL || !USE_SERIAL || !Serial) return -1;
 
  va_list va;
  int result;
 
- va_start(va, addLF);
+ va_start(va, addCRC);
  result = vsprintf(str, format, va);
  va_end(va);
 
- return serialPrint(str, addLF);
+ if (result >= 0) {result = serialPrint(str, addLF, addCRC);}
+
+ return result;
 }
 
 
