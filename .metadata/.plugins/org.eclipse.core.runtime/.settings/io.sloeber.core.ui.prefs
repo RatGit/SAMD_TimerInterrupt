@@ -1,6 +1,6 @@
 Build\ before\ upload\ option=ASK
 Clean\ Serial\ Monitor\ after\ upload=false
-FmStatus=6
+FmStatus=7
 Gui\ entry\ for\ private\ hardware\ paths=/root/Arduino/hardware\:
 Gui\ entry\ for\ private\ library\ paths=/root/Arduino/libraries\:
 Hide\ json\ files\ in\ preferences\ platform\ selection\ page=true

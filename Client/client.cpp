@@ -179,6 +179,10 @@ uint64_t getUID(char* _uidstr)
 
 void alarmMatch()
 {
+ digitalWrite(LED_BUILTIN, HIGH);
+ delay(300);
+ digitalWrite(LED_BUILTIN, LOW);
+
  if (radioInitialised) radioHandshake();  // If Paired, send Valid Data else send a Pairing Request
  rtc.standbyMode();  // Sleep until next alarm match
 }
@@ -222,7 +226,7 @@ void pair()
  {
   #ifndef LOW_POWER
 //   if (VERBOSE) {serialPrint((char*)"Message Sent to Server");}
-  if (VERBOSE) {serialPrint((char*)"CLIENT: Sent OK");}
+   if (VERBOSE) {serialPrint((char*)"CLIENT: Sent OK");}
    digitalWrite(LED_BUILTIN, HIGH);
    delay(100);
    digitalWrite(LED_BUILTIN, LOW);
@@ -269,7 +273,7 @@ void pair()
    sprintf((char*)response, "%s:%02X",  uidstr, clientAddress);  // Create Pairing Request Response Handshake datagram: <64-bit OUI|UID>:<8bit CLIENT ADDRESS>
 
    #ifndef LOW_POWER
-   if (VERBOSE) {serialPrintf(buf, "Sending Pairing Request Response Handshake: \"%s\" To: %u", true, false, (char*)response, PAIRING_ADDRESS);}
+    if (VERBOSE) {serialPrintf(buf, "Sending Pairing Request Response Handshake: \"%s\" To: %u", true, false, (char*)response, PAIRING_ADDRESS);}
    #endif
 
    if (manager.sendtoWait(response, 19, PAIRING_ADDRESS))  // Send Pairing Response Handshake: <64bit OUI:UID><8bit CLIENT ADDRESS> From CLIENT_ADDRESS To PAIRING_ADDRESS
@@ -745,15 +749,15 @@ void setup()
   rtc.attachInterrupt(alarmMatch);
  #endif
 
+ isPaired = false;
+
  digitalWrite(LED_BUILTIN, LOW);
 
  #ifdef LOW_POWER
   rtc.standbyMode();  // Sleep until next alarm match
  #else
-   if (VERBOSE) {serialPrint((char*)"Starting Client\n");}
+  if (VERBOSE) {serialPrint((char*)"Starting Client\n");}
  #endif
-
- isPaired = false;
 }
 
 
@@ -772,10 +776,8 @@ void setup()
 
 void loop()
 {
- #ifdef LOW_POWER
-  delay(LOOP_DELAY);
- #else
+ #ifndef LOW_POWER
   if (radioInitialised) radioHandshake();  // If Paired, send Valid Data else send a Pairing Request
-  delay(LOOP_DELAY);
  #endif
+ delay(LOOP_DELAY);
 }

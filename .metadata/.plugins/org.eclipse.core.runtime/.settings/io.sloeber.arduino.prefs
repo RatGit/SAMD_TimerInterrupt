@@ -1,7 +1,7 @@
 Automatically\ import\ libraries=true
-FbStatus=50
+FbStatus=52
 FsStatus=14
-FuStatus=31
+FuStatus=33
 JANTJE.TEMPLATE_USE_DEFAULT=defaultCPP
 Last\ Used\ Upload\ port=
 Last\ used\ Board=arduino_zero_edbg
@@ -14,4 +14,4 @@ add\ pragma\ once\ to\ headers=true
 eclipse.preferences.version=1
 lFsStatus=92
 last\ Used\ upload\ Protocol=Atmel-ICE
-last\ used\ Board\ custom\ option\ selections=cpu\=atmega168
+last\ used\ Board\ custom\ option\ selections=

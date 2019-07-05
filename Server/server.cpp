@@ -669,7 +669,7 @@ bool radioRead()
    }
    else if (VERBOSE) serialPrint((char *)"Pairing disabled");
   }
-  else if (len == PACKET_LENGTH) // Data Packet: <OUI><UID>:<TEMP>:<RH>:<CRC>  eg: "0004A30B001A531C:DF7:234:7E"
+  else if (len == PACKET_LENGTH) // Data Packet: <OUI><UID>:<TEMP>:<RH>:<CRC>  eg. "0004A30B001A531C:123.45:123.45:7E"
   {
    uint8_t calc_crc = crc((void*)msgBuffer, PACKET_LENGTH-2);                             // Calculate message CRC
    uint8_t msg_crc = (uint8_t)strtoul((char*)(&(msgBuffer[PACKET_LENGTH-2])), NULL, 16);  // Convert last 2 hex chars into an 8bit CRC
@@ -709,7 +709,7 @@ bool radioRead()
 //    if (VERBOSE) {serialPrint(buf, "Reply:   \"%s\"", true, (char*)data);}
 //    }
 //    else if (VERBOSE) serialPrint((char*)"Reply Failed");
-   if (!VERBOSE) {serialPrint((char*)msgBuffer, true);}  // Echo Data Packet out Serial Port: <OUI><UID>:<TEMP>:<RH>:<CRC>  eg: "0004A30B001A531C:DF7:234:7E"
+   if (!VERBOSE) {serialPrint((char*)msgBuffer, true);}  // Echo Data Packet out Serial Port: <OUI><UID>:<TEMP>:<RH>:<CRC>  eg: "0004A30B001A531C:123.45:123.45:7E"
   }
   else if (VERBOSE) serialPrint((char *)"Invalid Packet");
 
@@ -790,7 +790,7 @@ bool serialRead()
 
   switch (serialData[0])
   {
-   case 'T':  // Timestamp "T0123456789<CRC><LF>"
+   case 'T':  // Timestamp "T0123456789<CRC><LF>"  eg. "T156231193407"
    {
 //    uint32_t timestamp = strtoul(&(serialData[1]), NULL, 10);  // Convert remaining chars into a 32-bit timestamp
     uint32_t timestamp = convertStrToUint(&(serialData[1]));  // Convert remaining chars into a 32-bit timestamp

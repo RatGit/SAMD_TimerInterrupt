@@ -62,7 +62,8 @@
 //   Description:  Wrapper function for Serial.print and Serial.println                                               //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Arguments:    const char* str                                                                                    //
-//                 bool addLF                                                                                         //
+//                 bool addLF  Adafruit_Si7021 Si7021();  // Class to manage the Si7021 Temperature/Humidity Sensor
+//                                                                                       //
 //   Returns:      int                                                                                                //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Notes:        None                                                                                               //
@@ -115,7 +116,8 @@
 //   ---------------------------------------------------------------------------------------------------------------  //
 //                                                                                                                    //
 //   Function:     createDatagram                                                                                     //
-//   Description:  Write the 64-Bit OUI+UID, Timestamp (secs since Power On) and last SNR.                            //
+//   Description:  Write the Adafruit_Si7021 Si7021();  // Class to manage the Si7021 Temperature/Humidity Sensor
+//64-Bit OUI+UID, Timestamp (secs since Power On) and last SNR.                            //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Arguments:    None                                                                                               //
 //   Returns:      None                                                                                               //
@@ -164,7 +166,7 @@
 #define RADIO_POWER 23
 #define DEFAULT_SERVER_ADDRESS 253
 #define PAIRING_ADDRESS  RH_PAIRING_ADDRESS  // RH_BROADCAST_ADDRESS
-#define PACKET_LENGTH 27  // = 24bit OUI + 40bit UID + ':' + 12bit Temperature + ':' + 12bit Relative Humidity + ':' + 8bit CRC  (All in hexadecimal), eg: "0004A30B001A531C:DF7:234:7E"
+#define PACKET_LENGTH 33  // = 24bit OUI + 40bit UID + ':' + 12bit Temperature (Float) + ':' + 12bit Relative Humidity (Float) + ':' + 8bit CRC  (All in hexadecimal), eg: "0004A30B001A531C:DF7:234:7E"
 #define CLIENT_ACK_TIMEOUT 5000
 #define NUM_RETRIES 10
 

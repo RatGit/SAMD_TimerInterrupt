@@ -122,15 +122,23 @@
 #define _client_h_
 
 
+//////////////////////////////////////
+//  Included Modules and Functions  //
+//////////////////////////////////////
+
+#include <Adafruit_Si7021.h>
+
+
 /////////////////////////
 //  Macro Definitions  //
 /////////////////////////
 
-//#define LOW_POWER        // Define to enable low power mode
+#define LOW_POWER        // Define to enable low power mode
 #define LOOP_DELAY 1000  // Time in milliseconds to wait each loop (when in low power mode)
 #define DEFAULT_CLIENT_ADDRESS 252
 #define CLIENT_OUI "0004A3"  // Have to apply for an OUI
 #define SERVER_ACK_TIMEOUT 5000
+#define USE_Si7021  // Include code for the Si7021 Humidity/Temperature Sensor
 
 
 //////////////////////////////////////

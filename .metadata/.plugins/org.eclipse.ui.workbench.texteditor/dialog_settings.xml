@@ -2,27 +2,40 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="Read block" key="selection"/>
+		<item value="&apos;:&apos;" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
-		<item value="true" key="wrap"/>
-		<item value="true" key="wholeword"/>
+		<item value="false" key="wrap"/>
+		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="Read block"/>
-			<item value="Read Block"/>
-			<item value="serverAddress"/>
-			<item value="getDateTime"/>
-			<item value="SERVER_ACK_TIMEOUT"/>
-			<item value="getUID"/>
+			<item value="&apos;:&apos;"/>
+			<item value="= &apos;:&apos;"/>
+			<item value="= &quot;:&quot;"/>
+			<item value="serialPrint"/>
+			<item value="SerialPrint"/>
+			<item value="0003:XX"/>
+			<item value="0002:XX"/>
+			<item value="1000:XX"/>
+			<item value="VERBOSE"/>
+			<item value="P197"/>
+			<item value="data"/>
+			<item value="Message Received"/>
+			<item value="LOW_POWER"/>
+			<item value="Acknowledgement"/>
+			<item value="serialPrintf"/>
 		</list>
 		<list key="replacehistory">
+			<item value="0003:AA"/>
+			<item value="0002:6E"/>
+			<item value="1000:32"/>
+			<item value="Acknowledgment"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="336" key="DIALOG_WIDTH"/>
 		<item value="1|Noto Sans|9.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
 		<item value="430" key="DIALOG_HEIGHT"/>
-		<item value="793" key="DIALOG_X_ORIGIN"/>
-		<item value="239" key="DIALOG_Y_ORIGIN"/>
+		<item value="1558" key="DIALOG_X_ORIGIN"/>
+		<item value="575" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>
