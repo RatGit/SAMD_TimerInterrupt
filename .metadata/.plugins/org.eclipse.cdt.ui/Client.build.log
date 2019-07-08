@@ -1,4 +1,4 @@
-17:35:10 **** Incremental Build of configuration Release for project Client ****
+01:29:34 **** Incremental Build of configuration Release for project Client ****
 make all 
 Building file: ../client.cpp
 Starting C++ compile
@@ -22,6 +22,10 @@ In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libra
 /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.h:145:18: warning: unused parameter 'interruptNumber' [-Wunused-parameter]
      virtual void usingInterrupt(uint8_t interruptNumber){}
                   ^
+../client.cpp: In function 'void loop()':
+../client.cpp:628:7: warning: unused variable 'buf' [-Wunused-variable]
+  char buf[255];
+       ^
 Finished building: ../client.cpp
  
 Starting combiner
@@ -38,26 +42,26 @@ Printing size:
 "/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-size" -A "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Client/Release/Client.elf"
 /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Client/Release/Client.elf  :
 section             size        addr
-.text              46784           0
-.ARM.exidx             8       46784
+.text              45232           0
+.ARM.exidx             8       45232
 .data                432   536870912
 .bss                3620   536871344
 .ARM.attributes       40           0
 .comment             128           0
-.debug_info       327499           0
-.debug_abbrev      33244           0
-.debug_loc         48105           0
-.debug_aranges      4840           0
-.debug_ranges       8944           0
-.debug_line        46657           0
-.debug_str         52970           0
-.debug_frame       16100           0
+.debug_info       325493           0
+.debug_abbrev      33213           0
+.debug_loc         47610           0
+.debug_aranges      4832           0
+.debug_ranges       8792           0
+.debug_line        46490           0
+.debug_str         52936           0
+.debug_frame       15988           0
 .stabstr             441           0
-Total             589812
+Total             585255
 
 
 Finished building target: Client
  
 
-17:35:10 Build Finished. 0 errors, 3 warnings. (took 461ms)
+01:29:35 Build Finished. 0 errors, 4 warnings. (took 411ms)
 

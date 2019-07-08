@@ -134,6 +134,7 @@
 /////////////////////////
 
 #define LOW_POWER        // Define to enable low power mode
+#define LED_DEBUG false  // Blink LED in RadioHandshake()
 #define LOOP_DELAY 1000  // Time in milliseconds to wait each loop (when in low power mode)
 #define DEFAULT_CLIENT_ADDRESS 252
 #define CLIENT_OUI "0004A3"  // Have to apply for an OUI

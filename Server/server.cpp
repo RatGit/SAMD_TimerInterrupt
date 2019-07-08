@@ -565,9 +565,9 @@ bool radioRead()
 
  uint8_t len=RH_RF95_MAX_MESSAGE_LEN, from;
 
- if (manager.recvfromAck(msgBuffer, &len, &from))
+ if (manager.recvfromAck(msgBuffer, &len, &from))  // If there is a valid message available for this node, send an acknowledgement to the SRC address (blocking until this is complete), then copy the message to buf and return true else return false
  {
-  digitalWrite(LED_BUILTIN, HIGH);
+  digitalWrite(LED_BUILTIN, HIGH);  // Turn ON LED
 
   msgBuffer[len] = 0;
   if (VERBOSE) serialPrintf(buf, "SERVER: [%u < %u|%d]: \"%s\"[%d]", true, false, manager.headerTo(), from, numClients(), (char*)msgBuffer, len);
@@ -576,98 +576,115 @@ bool radioRead()
 
   if (manager.headerTo() == PAIRING_ADDRESS  && len == 16)  // This is a Pairing Request (with a 16byte message = 24bit OUI + 40bit UID)  Pairing Packet: <OUI><UID>  eg: 0004A30B001A534A
   {
-   if (pairingEnabled)
+   if (!pairingEnabled) {if (VERBOSE) serialPrint((char *)"SERVER: Pairing disabled");}
+
+   uint64_t clientUID = strtoull((char*)msgBuffer, NULL, 16);  // Convert 16 hex chars into a 64bit OUI+UID
+
+   uint8_t tempChar = msgBuffer[6];
+   msgBuffer[6] = 0;
+   uint32_t clientOUI = strtoul((char*)msgBuffer, NULL, 16);  // Convert first 6 hex chars int a 24bit OUI
+   msgBuffer[6] = tempChar;
+
+   if (clientOUI != serverOUI)
    {
-    uint64_t clientUID = strtoull((char*)msgBuffer, NULL, 16);  // Convert 16 hex chars into a 64bit OUI+UID
-
-    uint8_t tempChar = msgBuffer[6];
-    msgBuffer[6] = 0;
-    uint32_t clientOUI = strtoul((char*)msgBuffer, NULL, 16);  // Convert first 6 hex chars int a 24bit OUI
-    if (clientOUI != serverOUI) {if (VERBOSE) {serialPrint((char*)"Ignoring Pairing Request, (different OUI)\n");} return false;}  // Ignore pairing requests from clients that don't belong to us, (ie. different OUI)
-    msgBuffer[6] = tempChar;
-
-    uint8_t clientAddress = findClient(clientUID);
-    if (clientAddress < NUM_CLIENTS) {if (VERBOSE) serialPrint((char *)"Client already paired");}
-    else clientAddress = nextClient();
-
-    if (clientAddress == NUM_CLIENTS) {if (VERBOSE) serialPrint((char *)"Client pairing failed, no addresses available");}
-    else
-    {
-     if (VERBOSE) {serialPrintf(buf, "Client Pairing Request received: New client address = %d", true, false, clientAddress+1);}
-
-     uint8_t data[34];
-     sprintf((char*)data, "%s:%02X:%02X", msgBuffer, DEFAULT_SERVER_ADDRESS, clientAddress+1);  // Create the Pairing Request Response datagram: <64bit OUI:UID>:<8bit SERVER ADDRESS>:<8bit CLIENT ADDRESS> From SERVER_ADDRESS To DEFAULT_CLIENT_ADDRESS
-
-     if (VERBOSE) {serialPrintf(buf, "Sending Pairing Request Response: \"<Client OUI:UID>:<Server Address>:<Client Address>\" = \"%s\"", true, false, (char*)data);}
-
-     if (manager.sendtoWait(data, 22, from))  // Send the Pairing Request Response: <64bit OUI:UID>:<8bit SERVER ADDRESS>:<8bit CLIENT ADDRESS> From SERVER_ADDRESS To DEFAULT_CLIENT_ADDRESS
-     {
-      if (VERBOSE) {serialPrint((char *)"Waiting for Pairing Request Response Handshake");}
-
-      uint64_t clientUID2;
-      uint8_t retries=NUM_RETRIES;
-      bool PairingRequestResponseHandshakeReceived = false;
-      while (!PairingRequestResponseHandshakeReceived && retries-- > 0)
-      {
-       len = 19;
-       if (manager.recvfromAckTimeout(msgBuffer, &len, CLIENT_ACK_TIMEOUT, &from))  // Now wait for a Pairing Request Response from the server: <8bit SERVER ADDRESS><8bit CLIENT ADDRESS>
-       {
-        msgBuffer[19] = 0;
-
-        if (VERBOSE) serialPrintf(buf, "SERVER: [%u|%d < %u]: \"%s\"[%d]", true, false, manager.headerTo(), numClients(), from, (char*)msgBuffer, len);
-//        if (VERBOSE) serialPrintf(buf, "Message Received: \"%s\" Length=%d To=%d From=%d : Number of Clients=%d", true, false, (char*)msgBuffer, len, manager.headerTo(), from, numClients());
-
-        if (manager.headerTo() == PAIRING_ADDRESS && len == 19)  // This is a Pairing Request Response Handshake: <64bit OUI:UID>:<8bit CLIENT ADDRESS> From CLIENT_ADDRESS To PAIRING_ADDRESS
-        {
-         uint8_t clientAddress2 = strtoul((char*)(&(msgBuffer[17])), NULL, 16);  // Convert last 2 hex chars into an 8bit Client Address
-         msgBuffer[16] = 0;
-         clientUID2 = strtoull((char*)msgBuffer, NULL, 16);                      // Convert first 16 hex chars into a 64bit OUI:UID
-         PairingRequestResponseHandshakeReceived = (clientUID2 == clientUID && clientAddress2 == clientAddress+1);  // This packet's client OUI:UID = previous packet's as does the client addresses
-        }
-       }
-      }
-
-      if (PairingRequestResponseHandshakeReceived)
-      {
-       digitalWrite(LED_BUILTIN, HIGH);
-       msgBuffer[len] = 0;
-       if (VERBOSE)
-       {
-        msgBuffer[16] = ':';
-        serialPrintf(buf, "Valid Pairing Request Response Handshake Received: \"%s\"", true, false, (char*)msgBuffer);
-       }
-
-       msgBuffer[16] = 0;
-
-       sprintf((char*)data, "%s:%02X:%02X:", msgBuffer, DEFAULT_SERVER_ADDRESS, clientAddress+1);  // Create the Pairing Response Handshake Acknowledgment datagram: <64bit OUI:UID>:<8bit SERVER ADDRESS>:<8bit CLIENT ADDRESS>:<Timestamp> From SERVER_ADDRESS To CLIENT_ADDRESS
-       getTimestampStr((char*)(&(data[23])));  // Append 10 characters containing the 100 year decimal timestamp (in seconds)
-
-       if (VERBOSE) {serialPrintf(buf, "Sending Pairing Request Response Handshake Acknowledgment: \"%s\" To: %d", true, false, (char*)data, from);}
-
-       if (manager.sendtoWait(data, 33, from))
-       {
-        if (VERBOSE) {serialPrint((char *)"Pairing Request Response Handshake Acknowledgment Sent");}
-
-        clientAddress = addClient(clientUID);
-        if (clientAddress == NUM_CLIENTS) {if (VERBOSE) serialPrint((char *)"Client pairing failed, no addresses available");}
-        else
-        {
-         data[16] = 0;
-//         serialPrint(ulltohex(buf, clientUID));
-         if (VERBOSE) serialPrintf(buf, "%s [%s]", true, false, "Client successfully paired", data);
-         else {serialPrintf(buf, "%s:%s:", true, true, CLIENT_PAIRED, data);}
-
-         digitalWrite(LED_BUILTIN, LOW);
-        }
-       }
-       else if (VERBOSE) serialPrint((char *)"Pairing client failed to ACK Pairing Request Response Handshake Acknowledgment");
-      }
-      else if (VERBOSE) serialPrint((char *)"Pairing client failed to Handshake Pairing Request Response");
-     }
-     else if (VERBOSE) serialPrint((char *)"Pairing client failed to ACK Pairing Request Response");
-    }
+    if (VERBOSE) {serialPrint((char*)"SERVER: Ignoring Pairing Request, (different OUI)\n");}  // Ignore pairing requests from clients that don't belong to us, (ie. different OUI)
+    digitalWrite(LED_BUILTIN, LOW);  // Turn OFF LED
+    return false;
    }
-   else if (VERBOSE) serialPrint((char *)"Pairing disabled");
+
+   uint8_t clientAddress = findClient(clientUID);
+   if (clientAddress < NUM_CLIENTS) {if (VERBOSE) serialPrint((char *)"SERVER: Client already paired");}
+   else clientAddress = nextClient();
+   if (clientAddress == NUM_CLIENTS) {if (VERBOSE) serialPrint((char *)"SERVER: Client pairing failed, no addresses available");}
+
+   if (!pairingEnabled || clientAddress == NUM_CLIENTS)  // Handle case for Pairing Disabled or no Client addresses available
+   {
+    uint8_t data[34];
+    sprintf((char*)data, "%s:%02X:%02X", msgBuffer, DEFAULT_SERVER_ADDRESS, 255);  // Create the Pairing Request Response datagram: <64bit OUI:UID>:<8bit SERVER ADDRESS>:<8bit INVALID CLIENT ADDRESS> From SERVER_ADDRESS To DEFAULT_CLIENT_ADDRESS
+
+    if (VERBOSE) {serialPrintf(buf, "SERVER: Sending Invalid Pairing Request Response: \"<Client OUI:UID>:<Server Address>:<Client Address>\" = \"%s\"", true, false, (char*)data);}
+
+    if (manager.sendtoWait(data, 22, from))  // Send an Invalid Pairing Request Response: <64bit OUI:UID>:<8bit SERVER ADDRESS>:<8bit INVALID CLIENT ADDRESS> From SERVER_ADDRESS To DEFAULT_CLIENT_ADDRESS
+    {
+     if (VERBOSE) {serialPrintf(buf, "SERVER: Sent Invalid Pairing Request Response: \"<Client OUI:UID>:<Server Address>:<Client Address>\" = \"%s\"", true, false, (char*)data);}
+    }
+
+    digitalWrite(LED_BUILTIN, LOW);  // Turn OFF LED
+    return false;
+   }
+   else
+   {
+    if (VERBOSE) {serialPrintf(buf, "SERVER: Client Pairing Request received: New client address = %d", true, false, clientAddress+1);}
+
+    uint8_t data[34];
+    sprintf((char*)data, "%s:%02X:%02X", msgBuffer, DEFAULT_SERVER_ADDRESS, clientAddress+1);  // Create the Pairing Request Response datagram: <64bit OUI:UID>:<8bit SERVER ADDRESS>:<8bit CLIENT ADDRESS> From SERVER_ADDRESS To DEFAULT_CLIENT_ADDRESS
+
+    if (VERBOSE) {serialPrintf(buf, "SERVER: Sending Pairing Request Response: \"<Client OUI:UID>:<Server Address>:<Client Address>\" = \"%s\"", true, false, (char*)data);}
+
+    if (manager.sendtoWait(data, 22, from))  // Send the Pairing Request Response: <64bit OUI:UID>:<8bit SERVER ADDRESS>:<8bit CLIENT ADDRESS> From SERVER_ADDRESS To DEFAULT_CLIENT_ADDRESS
+    {
+     if (VERBOSE) {serialPrint((char *)"SERVER: Waiting for Pairing Request Response Handshake");}
+
+     uint64_t clientUID2;
+     uint8_t retries = NUM_RETRIES;
+     bool PairingRequestResponseHandshakeReceived = false;
+     while (!PairingRequestResponseHandshakeReceived && retries-- > 0)
+     {
+      len = 19;
+      if (manager.recvfromAckTimeout(msgBuffer, &len, CLIENT_ACK_TIMEOUT, &from))  // Now wait for a Pairing Request Response from the server: <8bit SERVER ADDRESS><8bit CLIENT ADDRESS>
+      {
+       msgBuffer[19] = 0;
+
+       if (VERBOSE) serialPrintf(buf, "SERVER: [%u|%d < %u]: \"%s\"[%d]", true, false, manager.headerTo(), numClients(), from, (char*)msgBuffer, len);
+//       if (VERBOSE) serialPrintf(buf, "Message Received: \"%s\" Length=%d To=%d From=%d : Number of Clients=%d", true, false, (char*)msgBuffer, len, manager.headerTo(), from, numClients());
+
+       if (manager.headerTo() == PAIRING_ADDRESS && len == 19)  // This is a Pairing Request Response Handshake: <64bit OUI:UID>:<8bit CLIENT ADDRESS> From CLIENT_ADDRESS To PAIRING_ADDRESS
+       {
+        uint8_t clientAddress2 = strtoul((char*)(&(msgBuffer[17])), NULL, 16);  // Convert last 2 hex chars into an 8bit Client Address
+        msgBuffer[16] = 0;
+        clientUID2 = strtoull((char*)msgBuffer, NULL, 16);                      // Convert first 16 hex chars into a 64bit OUI:UID
+        PairingRequestResponseHandshakeReceived = (clientUID2 == clientUID && clientAddress2 == clientAddress+1);  // This packet's client OUI:UID = previous packet's as does the client addresses
+       }
+      }
+     }
+
+     if (PairingRequestResponseHandshakeReceived)
+     {
+      digitalWrite(LED_BUILTIN, HIGH);
+      msgBuffer[len] = 0;
+      if (VERBOSE)
+      {
+       msgBuffer[16] = ':';
+       serialPrintf(buf, "SERVER: Valid Pairing Request Response Handshake Received: \"%s\"", true, false, (char*)msgBuffer);
+      }
+
+      msgBuffer[16] = 0;
+
+      sprintf((char*)data, "%s:%02X:%02X:", msgBuffer, DEFAULT_SERVER_ADDRESS, clientAddress+1);  // Create the Pairing Response Handshake Acknowledgment datagram: <64bit OUI:UID>:<8bit SERVER ADDRESS>:<8bit CLIENT ADDRESS>:<Timestamp> From SERVER_ADDRESS To CLIENT_ADDRESS
+      getTimestampStr((char*)(&(data[23])));  // Append 10 characters containing the 100 year decimal timestamp (in seconds)
+
+      if (VERBOSE) {serialPrintf(buf, "SERVER: Sending Pairing Request Response Handshake Acknowledgment: \"%s\" To: %d", true, false, (char*)data, from);}
+
+      if (manager.sendtoWait(data, 33, from))
+      {
+       if (VERBOSE) {serialPrint((char *)"SERVER: Pairing Request Response Handshake Acknowledgment Sent");}
+
+       clientAddress = addClient(clientUID);
+       if (clientAddress == NUM_CLIENTS) {if (VERBOSE) serialPrint((char *)"SERVER: Client pairing failed, no addresses available");}
+       else
+       {
+        data[16] = 0;
+//        serialPrint(ulltohex(buf, clientUID));
+        if (VERBOSE) serialPrintf(buf, "%s [%s]", true, false, "SERVER: Client successfully paired", data);
+        else {serialPrintf(buf, "%s:%s:", true, true, CLIENT_PAIRED, data);}
+       }
+      }
+      else if (VERBOSE) serialPrint((char *)"SERVER: Pairing client failed to ACK Pairing Request Response Handshake Acknowledgment");
+     }
+     else if (VERBOSE) serialPrint((char *)"SERVER: Pairing client failed to Handshake Pairing Request Response");
+    }
+    else if (VERBOSE) serialPrint((char *)"SERVER: Pairing client failed to ACK Pairing Request Response");
+   }
   }
   else if (len == PACKET_LENGTH) // Data Packet: <OUI><UID>:<TEMP>:<RH>:<CRC>  eg. "0004A30B001A531C:123.45:123.45:7E"
   {
@@ -676,6 +693,7 @@ bool radioRead()
    if (calc_crc != msg_crc)                                                               // Ignore messages with invalid CRC
    {
     if (VERBOSE) serialPrint((char *)"Invalid Message CRC\n");
+    digitalWrite(LED_BUILTIN, LOW);  // Turn OFF LED
     return false;
    }
 
@@ -685,6 +703,7 @@ bool radioRead()
    if (clientOUI != serverOUI)                                // Ignore messages from clients that don't belong to us, (ie. different OUI)
    {
     if (VERBOSE) serialPrint((char *)"Client does not belong to this organisation\n");
+    digitalWrite(LED_BUILTIN, LOW);  // Turn OFF LED
     return false;
    }
    msgBuffer[6] = swapChar;
@@ -695,6 +714,7 @@ bool radioRead()
    if (findClient(clientUID) == NUM_CLIENTS)                   // Ignore messages from clients not managed by this gateway
    {
     if (VERBOSE) serialPrint((char *)"Client not managed by this gateway\n");
+    digitalWrite(LED_BUILTIN, LOW);  // Turn OFF LED
     return false;
    }
    msgBuffer[16] = swapChar;
@@ -704,17 +724,24 @@ bool radioRead()
 //
 //    if (manager.sendtoWait(data, sizeof(data), from))
 //    {
-   digitalWrite(LED_BUILTIN, LOW);
+//   digitalWrite(LED_BUILTIN, LOW);
 //
 //    if (VERBOSE) {serialPrint(buf, "Reply:   \"%s\"", true, (char*)data);}
 //    }
 //    else if (VERBOSE) serialPrint((char*)"Reply Failed");
    if (!VERBOSE) {serialPrint((char*)msgBuffer, true);}  // Echo Data Packet out Serial Port: <OUI><UID>:<TEMP>:<RH>:<CRC>  eg: "0004A30B001A531C:123.45:123.45:7E"
   }
-  else if (VERBOSE) serialPrint((char *)"Invalid Packet");
+  else if (VERBOSE) serialPrint((char *)"SERVER: Invalid Packet");
 
   if (VERBOSE) serialPrint((char *)"");
  }
+ else
+ {
+  digitalWrite(LED_BUILTIN, LOW);  // Turn OFF LED
+  return false;
+ }
+
+ digitalWrite(LED_BUILTIN, LOW);  // Turn OFF LED
 
  return true;
 }
@@ -780,8 +807,7 @@ bool serialRead()
   uint8_t msg_crc = (uint8_t)strtoul((char*)(&(serialData[serialPtr-2])), NULL, 16);  // Convert last 2 hex chars into an 8bit CRC
   if (calc_crc != msg_crc)                                                            // Ignore messages with invalid CRC
   {
-   if (VERBOSE) {serialPrint("Invalid Serial Message CRC");}
-   if (VERBOSE) {serialPrint("Invalid Serial Message CRC", true);}
+   if (VERBOSE) {serialPrint("SERVER: Invalid Serial Message CRC", true);}
    else {serialPrintf(buf, "%s%s", true, true, ERROR_INVALID_CRC, ":");}  // eg. "0002:6E"
    serialPtr = 0;
    serialReceived = false;
@@ -812,7 +838,7 @@ bool serialRead()
 //     serialPrintf(pbuf, "rtc.getMinutes() = %u", dateTime.minute);
 //     serialPrintf(pbuf, "rtc.getSeconds() = %u", dateTime.second);
 //    }
-    if (VERBOSE) {serialPrint("Date/Time Successfully Set", true);}
+    if (VERBOSE) {serialPrint("SERVER: Date/Time Successfully Set", true);}
     else {serialPrintf(buf, "%s%s", true, true, MESSAGE_RCVD_OK, ":");}  // eg. "1000:32"
    }
    break;
@@ -838,7 +864,7 @@ bool serialRead()
 
     for (uint8_t i=0; i<NUM_CLIENTS; i++) clientList[i] = 0;
 
-    if (VERBOSE) {serialPrint("Client List Cleared", true);}
+    if (VERBOSE) {serialPrint("SERVER: Client List Cleared", true);}
     else {serialPrintf(buf, "%s%s", true, true, MESSAGE_RCVD_OK, ":");}  // eg. "1000:32"
    }
    break;
@@ -849,12 +875,12 @@ bool serialRead()
     {
      case '0':
       pairingEnabled = false;
-      if (VERBOSE) {serialPrint("Pairing Disabled", true);}
+      if (VERBOSE) {serialPrint("SERVER: Pairing Disabled", true);}
       else {serialPrintf(buf, "%s%s", true, true, MESSAGE_RCVD_OK, ":");}  // eg. "1000:32"
      break;
      case '1':
       pairingEnabled = true;
-      if (VERBOSE) {serialPrint("Pairing Enabled", true);}
+      if (VERBOSE) {serialPrint("SERVER: Pairing Enabled", true);}
       else {serialPrintf(buf, "%s%s", true, true, MESSAGE_RCVD_OK, ":");}  // eg. "1000:32"
      break;
     }
@@ -863,7 +889,7 @@ bool serialRead()
 
    default:
    {
-    if (VERBOSE) {serialPrint("Unknown Command", true);}
+    if (VERBOSE) {serialPrint("SERVER: Unknown Command", true);}
     else {serialPrintf(buf, "%s%s", true, true, ERROR_UNKNOWN_MESSAGE, ":");}  // eg. "0003:AA"
    }
    break;
@@ -925,11 +951,9 @@ void setup()
  digitalWrite(LED_BUILTIN, HIGH);  // Turn On LED
 
  // USB Serial Port Initialisation
- #ifdef USE_SERIAL
-  Serial.begin(BAUD_RATE);
-  while (WAIT_SERIAL && !Serial) ; // Wait for serial port to be available (This will cause it to hang when not connected to a USB serial port)
-  if (VERBOSE) {delay(15000);}     // Wait 15 seconds to allow enough time to connect a serial monitor
- #endif
+ Serial.begin(BAUD_RATE);
+ while (WAIT_SERIAL && !Serial) ; // Wait for serial port to be available (This will cause it to hang when not connected to a USB serial port)
+ if (VERBOSE) {delay(15000);}     // Wait 15 seconds to allow enough time to connect a serial monitor
 
  // RTC initialisation
  rtc.begin();
@@ -938,7 +962,7 @@ void setup()
 
  // Serial Flash Initialisation
  serialFlashOk = SerialFlash.begin(flashChipSelect);
- if (!serialFlashOk) {if (VERBOSE) {serialPrint("Failed to Initialise Serial Flash", true);} else {serialPrint(ERROR_FLASH_MEMORY, true, true);}}
+ if (!serialFlashOk) {if (VERBOSE) {serialPrint("SERVER: Failed to Initialise Serial Flash", true);} else {serialPrint(ERROR_FLASH_MEMORY, true, true);}}
 
  // I2C Initialisation
  Wire.begin();
@@ -947,7 +971,7 @@ void setup()
  radioInitialised = manager.init();
  if (!radioInitialised)
  {
-  if (VERBOSE) {serialPrint("Failed to Initialise LoRa Radio");}
+  if (VERBOSE) {serialPrint("SERVER: Failed to Initialise LoRa Radio");}
  }
  else
  {
@@ -964,13 +988,13 @@ void setup()
  serialPtr = 0;
  serialReceived = false;
 
- digitalWrite(LED_BUILTIN, LOW);
+ digitalWrite(LED_BUILTIN, LOW);  // Turn OFF LED
 
  if (VERBOSE)
  {
   char buff[255];
   uint32_t low = uid & 0xFFFFFFFF, high = (uid >> 32) & 0xFFFFFFFF;
-  serialPrintf(buff, "Starting Server: UID = 0x%08X%08X\n", true, false, high, low);
+  serialPrintf(buff, "SERVER: Starting Server: UID = 0x%08X%08X\n", true, false, high, low);
  }
 }
 

@@ -263,7 +263,7 @@ int serialPrint(const char *str, bool addLF, bool addCRC)
 {
  int result = -1;
 
- if (str == NULL || !USE_SERIAL || !Serial) return result;
+ if (str == NULL || !Serial) return result;
 
  if (addCRC)
  {
@@ -306,7 +306,7 @@ int serialPrint(const char *str, bool addLF, bool addCRC)
 
 int serialPrintf(char* str, const char* format, bool addLF, bool addCRC, ...)
 {
- if (str == NULL || format == NULL || !USE_SERIAL || !Serial) return -1;
+ if (str == NULL || format == NULL || !Serial) return -1;
 
  va_list va;
  int result;

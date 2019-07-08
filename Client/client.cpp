@@ -246,7 +246,7 @@ void pair()
     msgBuffer[22] = 0;
 
 //    #ifndef LOW_POWER
-     if (VERBOSE) {serialPrintf(buf, "Message Received: \"%s\" Length=%u To=%u From=%u", true, false, (char*)msgBuffer, len, manager.headerTo(), from);}
+     if (VERBOSE) {serialPrintf(buf, "CLIENT: Message Received: \"%s\" Length=%u To=%u From=%u", true, false, (char*)msgBuffer, len, manager.headerTo(), from);}
 //    #endif
 
     if (len == 22)
@@ -262,93 +262,100 @@ void pair()
   {
 //   #ifndef LOW_POWER
     msgBuffer[16] = ':';
-    if (VERBOSE) {serialPrintf(buf, "Pairing Request Response Received: \"%s\" Length=%u To=%u From=%u", true, false, (char*)msgBuffer, len, manager.headerTo(), from);}
+    if (VERBOSE) {serialPrintf(buf, "CLIENT: Pairing Request Response Received: \"%s\" Length=%u To=%u From=%u", true, false, (char*)msgBuffer, len, manager.headerTo(), from);}
 //   #endif
 
    uint8_t clientAddress = strtoul((char*)(&(msgBuffer[20])), NULL, 16);     // Convert last 2 hex chars into an 8bit Client Address
-   msgBuffer[19] = 0;
-   uint8_t tempserverAddress = strtoul((char*)(&(msgBuffer[17])), NULL, 16); // Convert previous 2 hex chars into an 8bit Server Address
-
-   manager.setThisAddress(clientAddress);                      // Set the new client address to respond from
-
-   uint8_t response[20];
-   sprintf((char*)response, "%s:%02X",  uidstr, clientAddress);  // Create Pairing Request Response Handshake datagram: <64-bit OUI|UID>:<8bit CLIENT ADDRESS>
-
-//   #ifndef LOW_POWER
-    if (VERBOSE) {serialPrintf(buf, "Sending Pairing Request Response Handshake: \"%s\" To: %u", true, false, (char*)response, PAIRING_ADDRESS);}
-//   #endif
-
-   if (manager.sendtoWait(response, 19, PAIRING_ADDRESS))  // Send Pairing Response Handshake: <64bit OUI:UID><8bit CLIENT ADDRESS> From CLIENT_ADDRESS To PAIRING_ADDRESS
+   if (clientAddress == 255)
    {
-//    #ifndef LOW_POWER
-     if (VERBOSE) {serialPrint((char*)"Waiting for Pairing Request Response Handshake Acknowledgment");}
-//    #endif
-
-    retries=NUM_RETRIES;
-    bool PairingRequestResponseHandshakeAcknowledgementReceived = false;
-    while (!PairingRequestResponseHandshakeAcknowledgementReceived && retries-- > 0)
-    {
-     len = 33;
-     if (manager.recvfromAckTimeout(msgBuffer, &len, SERVER_ACK_TIMEOUT, &from))  // Now wait for a Pairing Request Response Handshake Acknowledgement from the server: <64bit OUI:UID>:<8bit SERVER ADDRESS>:<8bit CLIENT ADDRESS>:<Timestamp>
-     {
-      msgBuffer[33] = 0;
-
-//      #ifndef LOW_POWER
-       if (VERBOSE) {serialPrintf(buf, "Message Received: \"%s\" Length=%u To=%u From=%u", true, false, (char*)msgBuffer, len, manager.headerTo(), from);}
-//      #endif
-
-      if (len == 33)
-      {
-       uint32_t serverTimestamp = strtoul((char*)(&(msgBuffer[23])), NULL, 10);    // Convert last 10 decimal chars into a 32-bit timestamp
-       msgBuffer[22] = 0;
-       uint8_t newClientAddress = strtoul((char*)(&(msgBuffer[20])), NULL, 16);    // Convert previous 2 hex chars into an 8-bit Client Address
-       msgBuffer[19] = 0;
-       uint8_t newServerAddress = strtoul((char*)(&(msgBuffer[17])), NULL, 16);    // Convert previous 2 hex chars into an 8-it Server Address
-       msgBuffer[16] = 0;
-       uint64_t clientUID2 = strtoull((char*)msgBuffer, NULL, 16);                 // Convert first 16 hex chars into a 64-bit OUI:UID
-
-       PairingRequestResponseHandshakeAcknowledgementReceived = (clientUID2 == uid && newServerAddress == tempserverAddress && newClientAddress == clientAddress);  // Check that the packet's OUI:UID is the same as this client's
-       if (PairingRequestResponseHandshakeAcknowledgementReceived)
-       {
-        rtc.setY2kEpoch(serverTimestamp);
-       }
-      }
-     }
-    }
-
-    if (PairingRequestResponseHandshakeAcknowledgementReceived)
-    {
-     serverAddress = tempserverAddress;  // Permanently set Server Address
-
-//     #ifndef LOW_POWER
-//      msgBuffer[16] = ':';
-//      msgBuffer[19] = ':';
-      if (VERBOSE) {serialPrintf(buf, "Pairing Request Response Handshake Acknowledgment Validated: Server Address=%u : This Address=%u", true, false, serverAddress, clientAddress);}
-//     #endif
-
-     isPaired = true;
-    }
-    else
-    {
-     manager.setThisAddress(DEFAULT_CLIENT_ADDRESS);  // If pairing fails then reset Client Address to the DEFAULT_CLIENT_ADDRESS
-    }
+    if (VERBOSE) {serialPrint((char*)"CLIENT: Pairing Failed");}
    }
    else
    {
-    manager.setThisAddress(DEFAULT_CLIENT_ADDRESS);   // If pairing fails then reset Client Address to the DEFAULT_CLIENT_ADDRESS
+    msgBuffer[19] = 0;
+    uint8_t tempserverAddress = strtoul((char*)(&(msgBuffer[17])), NULL, 16); // Convert previous 2 hex chars into an 8bit Server Address
+
+    manager.setThisAddress(clientAddress);                      // Set the new client address to respond from
+
+    uint8_t response[20];
+    sprintf((char*)response, "%s:%02X",  uidstr, clientAddress);  // Create Pairing Request Response Handshake datagram: <64-bit OUI|UID>:<8bit CLIENT ADDRESS>
+
+//    #ifndef LOW_POWER
+     if (VERBOSE) {serialPrintf(buf, "CLIENT: Sending Pairing Request Response Handshake: \"%s\" To: %u", true, false, (char*)response, PAIRING_ADDRESS);}
+//    #endif
+
+    if (manager.sendtoWait(response, 19, PAIRING_ADDRESS))  // Send Pairing Response Handshake: <64bit OUI:UID><8bit CLIENT ADDRESS> From CLIENT_ADDRESS To PAIRING_ADDRESS
+    {
+//     #ifndef LOW_POWER
+      if (VERBOSE) {serialPrint((char*)"CLIENT: Waiting for Pairing Request Response Handshake Acknowledgment");}
+//     #endif
+
+     retries=NUM_RETRIES;
+     bool PairingRequestResponseHandshakeAcknowledgementReceived = false;
+     while (!PairingRequestResponseHandshakeAcknowledgementReceived && retries-- > 0)
+     {
+      len = 33;
+      if (manager.recvfromAckTimeout(msgBuffer, &len, SERVER_ACK_TIMEOUT, &from))  // Now wait for a Pairing Request Response Handshake Acknowledgement from the server: <64bit OUI:UID>:<8bit SERVER ADDRESS>:<8bit CLIENT ADDRESS>:<Timestamp>
+      {
+       msgBuffer[33] = 0;
+
+//       #ifndef LOW_POWER
+        if (VERBOSE) {serialPrintf(buf, "CLIENT: Message Received: \"%s\" Length=%u To=%u From=%u", true, false, (char*)msgBuffer, len, manager.headerTo(), from);}
+//       #endif
+
+       if (len == 33)
+       {
+        uint32_t serverTimestamp = strtoul((char*)(&(msgBuffer[23])), NULL, 10);    // Convert last 10 decimal chars into a 32-bit timestamp
+        msgBuffer[22] = 0;
+        uint8_t newClientAddress = strtoul((char*)(&(msgBuffer[20])), NULL, 16);    // Convert previous 2 hex chars into an 8-bit Client Address
+        msgBuffer[19] = 0;
+        uint8_t newServerAddress = strtoul((char*)(&(msgBuffer[17])), NULL, 16);    // Convert previous 2 hex chars into an 8-it Server Address
+        msgBuffer[16] = 0;
+        uint64_t clientUID2 = strtoull((char*)msgBuffer, NULL, 16);                 // Convert first 16 hex chars into a 64-bit OUI:UID
+
+        PairingRequestResponseHandshakeAcknowledgementReceived = (clientUID2 == uid && newServerAddress == tempserverAddress && newClientAddress == clientAddress);  // Check that the packet's OUI:UID is the same as this client's
+        if (PairingRequestResponseHandshakeAcknowledgementReceived)
+        {
+         rtc.setY2kEpoch(serverTimestamp);
+        }
+       }
+      }
+     }
+
+     if (PairingRequestResponseHandshakeAcknowledgementReceived)
+     {
+      serverAddress = tempserverAddress;  // Permanently set Server Address
+
+//      #ifndef LOW_POWER
+//       msgBuffer[16] = ':';
+//       msgBuffer[19] = ':';
+       if (VERBOSE) {serialPrintf(buf, "CLIENT: Pairing Request Response Handshake Acknowledgment Validated: Server Address=%u : This Address=%u", true, false, serverAddress, clientAddress);}
+//      #endif
+
+      isPaired = true;
+     }
+     else
+     {
+      manager.setThisAddress(DEFAULT_CLIENT_ADDRESS);  // If pairing fails then reset Client Address to the DEFAULT_CLIENT_ADDRESS
+     }
+    }
+    else
+    {
+     manager.setThisAddress(DEFAULT_CLIENT_ADDRESS);   // If pairing fails then reset Client Address to the DEFAULT_CLIENT_ADDRESS
+    }
    }
   }
   else
   {
 //   #ifndef LOW_POWER
-    if (VERBOSE) {serialPrint((char*)"Handshake not Received");}
+    if (VERBOSE) {serialPrint((char*)"CLIENT: Handshake not Received");}
 //   #endif
   }
  }
  else
  {
 //  #ifndef LOW_POWER
-   if (VERBOSE) {serialPrint((char*)"No ACK from Server");}
+   if (VERBOSE) {serialPrint((char*)"CLIENT: No ACK from Server");}
 //  #endif
  }
 
@@ -425,7 +432,7 @@ void sendData()
  else
  {
 //  #ifndef LOW_POWER
-   if (VERBOSE) {serialPrint((char*)"No ACK from Server");}
+   if (VERBOSE) {serialPrint((char*)"CLIENT: No ACK from Server");}
 //  #endif
  }
 
@@ -452,203 +459,19 @@ void sendData()
 
 void radioHandshake()
 {
+ if (LED_DEBUG)  // Blink LED, (for debugging only)
+ {
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(300);
+  digitalWrite(LED_BUILTIN, LOW);
+ }
+
  if (isPaired) sendData();
  else pair();
 
 // #ifndef LOW_POWER
   if (VERBOSE) {serialPrint((char*)"");}
 // #endif
-}
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//   Function:     radioHandshake                                                                                     //
-//   Description:  This function is called once every program loop. It sends a test message to the server and then    //
-//                 waits for a reply. It wakes up the USB port and sends serial status messages as well as toggling   //
-//                 the LED on a successful handshake.                                                                 //
-//                 -------------------------------------------------------------------------------------------------  //
-//   Arguments:    bool pairing                                                                                       //
-//   Returns:      None                                                                                               //
-//                 -------------------------------------------------------------------------------------------------  //
-//   Notes:        Called in "loop"                                                                                   //
-//   Known Bugs:   None                                                                                               //
-//   ---------------------------------------------------------------------------------------------------------------  //
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-void oldradioHandshake(bool pairing=false)
-{
- uint8_t* data, datalen;
-
- #ifndef LOW_POWER
-  char* buf = new char[255];
- #endif
-
- if (pairing)  // Pairing Request: <64bit OUI|UID> From DEFAULT_CLIENT_ADDRESS To PAIRING_ADDRESS
- {
-  datalen = 16;
-  data = new uint8_t[17];
-  strcpy((char*)data, uidstr);  // Write 64-bit OUI:UID to datagram
-  serverAddress = PAIRING_ADDRESS;
- }
- else  // Send Data: <64bit OUI|UID>:<12-bit Data>:<12-bit Data>
- {
-  datalen = 24;
-  data = new uint8_t[25];
-  strcpy((char*)data, uidstr);                            // Write 64-bit OUI|UID to datagram
-  sprintf((char*)(&(data[16])), ":%03X", rand() % 4096);  // Random integer in the range 0 to 4095, (simulate 12-bit sensor data)
-  sprintf((char*)(&(data[20])), ":%03X", rand() % 4096);  // Random integer in the range 0 to 4095, (simulate 12-bit sensor data)
- }
-
- #ifndef LOW_POWER
-  if (VERBOSE) {serialPrintf(buf, "CLIENT: [%u > %u]: \"%s\"[%d]", true, false, (uint8_t)(manager.thisAddress()), serverAddress, (char*)data, datalen);}
-//  if (VERBOSE) {serialPrintf(buf, "Sending Message: \"%s\" Length=%d To=%u From=%u", true, false, (char*)data, datalen, serverAddress, (uint8_t)(manager.thisAddress()));}
- #endif
-
- if (manager.sendtoWait(data, datalen, serverAddress))  // Send a message to the LoRa Server
- {
-  #ifndef LOW_POWER
-//   if (VERBOSE) {serialPrint((char*)"Message Sent to Server");}
-   if (VERBOSE) {serialPrint((char*)"CLIENT: Sent OK");}
-   digitalWrite(LED_BUILTIN, HIGH);
-   delay(100);
-   digitalWrite(LED_BUILTIN, LOW);
-  #endif
-
-  if (pairing)  // Pairing Request: <64bit OUI|UID> From DEFAULT_CLIENT_ADDRESS To PAIRING_ADDRESS
-  {
-   uint8_t retries=NUM_RETRIES, len, from;
-
-   bool PairingRequestResponseReceived = false;
-   while (!PairingRequestResponseReceived && retries-- > 0)
-   {
-    len = 22;
-    if (manager.recvfromAckTimeout(msgBuffer, &len, SERVER_ACK_TIMEOUT, &from))  // Now wait for a Pairing Request Response from the server: <64bit Client OUI|UID>:<8bit SERVER ADDRESS>:<8bit CLIENT ADDRESS>
-    {
-     msgBuffer[22] = 0;
-
-     #ifndef LOW_POWER
-      if (VERBOSE) {serialPrintf(buf, "Message Received: \"%s\" Length=%u To=%u From=%u", true, false, (char*)msgBuffer, len, manager.headerTo(), from);}
-     #endif
-
-     if (len == 22)
-     {
-      msgBuffer[16] = 0;
-      uint64_t clientUID = strtoull((char*)msgBuffer, NULL, 16);  // Convert first 16 hex chars into a 64bit OUI:UID
-      PairingRequestResponseReceived = (clientUID == uid);        // Check that the packet's OUI:UID is the same as this client's
-     }
-    }
-   }
-
-   if (PairingRequestResponseReceived)
-   {
-    #ifndef LOW_POWER
-     msgBuffer[16] = ':';
-     if (VERBOSE) {serialPrintf(buf, "Pairing Request Response Received: \"%s\" Length=%u To=%u From=%u", true, false, (char*)msgBuffer, len, manager.headerTo(), from);}
-    #endif
-
-    uint8_t clientAddress = strtoul((char*)(&(msgBuffer[20])), NULL, 16);     // Convert last 2 hex chars into an 8bit Client Address
-    msgBuffer[19] = 0;
-    uint8_t tempserverAddress = strtoul((char*)(&(msgBuffer[17])), NULL, 16); // Convert previous 2 hex chars into an 8bit Server Address
-
-    manager.setThisAddress(clientAddress);                      // Set the new client address to respond from
-
-    uint8_t response[20];
-    sprintf((char*)response, "%s:%02X",  uidstr, clientAddress);  // Create Pairing Request Response Handshake datagram: <64-bit OUI|UID>:<8bit CLIENT ADDRESS>
-
-    #ifndef LOW_POWER
-     if (VERBOSE) {serialPrintf(buf, "Sending Pairing Request Response Handshake: \"%s\" To: %u", true, false, (char*)response, PAIRING_ADDRESS);}
-    #endif
-
-    if (manager.sendtoWait(response, 19, PAIRING_ADDRESS))  // Send Pairing Response Handshake: <64bit OUI:UID><8bit CLIENT ADDRESS> From CLIENT_ADDRESS To PAIRING_ADDRESS
-    {
-     #ifndef LOW_POWER
-      if (VERBOSE) {serialPrint((char*)"Waiting for Pairing Request Response Handshake Acknowledgment");}
-     #endif
-
-     retries=NUM_RETRIES;
-     bool PairingRequestResponseHandshakeAcknowledgementReceived = false;
-     while (!PairingRequestResponseHandshakeAcknowledgementReceived && retries-- > 0)
-     {
-      len = 33;
-      if (manager.recvfromAckTimeout(msgBuffer, &len, SERVER_ACK_TIMEOUT, &from))  // Now wait for a Pairing Request Response Handshake Acknowledgement from the server: <64bit OUI:UID>:<8bit SERVER ADDRESS>:<8bit CLIENT ADDRESS>:<Timestamp>
-      {
-       msgBuffer[33] = 0;
-
-       #ifndef LOW_POWER
-        if (VERBOSE) {serialPrintf(buf, "Message Received: \"%s\" Length=%u To=%u From=%u", true, false, (char*)msgBuffer, len, manager.headerTo(), from);}
-       #endif
-
-       if (len == 33)
-       {
-        uint32_t serverTimestamp = strtoul((char*)(&(msgBuffer[23])), NULL, 10);    // Convert last 10 decimal chars into a 32-bit timestamp
-        msgBuffer[22] = 0;
-        uint8_t newClientAddress = strtoul((char*)(&(msgBuffer[20])), NULL, 16);    // Convert previous 2 hex chars into an 8-bit Client Address
-        msgBuffer[19] = 0;
-        uint8_t newServerAddress = strtoul((char*)(&(msgBuffer[17])), NULL, 16);    // Convert previous 2 hex chars into an 8-it Server Address
-        msgBuffer[16] = 0;
-        uint64_t clientUID2 = strtoull((char*)msgBuffer, NULL, 16);                 // Convert first 16 hex chars into a 64-bit OUI:UID
-
-        PairingRequestResponseHandshakeAcknowledgementReceived = (clientUID2 == uid && newServerAddress == tempserverAddress && newClientAddress == clientAddress);  // Check that the packet's OUI:UID is the same as this client's
-        if (PairingRequestResponseHandshakeAcknowledgementReceived)
-        {
-         rtc.setY2kEpoch(serverTimestamp);
-        }
-       }
-      }
-     }
-
-     if (PairingRequestResponseHandshakeAcknowledgementReceived)
-     {
-      serverAddress = tempserverAddress;  // Permanently set Server Address
-
-      #ifndef LOW_POWER
-//       msgBuffer[16] = ':';
-//       msgBuffer[19] = ':';
-       if (VERBOSE) {serialPrintf(buf, "Pairing Request Response Handshake Acknowledgment Validated: Server Address=%u : This Address=%u", true, false, serverAddress, clientAddress);}
-      #endif
-
-      isPaired = true;
-     }
-     else
-     {
-      manager.setThisAddress(DEFAULT_CLIENT_ADDRESS);  // If pairing fails then reset Client Address to the DEFAULT_CLIENT_ADDRESS
-     }
-    }
-    else
-    {
-     manager.setThisAddress(DEFAULT_CLIENT_ADDRESS);   // If pairing fails then reset Client Address to the DEFAULT_CLIENT_ADDRESS
-    }
-   }
-   else
-   {
-    #ifndef LOW_POWER
-     if (VERBOSE) {serialPrint((char*)"Handshake not Received");}
-    #endif
-   }
-  }
-  else
-  {
-   // Wait for a response from the server with a new timestamp, (maybe not required for concrete sensor)
-  }
- }
- else
- {
-  #ifndef LOW_POWER
-   if (VERBOSE) {serialPrint((char*)"No ACK from Server");}
-  #endif
- }
-
- #ifndef LOW_POWER
-  delete [] buf;
- #endif
-
- delete [] data;
-
- #ifdef LOW_POWER
-  radio.sleep();
- #else
-  if (VERBOSE) {serialPrint((char*)"");}
- #endif
 }
 
 
@@ -697,6 +520,11 @@ void setup()
  pinMode(LED_BUILTIN, OUTPUT);
  digitalWrite(LED_BUILTIN, LOW);
 
+// #ifndef LOW_POWER
+  if (VERBOSE) Serial.begin(BAUD_RATE);
+//  while (!Serial) ; // Wait for serial port to be available (This will cause it to hang when not connected to a USB serial port)
+// #endif
+
  uid = getUID(uidstr);
 
  #ifdef USE_Si7021
@@ -708,7 +536,7 @@ void setup()
 //  else
   if (!Si7021.begin())
   {
-   if (VERBOSE) {serialPrint((char*)"Si7021 inititialisation failed");}
+   if (VERBOSE) {serialPrint((char*)"CLIENT: Si7021 inititialisation failed");}
   }
  #endif
 
@@ -720,18 +548,13 @@ void setup()
  secondsCounter = 0;  // These counters are used on startup to switch from pairing attempts every 10 seconds, 1 minute and 1 hour
  minutesCounter = 0;
 
- #ifndef LOW_POWER
-  Serial.begin(BAUD_RATE);
-//  while (!Serial) ; // Wait for serial port to be available (This will cause it to hang when not connected to a USB serial port)
- #endif
-
  manager.setRetries(0);  // Prevent excessive delays waiting for acknowledgments by disabling retries. (This will prevent the super capacitor being drained)
  manager.setTimeout(200);
  radioInitialised = manager.init();
  if (!radioInitialised)
  {
 //  #ifndef LOW_POWER
-   if (VERBOSE) {serialPrint((char*)"Radio inititialisation failed");}
+   if (VERBOSE) {serialPrint((char*)"CLIENT: Radio inititialisation failed");}
 //  #endif
  }
  else
@@ -777,14 +600,13 @@ void setup()
  rtc.setDate(dateTime.day, dateTime.month, dateTime.year);
 
  #ifdef LOW_POWER
-  rtc.setAlarmSeconds(0);          // RTC alarm setting on the 0th second of every minute, (resulting in a 1 minute sleep period)
-  rtc.enableAlarm(rtc.MATCH_SS);   // Device initially only sleeps for 1 minute intervals until the first data packet has been sent
+  rtc.disableAlarm();  // No RTC Alarms until after the first pairing attempt
   rtc.attachInterrupt(alarmMatch);
  #else
   digitalWrite(LED_BUILTIN, HIGH);  // Turn ON LED
  #endif
 
-  if (VERBOSE) {serialPrint((char*)"Starting Client\n");}
+  if (VERBOSE) {serialPrint((char*)"CLIENT: Starting Client\n");}
 }
 
 
@@ -810,28 +632,19 @@ void loop()
   {
    alarmed = false;
 
-//   digitalWrite(LED_BUILTIN, HIGH);  // Blink LED, (for debugging only)
-//   delay(300);
-//   digitalWrite(LED_BUILTIN, LOW);
-
    if (radioInitialised)
    {
     if (!isPaired)
     {
-     if (secondsCounter < NUM_PAIRINGS_SECONDS)  // Number of times to attempt to pair every 10 seconds, (on startup)
+     if (secondsCounter < NUM_PAIRINGS_SECONDS-1)  // Number of times to attempt to pair every 10 seconds, (on startup)
      {
       secondsCounter++;
-      if (VERBOSE) serialPrintf(buf, "Seconds Counter = %u", true, false, secondsCounter);
 
-      if (VERBOSE) serialPrintf(buf, "Before Transmission: %u:%u", true, false, rtc.getMinutes(), rtc.getSeconds());
       radioHandshake();  // Attempt to Pair with Master
-      if (VERBOSE) serialPrintf(buf, "After Transmission: %u:%u", true, false, rtc.getMinutes(), rtc.getSeconds());
 
-      if (secondsCounter == NUM_PAIRINGS_SECONDS) rtc.enableAlarm(rtc.MATCH_MMSS);  // RTC alarms in 1 minute's time, (now includes minutes when matching next alarm time)
-      else
+      if (!isPaired)
       {
        rtc.setAlarmSeconds((rtc.getSeconds() + 10) % 60);  // RTC alarms in 10 second's time
-       if (VERBOSE) serialPrintf(buf, "Alarm Seconds = %u", true, false, rtc.getAlarmSeconds());
        rtc.enableAlarm(rtc.MATCH_SS);                      // Enable RTC alarm for next seconds match
       }
      }
@@ -841,12 +654,22 @@ void loop()
 
       radioHandshake();  // Attempt to Pair with Master
 
-      rtc.setAlarmMinutes((rtc.getMinutes() + 1) % 60);  // RTC alarms in 1 minute's time
-      rtc.enableAlarm(rtc.MATCH_MMSS);                   // Enable RTC alarm for next minutes and seconds match
+      if (!isPaired)
+      {
+       rtc.setAlarmMinutes((rtc.getMinutes() + 1) % 60);  // RTC alarms in 1 minute's time
+       rtc.enableAlarm(rtc.MATCH_MMSS);                   // Enable RTC alarm for next minutes and seconds match
+      }
      }
      else
      {
       radioHandshake();  // Attempt to Pair with Master
+     }
+
+     if (isPaired)  // If Paired successfully, set device to update in 1 minute's time and then every hour thenceforth
+     {
+      rtc.setAlarmSeconds(rtc.getSeconds());             // RTC alarms on the current seconds value henceforth
+      rtc.setAlarmMinutes((rtc.getMinutes() + 1) % 60);  // RTC alarms in 1 minute's time
+      rtc.enableAlarm(rtc.MATCH_MMSS);                   // Enable RTC alarm for next minutes and seconds match
      }
     }
     else
