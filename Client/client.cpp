@@ -133,6 +133,11 @@
 uint8_t serverAddress;                                      // Server Address (This will be changed after pairing)
 RHReliableDatagram manager(radio, DEFAULT_CLIENT_ADDRESS);  // Class to manage message delivery and receipt, using the driver declared above
 
+bool alarmed;  // Global flag to indicate that the RTC wakeup has triggered
+uint8_t secondsCounter, minutesCounter;  // These counters are used on startup to switch from pairing attempts every 10 seconds, 1 minute and 1 hour
+
+Adafruit_Si7021 Si7021 = Adafruit_Si7021();  // Class to manage the Si7021 Temperature/Humidity Sensor
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //   Function:     getUID                                                                                             //
@@ -179,12 +184,7 @@ uint64_t getUID(char* _uidstr)
 
 void alarmMatch()
 {
- digitalWrite(LED_BUILTIN, HIGH);
- delay(300);
- digitalWrite(LED_BUILTIN, LOW);
-
- if (radioInitialised) radioHandshake();  // If Paired, send Valid Data else send a Pairing Request
- rtc.standbyMode();  // Sleep until next alarm match
+ alarmed = true;
 }
 
 
@@ -204,12 +204,11 @@ void alarmMatch()
 
 void pair()
 {
- char* buf;
  uint8_t* data, datalen;
 
- #ifndef LOW_POWER
-  buf = new char[255];
- #endif
+// #ifndef LOW_POWER
+  char* buf = new char[255];
+// #endif
 
  // Pairing Request: <64bit OUI|UID> From DEFAULT_CLIENT_ADDRESS To PAIRING_ADDRESS
  datalen = 16;
@@ -217,16 +216,19 @@ void pair()
  strcpy((char*)data, uidstr);  // Write 64-bit OUI:UID to datagram
  serverAddress = PAIRING_ADDRESS;
 
- #ifndef LOW_POWER
+// #ifndef LOW_POWER
   if (VERBOSE) {serialPrintf(buf, "CLIENT: [%u > %u]: \"%s\"[%d]", true, false, (uint8_t)(manager.thisAddress()), serverAddress, (char*)data, datalen);}
 //  if (VERBOSE) {serialPrintf(buf, "Sending Message: \"%s\" Length=%d To=%u From=%u", true, false, (char*)data, datalen, serverAddress, (uint8_t)(manager.thisAddress()));}
- #endif
+// #endif
 
  if (manager.sendtoWait(data, datalen, serverAddress))  // Send a message to the LoRa Server
  {
-  #ifndef LOW_POWER
+//  #ifndef LOW_POWER
 //   if (VERBOSE) {serialPrint((char*)"Message Sent to Server");}
    if (VERBOSE) {serialPrint((char*)"CLIENT: Sent OK");}
+//  #endif
+
+  #ifndef LOW_POWER
    digitalWrite(LED_BUILTIN, HIGH);
    delay(100);
    digitalWrite(LED_BUILTIN, LOW);
@@ -243,9 +245,9 @@ void pair()
    {
     msgBuffer[22] = 0;
 
-    #ifndef LOW_POWER
+//    #ifndef LOW_POWER
      if (VERBOSE) {serialPrintf(buf, "Message Received: \"%s\" Length=%u To=%u From=%u", true, false, (char*)msgBuffer, len, manager.headerTo(), from);}
-    #endif
+//    #endif
 
     if (len == 22)
     {
@@ -258,10 +260,10 @@ void pair()
 
   if (PairingRequestResponseReceived)
   {
-   #ifndef LOW_POWER
+//   #ifndef LOW_POWER
     msgBuffer[16] = ':';
     if (VERBOSE) {serialPrintf(buf, "Pairing Request Response Received: \"%s\" Length=%u To=%u From=%u", true, false, (char*)msgBuffer, len, manager.headerTo(), from);}
-   #endif
+//   #endif
 
    uint8_t clientAddress = strtoul((char*)(&(msgBuffer[20])), NULL, 16);     // Convert last 2 hex chars into an 8bit Client Address
    msgBuffer[19] = 0;
@@ -272,15 +274,15 @@ void pair()
    uint8_t response[20];
    sprintf((char*)response, "%s:%02X",  uidstr, clientAddress);  // Create Pairing Request Response Handshake datagram: <64-bit OUI|UID>:<8bit CLIENT ADDRESS>
 
-   #ifndef LOW_POWER
+//   #ifndef LOW_POWER
     if (VERBOSE) {serialPrintf(buf, "Sending Pairing Request Response Handshake: \"%s\" To: %u", true, false, (char*)response, PAIRING_ADDRESS);}
-   #endif
+//   #endif
 
    if (manager.sendtoWait(response, 19, PAIRING_ADDRESS))  // Send Pairing Response Handshake: <64bit OUI:UID><8bit CLIENT ADDRESS> From CLIENT_ADDRESS To PAIRING_ADDRESS
    {
-    #ifndef LOW_POWER
+//    #ifndef LOW_POWER
      if (VERBOSE) {serialPrint((char*)"Waiting for Pairing Request Response Handshake Acknowledgment");}
-    #endif
+//    #endif
 
     retries=NUM_RETRIES;
     bool PairingRequestResponseHandshakeAcknowledgementReceived = false;
@@ -291,9 +293,9 @@ void pair()
      {
       msgBuffer[33] = 0;
 
-      #ifndef LOW_POWER
+//      #ifndef LOW_POWER
        if (VERBOSE) {serialPrintf(buf, "Message Received: \"%s\" Length=%u To=%u From=%u", true, false, (char*)msgBuffer, len, manager.headerTo(), from);}
-      #endif
+//      #endif
 
       if (len == 33)
       {
@@ -318,11 +320,11 @@ void pair()
     {
      serverAddress = tempserverAddress;  // Permanently set Server Address
 
-     #ifndef LOW_POWER
+//     #ifndef LOW_POWER
 //      msgBuffer[16] = ':';
 //      msgBuffer[19] = ':';
       if (VERBOSE) {serialPrintf(buf, "Pairing Request Response Handshake Acknowledgment Validated: Server Address=%u : This Address=%u", true, false, serverAddress, clientAddress);}
-     #endif
+//     #endif
 
      isPaired = true;
     }
@@ -338,21 +340,21 @@ void pair()
   }
   else
   {
-   #ifndef LOW_POWER
+//   #ifndef LOW_POWER
     if (VERBOSE) {serialPrint((char*)"Handshake not Received");}
-   #endif
+//   #endif
   }
  }
  else
  {
-  #ifndef LOW_POWER
+//  #ifndef LOW_POWER
    if (VERBOSE) {serialPrint((char*)"No ACK from Server");}
-  #endif
+//  #endif
  }
 
- #ifndef LOW_POWER
+// #ifndef LOW_POWER
   delete [] buf;
- #endif
+// #endif
 
  delete [] data;
 }
@@ -375,31 +377,44 @@ void pair()
 
 void sendData()
 {
- char* buf;
  uint8_t* data, datalen;
 
- #ifndef LOW_POWER
-  buf = new char[255];
- #endif
+// #ifndef LOW_POWER
+  char* buf = new char[255];
+// #endif
 
  // Send Data: <64bit OUI|UID>:<12-bit Data>:<12-bit Data>
  datalen = PACKET_LENGTH;
  data = new uint8_t[PACKET_LENGTH+1];
  strcpy((char*)data, uidstr);                             // Write 64-bit OUI|UID to datagram
- sprintf((char*)(&(data[16])), ":%03X", rand() % 4096);   // Random integer in the range 0 to 4095, (simulate 12-bit sensor data)
- sprintf((char*)(&(data[20])), ":%03X:", rand() % 4096);  // Random integer in the range 0 to 4095, (simulate 12-bit sensor data)
- sprintf((char*)(&(data[25])), "%02X", crc((void*)data, PACKET_LENGTH-2));  // 8-Bit CRC  eg. "0004A30B001A531C:DF7:234:7E"
 
- #ifndef LOW_POWER
+ #ifdef USE_Si7021
+  float temperature = Si7021.readTemperature();
+  float humidity = Si7021.readHumidity();
+  if (temperature == NAN || humidity == NAN) return;
+ #else
+  float temperature = (((float)rand()) / (float)RAND_MAX) * 100.0;  // Random Float in the range 0 to 100.0, (simulate 12-bit Si7021 sensor data)
+  float humidity = (((float)rand()) / (float)RAND_MAX) * 100.0;     // Random Float in the range 0 to 100.0, (simulate 12-bit Si7021 sensor data)
+ #endif
+
+ sprintf((char*)(&(data[16])), ":%06.2f", temperature);  // Zero-Padded 6 character wide float
+ sprintf((char*)(&(data[23])), ":%06.2f:", humidity);    // Zero-Padded 6 character wide float
+
+ sprintf((char*)(&(data[31])), "%02X", crc((void*)data, PACKET_LENGTH-2));  // Data Packet: <OUI><UID>:<TEMP>:<RH>:<CRC>  eg. "0004A30B001A531C:123.45:123.45:7E"
+
+// #ifndef LOW_POWER
   if (VERBOSE) {serialPrintf(buf, "CLIENT: [%u > %u]: \"%s\"[%d]", true, false, (uint8_t)(manager.thisAddress()), serverAddress, (char*)data, datalen);}
 //  if (VERBOSE) {serialPrintf(buf, "Sending Message: \"%s\" Length=%d To=%u From=%u", true, false, (char*)data, datalen, serverAddress, (uint8_t)(manager.thisAddress()));}
- #endif
+// #endif
 
  if (manager.sendtoWait(data, datalen, serverAddress))  // Send a message to the LoRa Server
  {
-  #ifndef LOW_POWER
+//  #ifndef LOW_POWER
 //   if (VERBOSE) {serialPrint((char*)"Message Sent to Server");}
    if (VERBOSE) {serialPrint((char*)"CLIENT: Sent OK");}
+//  #endif
+
+  #ifndef LOW_POWER
    digitalWrite(LED_BUILTIN, HIGH);
    delay(100);
    digitalWrite(LED_BUILTIN, LOW);
@@ -409,14 +424,14 @@ void sendData()
  }
  else
  {
-  #ifndef LOW_POWER
-  if (VERBOSE) {serialPrint((char*)"No ACK from Server");}
-  #endif
+//  #ifndef LOW_POWER
+   if (VERBOSE) {serialPrint((char*)"No ACK from Server");}
+//  #endif
  }
 
- #ifndef LOW_POWER
+// #ifndef LOW_POWER
   delete [] buf;
- #endif
+// #endif
 
  delete [] data;
 }
@@ -440,11 +455,9 @@ void radioHandshake()
  if (isPaired) sendData();
  else pair();
 
- #ifdef LOW_POWER
-  radio.sleep();
- #else
+// #ifndef LOW_POWER
   if (VERBOSE) {serialPrint((char*)"");}
- #endif
+// #endif
 }
 
 
@@ -464,11 +477,10 @@ void radioHandshake()
 
 void oldradioHandshake(bool pairing=false)
 {
- char* buf;
  uint8_t* data, datalen;
 
  #ifndef LOW_POWER
-  buf = new char[255];
+  char* buf = new char[255];
  #endif
 
  if (pairing)  // Pairing Request: <64bit OUI|UID> From DEFAULT_CLIENT_ADDRESS To PAIRING_ADDRESS
@@ -683,23 +695,44 @@ void setup()
 
  // Turn Off LED
  pinMode(LED_BUILTIN, OUTPUT);
- digitalWrite(LED_BUILTIN, HIGH);
+ digitalWrite(LED_BUILTIN, LOW);
 
  uid = getUID(uidstr);
 
+ #ifdef USE_Si7021
+//  if (Si7021.begin())
+//  {
+//   Si7021.getModel();
+//   Si7021.getRevision();
+//  }
+//  else
+  if (!Si7021.begin())
+  {
+   if (VERBOSE) {serialPrint((char*)"Si7021 inititialisation failed");}
+  }
+ #endif
+
  serverAddress = DEFAULT_SERVER_ADDRESS;
+
+ isPaired = false;
+ alarmed = true;
+
+ secondsCounter = 0;  // These counters are used on startup to switch from pairing attempts every 10 seconds, 1 minute and 1 hour
+ minutesCounter = 0;
 
  #ifndef LOW_POWER
   Serial.begin(BAUD_RATE);
 //  while (!Serial) ; // Wait for serial port to be available (This will cause it to hang when not connected to a USB serial port)
  #endif
 
+ manager.setRetries(0);  // Prevent excessive delays waiting for acknowledgments by disabling retries. (This will prevent the super capacitor being drained)
+ manager.setTimeout(200);
  radioInitialised = manager.init();
  if (!radioInitialised)
  {
-  #ifndef LOW_POWER
+//  #ifndef LOW_POWER
    if (VERBOSE) {serialPrint((char*)"Radio inititialisation failed");}
-  #endif
+//  #endif
  }
  else
  {
@@ -711,23 +744,24 @@ void setup()
 //  manager.setTimeout(1000);
 //  manager.setRetries(5);
  }
- #ifdef LOW_POWER
-  radio.sleep();
- #endif
+// #ifdef LOW_POWER
+//  radio.sleep();
+// #endif
 
  SerialFlash.begin(flashChipSelect);
  SerialFlash.sleep();
 
- #ifdef LOW_POWER
-  USBDevice.detach();
- #endif
+// #ifdef LOW_POWER
+//  USBDevice.detach();
+// #endif
 
  // ***** IMPORTANT 15 SEC DELAY FOR CODE UPLOAD BEFORE USB PORT DETACH DURING SLEEP (LOW POWER MODE ONLY) *****
- #ifdef LOW_POWER
+// #ifdef LOW_POWER
   delay(15000);
- #else
-  if (VERBOSE) {delay(15000);}     // Wait 15 seconds to allow enough time to connect a serial monitor and capture the pairing request result after startup
- #endif
+  if (!VERBOSE) USBDevice.detach();
+// #else
+//  if (VERBOSE) {delay(15000);}     // Wait 15 seconds to allow enough time to connect a serial monitor and capture the pairing request result after startup
+// #endif
 
  // Change these values to set the current initial date and time
  dateTime.second = 0;  // 0 - 59
@@ -742,22 +776,15 @@ void setup()
  rtc.setTime(dateTime.hour, dateTime.minute, dateTime.second);
  rtc.setDate(dateTime.day, dateTime.month, dateTime.year);
 
- // RTC alarm setting on the 0th second of every minute, (resulting in a 1 minute sleep period)
  #ifdef LOW_POWER
-  rtc.setAlarmSeconds(0);
-  rtc.enableAlarm(rtc.MATCH_SS);
+  rtc.setAlarmSeconds(0);          // RTC alarm setting on the 0th second of every minute, (resulting in a 1 minute sleep period)
+  rtc.enableAlarm(rtc.MATCH_SS);   // Device initially only sleeps for 1 minute intervals until the first data packet has been sent
   rtc.attachInterrupt(alarmMatch);
- #endif
-
- isPaired = false;
-
- digitalWrite(LED_BUILTIN, LOW);
-
- #ifdef LOW_POWER
-  rtc.standbyMode();  // Sleep until next alarm match
  #else
-  if (VERBOSE) {serialPrint((char*)"Starting Client\n");}
+  digitalWrite(LED_BUILTIN, HIGH);  // Turn ON LED
  #endif
+
+  if (VERBOSE) {serialPrint((char*)"Starting Client\n");}
 }
 
 
@@ -776,8 +803,64 @@ void setup()
 
 void loop()
 {
- #ifndef LOW_POWER
+ char buf[255];
+
+ #ifdef LOW_POWER
+  if (alarmed)  // RTC has triggered
+  {
+   alarmed = false;
+
+//   digitalWrite(LED_BUILTIN, HIGH);  // Blink LED, (for debugging only)
+//   delay(300);
+//   digitalWrite(LED_BUILTIN, LOW);
+
+   if (radioInitialised)
+   {
+    if (!isPaired)
+    {
+     if (secondsCounter < NUM_PAIRINGS_SECONDS)  // Number of times to attempt to pair every 10 seconds, (on startup)
+     {
+      secondsCounter++;
+      if (VERBOSE) serialPrintf(buf, "Seconds Counter = %u", true, false, secondsCounter);
+
+      if (VERBOSE) serialPrintf(buf, "Before Transmission: %u:%u", true, false, rtc.getMinutes(), rtc.getSeconds());
+      radioHandshake();  // Attempt to Pair with Master
+      if (VERBOSE) serialPrintf(buf, "After Transmission: %u:%u", true, false, rtc.getMinutes(), rtc.getSeconds());
+
+      if (secondsCounter == NUM_PAIRINGS_SECONDS) rtc.enableAlarm(rtc.MATCH_MMSS);  // RTC alarms in 1 minute's time, (now includes minutes when matching next alarm time)
+      else
+      {
+       rtc.setAlarmSeconds((rtc.getSeconds() + 10) % 60);  // RTC alarms in 10 second's time
+       if (VERBOSE) serialPrintf(buf, "Alarm Seconds = %u", true, false, rtc.getAlarmSeconds());
+       rtc.enableAlarm(rtc.MATCH_SS);                      // Enable RTC alarm for next seconds match
+      }
+     }
+     else if (minutesCounter < NUM_PAIRINGS_MINUTES)  // Number of times to attempt to pair every minute, (on startup)
+     {
+      minutesCounter++;
+
+      radioHandshake();  // Attempt to Pair with Master
+
+      rtc.setAlarmMinutes((rtc.getMinutes() + 1) % 60);  // RTC alarms in 1 minute's time
+      rtc.enableAlarm(rtc.MATCH_MMSS);                   // Enable RTC alarm for next minutes and seconds match
+     }
+     else
+     {
+      radioHandshake();  // Attempt to Pair with Master
+     }
+    }
+    else
+    {
+     radioHandshake();  // Send Data
+    }
+
+    radio.sleep();      // Put Radio back to sleep
+   }
+
+   rtc.standbyMode();   // Sleep until next alarm match
+  }
+ #else
   if (radioInitialised) radioHandshake();  // If Paired, send Valid Data else send a Pairing Request
+  delay(LOOP_DELAY);
  #endif
- delay(LOOP_DELAY);
 }

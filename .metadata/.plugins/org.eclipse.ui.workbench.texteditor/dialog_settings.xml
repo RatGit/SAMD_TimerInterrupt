@@ -2,12 +2,15 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="&apos;:&apos;" key="selection"/>
+		<item value="PACKET_LENGTH" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="PACKET_LENGTH"/>
+			<item value="P0"/>
+			<item value="LED_BUILTIN"/>
 			<item value="&apos;:&apos;"/>
 			<item value="= &apos;:&apos;"/>
 			<item value="= &quot;:&quot;"/>
@@ -20,9 +23,6 @@
 			<item value="P197"/>
 			<item value="data"/>
 			<item value="Message Received"/>
-			<item value="LOW_POWER"/>
-			<item value="Acknowledgement"/>
-			<item value="serialPrintf"/>
 		</list>
 		<list key="replacehistory">
 			<item value="0003:AA"/>

@@ -139,6 +139,8 @@
 #define CLIENT_OUI "0004A3"  // Have to apply for an OUI
 #define SERVER_ACK_TIMEOUT 5000
 #define USE_Si7021  // Include code for the Si7021 Humidity/Temperature Sensor
+#define NUM_PAIRINGS_SECONDS 10  // Number of times to attempt to pair every 10 seconds, (on startup)
+#define NUM_PAIRINGS_MINUTES 10  // Number of times to attempt to pair every minute, (on startup)
 
 
 //////////////////////////////////////

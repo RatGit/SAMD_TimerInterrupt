@@ -152,7 +152,7 @@
 //  Macro Definitions  //
 /////////////////////////
 
-#define VERBOSE false     // Enable/Disable verbose output, (set to false for production)
+#define VERBOSE true     // Enable/Disable verbose output, (set to false for production)
 #define USE_SERIAL true   // Enable/Disable use of serial port
 
 #define BAUD_RATE 115200
