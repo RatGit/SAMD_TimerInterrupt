@@ -6363,3 +6363,10 @@ org.eclipse.core.internal.expressions.CountExpression@fc8b68b6
 !SUBENTRY 1 org.eclipse.core.expressions 4 3 2019-09-22 01:50:50.692
 !MESSAGE The default variable is not countable. Failed expression: 
 org.eclipse.core.internal.expressions.CountExpression@fc8b68b6
+
+!ENTRY io.sloeber.arduino.core 2 0 2019-09-22 01:52:03.550
+!MESSAGE Error inside Serial. Break detected
+!STACK 0
+java.lang.Exception
+	at io.sloeber.core.api.Serial.serialEvent(Serial.java:282)
+	at jssc.SerialPort$LinuxEventThread.run(SerialPort.java:1299)

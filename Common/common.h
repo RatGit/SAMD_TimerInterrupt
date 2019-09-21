@@ -62,8 +62,8 @@
 //   Description:  Wrapper function for Serial.print and Serial.println                                               //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Arguments:    const char* str                                                                                    //
-//                 bool addLF  Adafruit_Si7021 Si7021();  // Class to manage the Si7021 Temperature/Humidity Sensor
-//                                                                                       //
+//                 bool addLF                                                                                         //
+//                 bool addCRC                                                                                        //
 //   Returns:      int                                                                                                //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Notes:        None                                                                                               //
@@ -117,8 +117,7 @@
 //   ---------------------------------------------------------------------------------------------------------------  //
 //                                                                                                                    //
 //   Function:     createDatagram                                                                                     //
-//   Description:  Write the Adafruit_Si7021 Si7021();  // Class to manage the Si7021 Temperature/Humidity Sensor
-//64-Bit OUI+UID, Timestamp (secs since Power On) and last SNR.                            //
+//   Description:  Write the 64-Bit OUI+UID, Timestamp (secs since Power On) and last SNR.                            //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Arguments:    None                                                                                               //
 //   Returns:      None                                                                                               //
@@ -187,7 +186,6 @@
 #include <Wire.h>
 #include <RH_RF95.h>
 #include <RHReliableDatagram.h>
-//#include <Hash.h>
 
 
 /////////////////////////
