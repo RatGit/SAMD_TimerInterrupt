@@ -76,6 +76,7 @@
 //   Arguments:    char* str                                                                                          //
 //                 const char* format                                                                                 //
 //                 bool addLF                                                                                         //
+//                 bool addCRC                                                                                        //
 //                 variadic arguments                                                                                 //
 //   Returns:      int                                                                                                //
 //                 -------------------------------------------------------------------------------------------------  //
@@ -123,6 +124,46 @@
 //   Returns:      None                                                                                               //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Notes:        Called in "radioHandshake"                                                                         //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+//                                                                                                                    //
+//   Function:     getSAMDID                                                                                          //
+//   Description:  Read the MCU's 128-Bit UID                                                                         //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    uint32_t* SAMDID                                                                                   //
+//   Returns:      void                                                                                               //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:        SAM D21 Family Datasheet Section 10.3.3 Serial Number                                              //
+//                 Each device has a unique 128-bit serial number which is a concatenation of four 32-bit words       //
+//                 contained at the following addresses:                                                              //
+//                 Word 0: 0x0080A00C                                                                                 //
+//                 Word 1: 0x0080A040                                                                                 //
+//                 Word 2: 0x0080A044                                                                                 //
+//                 Word 3: 0x0080A048                                                                                 //
+//                 The uniqueness of the serial number is guaranteed only when using all 128 bits.                    //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+//                                                                                                                    //
+//   Function:     getUID                                                                                             //
+//   Description:  This function returns a 64-bit UID generated from the OUI + a 32-bit hash of the 128-bit SAMD21 ID //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    char* _uidstr                                                                                      //
+//   Returns:      uint64_t                                                                                           //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:        Prefixes with a custom OUI                                                                         //
+//                 OUI and hash are separated by 00                                                                   //
+//                 Duration is 511 us                                                                                 //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+//                                                                                                                    //
+//   Function:     hash                                                                                               //
+//   Description:  Generates a 32-Bit Hash from a vector of 32 bit values                                             //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    char* _uidstr                                                                                      //
+//   Returns:      uint64_t                                                                                           //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:        Based on Arash Partow's hash function                                                              //
+//                 (https://www.partow.net/programming/hashfunctions/#APHashFunction)                                 //
 //   Known Bugs:   None                                                                                               //
 //   ---------------------------------------------------------------------------------------------------------------  //
 //                                                                                                                    //
@@ -257,15 +298,11 @@ void getTimestampStr(char* dateTimeStr);
 void getDateTime();
 void getDateTimeStr(char* dateTimeStr);
 void createDatagram(uint8_t* data);
-void alarmMatch();
-void setup();
-void loop();
 void getSAMDID(uint32_t* SAMDID);
 uint32_t hash(const uint32_t* data, size_t data_length);
 uint64_t getUID(char* _uidstr);
-//void printChipId();
-//uint32_t md_mix(uint32_t message_block, uint32_t internal_state);
-//uint32_t md_hash(const uint32_t* message, size_t message_length);
-//uint32_t md_hash(const char* message, size_t message_length);
+void alarmMatch();
+void setup();
+void loop();
 
 #endif
