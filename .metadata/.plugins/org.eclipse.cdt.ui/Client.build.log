@@ -1,4 +1,4 @@
-02:02:51 **** Incremental Build of configuration Release for project Client ****
+02:04:52 **** Incremental Build of configuration Release for project Client ****
 make all 
 Building file: ../client.cpp
 Starting C++ compile
@@ -83,5 +83,5 @@ Total             588908
 Finished building target: Client
  
 
-02:02:52 Build Finished. 0 errors, 6 warnings. (took 566ms)
+02:04:53 Build Finished. 0 errors, 6 warnings. (took 566ms)
 

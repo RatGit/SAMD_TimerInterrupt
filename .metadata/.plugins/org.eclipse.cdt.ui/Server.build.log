@@ -1,4 +1,4 @@
-02:02:46 **** Incremental Build of configuration Release for project Server ****
+02:04:56 **** Incremental Build of configuration Release for project Server ****
 make all 
 Building file: ../server.cpp
 Starting C++ compile
@@ -83,5 +83,5 @@ Total             608157
 Finished building target: Server
  
 
-02:02:47 Build Finished. 0 errors, 6 warnings. (took 615ms)
+02:04:57 Build Finished. 0 errors, 6 warnings. (took 563ms)
 

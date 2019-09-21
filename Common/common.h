@@ -126,6 +126,17 @@
 //   Known Bugs:   None                                                                                               //
 //   ---------------------------------------------------------------------------------------------------------------  //
 //                                                                                                                    //
+//   Function:     hash                                                                                               //
+//   Description:  Generates a 32-Bit Hash from a vector of 32 bit values                                             //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    char* _uidstr                                                                                      //
+//   Returns:      uint64_t                                                                                           //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:        Based on Arash Partow's hash function                                                              //
+//                 (https://www.partow.net/programming/hashfunctions/#APHashFunction)                                 //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+//                                                                                                                    //
 //   Function:     getSAMDID                                                                                          //
 //   Description:  Read the MCU's 128-Bit UID                                                                         //
 //                 -------------------------------------------------------------------------------------------------  //
@@ -152,17 +163,6 @@
 //   Notes:        Prefixes with a custom OUI                                                                         //
 //                 OUI and hash are separated by 00                                                                   //
 //                 Duration is 511 us                                                                                 //
-//   Known Bugs:   None                                                                                               //
-//   ---------------------------------------------------------------------------------------------------------------  //
-//                                                                                                                    //
-//   Function:     hash                                                                                               //
-//   Description:  Generates a 32-Bit Hash from a vector of 32 bit values                                             //
-//                 -------------------------------------------------------------------------------------------------  //
-//   Arguments:    char* _uidstr                                                                                      //
-//   Returns:      uint64_t                                                                                           //
-//                 -------------------------------------------------------------------------------------------------  //
-//   Notes:        Based on Arash Partow's hash function                                                              //
-//                 (https://www.partow.net/programming/hashfunctions/#APHashFunction)                                 //
 //   Known Bugs:   None                                                                                               //
 //   ---------------------------------------------------------------------------------------------------------------  //
 //                                                                                                                    //
@@ -296,8 +296,8 @@ void getTimestampStr(char* dateTimeStr);
 void getDateTime();
 void getDateTimeStr(char* dateTimeStr);
 void createDatagram(uint8_t* data);
-void getSAMDID(uint32_t* SAMDID);
 uint32_t hash(const uint32_t* data, size_t data_length);
+void getSAMDID(uint32_t* SAMDID);
 uint64_t getUID(char* _uidstr);
 void alarmMatch();
 void setup();
