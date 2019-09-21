@@ -2,29 +2,36 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="PACKET_LENGTH" key="selection"/>
+		<item value="SAMPLER_MIN_PULSE_WIDTH" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
-		<item value="false" key="wrap"/>
+		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="PACKET_LENGTH"/>
-			<item value="P0"/>
-			<item value="LED_BUILTIN"/>
-			<item value="&apos;:&apos;"/>
-			<item value="= &apos;:&apos;"/>
-			<item value="= &quot;:&quot;"/>
-			<item value="serialPrint"/>
-			<item value="SerialPrint"/>
-			<item value="0003:XX"/>
-			<item value="0002:XX"/>
-			<item value="1000:XX"/>
-			<item value="VERBOSE"/>
-			<item value="P197"/>
-			<item value="data"/>
-			<item value="Message Received"/>
+			<item value="SAMPLER_MIN_PULSE_WIDTH"/>
+			<item value="minPulseWidthMs"/>
+			<item value="pickup"/>
+			<item value="Pickup"/>
+			<item value="unprocessedPickupPulse = true"/>
+			<item value="pickupPulseHighCounter = 0"/>
+			<item value="notifyPulse"/>
+			<item value="autoDriverLAlarm"/>
+			<item value="autoDriverAlarmCallback"/>
+			<item value="autoDriverAlarm"/>
+			<item value="currentPickupPulseHighMs"/>
+			<item value="currentPickupPulseLowMs"/>
+			<item value="currentLoadPulseLowMs"/>
+			<item value="currentLoadPulseHighMs"/>
+			<item value="loadPulseHighMs"/>
 		</list>
 		<list key="replacehistory">
+			<item value="load"/>
+			<item value="Load"/>
+			<item value="pickupPulseHighCounter"/>
+			<item value="pickupPulseLowCounter"/>
+			<item value="loadPulseLowCounter"/>
+			<item value="loadPulseHighCounter"/>
+			<item value="RADIO_DIO_"/>
 			<item value="0003:AA"/>
 			<item value="0002:6E"/>
 			<item value="1000:32"/>

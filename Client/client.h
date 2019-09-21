@@ -137,7 +137,6 @@
 #define LED_DEBUG false  // Blink LED in RadioHandshake()
 #define LOOP_DELAY 1000  // Time in milliseconds to wait each loop (when in low power mode)
 #define DEFAULT_CLIENT_ADDRESS 252
-#define CLIENT_OUI "0004A3"  // Have to apply for an OUI
 #define SERVER_ACK_TIMEOUT 5000
 #define USE_Si7021  // Include code for the Si7021 Humidity/Temperature Sensor
 #define NUM_PAIRINGS_SECONDS 10  // Number of times to attempt to pair every 10 seconds, (on startup)
@@ -155,7 +154,6 @@ bool isPaired;
 //  Function Declarations  //
 /////////////////////////////
 
-uint64_t getUID(char* _uidstr);
 void pair();
 void sendData();
 void radioHandshake();

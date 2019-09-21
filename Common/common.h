@@ -146,13 +146,14 @@
 #include <Wire.h>
 #include <RH_RF95.h>
 #include <RHReliableDatagram.h>
+//#include <Hash.h>
 
 
 /////////////////////////
 //  Macro Definitions  //
 /////////////////////////
 
-#define VERBOSE false  // Enable/Disable verbose output, (set to false for production)
+#define VERBOSE true  // Enable/Disable verbose output, (set to false for production)
 
 #define BAUD_RATE 115200
 
@@ -180,6 +181,14 @@
 // Command Response Codes
 #define MESSAGE_RCVD_OK "1000"  // Serial command received and handled correctly
 #define CLIENT_PAIRED   "1001"  // Client Paired Successfully
+
+#define OUI "0004A3"  // Have to apply for an OUI
+
+// SAMD21 MCU Unique 128-Bit ID Memory Address Locations
+#define ID_ADDR_0 0x0080A00C
+#define ID_ADDR_1 0x0080A040
+#define ID_ADDR_2 0x0080A044
+#define ID_ADDR_3 0x0080A048
 
 
 ////////////////////////
@@ -251,6 +260,12 @@ void createDatagram(uint8_t* data);
 void alarmMatch();
 void setup();
 void loop();
-
+void getSAMDID(uint32_t* SAMDID);
+uint32_t hash(const uint32_t* data, size_t data_length);
+uint64_t getUID(char* _uidstr);
+//void printChipId();
+//uint32_t md_mix(uint32_t message_block, uint32_t internal_state);
+//uint32_t md_hash(const uint32_t* message, size_t message_length);
+//uint32_t md_hash(const char* message, size_t message_length);
 
 #endif

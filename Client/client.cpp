@@ -140,37 +140,6 @@ Adafruit_Si7021 Si7021 = Adafruit_Si7021();  // Class to manage the Si7021 Tempe
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//   Function:     getUID                                                                                             //
-//   Description:  This function returns a 64-bit UID read from the 24AA02E64 IC                                      //
-//                 -------------------------------------------------------------------------------------------------  //
-//   Arguments:    char* _uidstr                                                                                      //
-//   Returns:      uint64_t                                                                                           //
-//                 -------------------------------------------------------------------------------------------------  //
-//   Notes:        It replaces the 24AA02E64 OUI with a custom one, (CLIENT_OUI).                                     //
-//   Known Bugs:   None                                                                                               //
-//   ---------------------------------------------------------------------------------------------------------------  //
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-uint64_t getUID(char* _uidstr)
-{
- Wire.begin();
- Wire.beginTransmission(EUI64_CHIP_ADDRESS);
- Wire.write(UID_ADDRESS);
- Wire.endTransmission();
- Wire.requestFrom(EUI64_CHIP_ADDRESS, UID_LENGTH);
-
- unsigned char buf[UID_LENGTH];
-
- uint8_t ptr = 0;
- while (Wire.available()) buf[ptr++] = Wire.read(); // Format needs to be little endian (LSB...MSB)
-
- sprintf(_uidstr, "%s%02X%02X%02X%02X%02X", CLIENT_OUI, buf[0], buf[1], buf[2], buf[3], buf[4]);
-
- return strtoull(_uidstr, NULL, 16);
-}
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //   Function:     alarmMatch                                                                                         //
 //   Description:  RTC Alarm Interrupt Handler.                                                                       //
 //                 -------------------------------------------------------------------------------------------------  //
@@ -640,7 +609,9 @@ void loop()
      {
       secondsCounter++;
 
+      unsigned long time = micros();
       radioHandshake();  // Attempt to Pair with Master
+      if (VERBOSE) {serialPrintf(buf, "CLIENT: Pairing Duration = %lu (us)\n", true, false, micros() - time);}
 
       if (!isPaired)
       {
@@ -674,7 +645,9 @@ void loop()
     }
     else
     {
+     unsigned long time = micros();
      radioHandshake();  // Send Data
+     if (VERBOSE) {serialPrintf(buf, "CLIENT: Send Data Duration = %lu (us)\n", true, false, micros() - time);}
     }
 
     radio.sleep();      // Put Radio back to sleep

@@ -1,9 +1,7 @@
 Board\ plotter\ filter\ on\ off=true
-Build\ before\ upload\ option=ASK
+Build\ before\ upload\ option=TRUE
 Clean\ Serial\ Monitor\ after\ upload=false
-FmStatus=8
-Gui\ entry\ for\ private\ hardware\ paths=/root/Arduino/hardware\:
-Gui\ entry\ for\ private\ library\ paths=/root/Arduino/libraries\:
+FmStatus=16
 Hide\ json\ files\ in\ preferences\ platform\ selection\ page=true
 Open\ serial\ connections\ with\ the\ monitor=true
 Serial\ Monitor\ Last\ Used\ Line\ Ending\ index=2

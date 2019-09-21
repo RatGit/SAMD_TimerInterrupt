@@ -201,11 +201,10 @@
 //  Macro Definitions  //
 /////////////////////////
 
-#define WAIT_SERIAL true     // Wait for serial port to be available (This will cause it to hang when not connected to a USB serial port)
+#define WAIT_SERIAL false     // Wait for serial port to be available (This will cause it to hang when not connected to a USB serial port)
 
 #define NUM_CLIENTS 100
 
-#define SERVER_OUI "0004A3"  // Have to apply for an OUI
 #define SERIAL_END_CHAR 0x0a
 #define SERIAL_PACKET_LENGTH 64
 
@@ -214,7 +213,6 @@
 //  Function Declarations  //
 /////////////////////////////
 
-uint64_t getUID(char* _uidstr);
 void initClients();
 uint8_t numClients();
 uint8_t findClient(uint64_t clientUID);
@@ -224,6 +222,5 @@ bool removeClient(uint64_t clientUID);
 bool radioRead();
 uint32_t convertStrToUint(char* str);
 bool serialRead();
-
 
 #endif

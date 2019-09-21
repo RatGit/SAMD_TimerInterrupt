@@ -407,3 +407,177 @@ char* createDatagram(char* data)
 
  return data;
 }
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//   Function:     getUID                                                                                             //
+//   Description:  This function returns a 64-bit UID read from the 24AA02E64 IC                                      //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    char* _uidstr                                                                                      //
+//   Returns:      uint64_t                                                                                           //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:        It replaces the 24AA02E64 OUI with a custom one, (OUI).                                            //
+//                 SAMD21 ID based version duration is 511 us                                                         //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+uint64_t getUID(char* _uidstr)
+{
+ Wire.begin();
+ Wire.beginTransmission(EUI64_CHIP_ADDRESS);
+ Wire.write(UID_ADDRESS);
+ Wire.endTransmission();
+ Wire.requestFrom(EUI64_CHIP_ADDRESS, UID_LENGTH);
+
+ unsigned char buf[UID_LENGTH];
+
+ uint8_t ptr = 0;
+ while (Wire.available()) buf[ptr++] = Wire.read(); // Format needs to be little endian (LSB...MSB)
+
+ if (VERBOSE) {sprintf(_uidstr, "%s%02X%02X%02X%02X%02X", OUI, buf[0], buf[1], buf[2], buf[3], buf[4]);}
+
+ return strtoull(_uidstr, NULL, 16);
+}
+*/
+void getSAMDID(uint32_t* SAMDID)
+{
+ uint32_t id_addresses[4] = {ID_ADDR_0, ID_ADDR_1, ID_ADDR_2, ID_ADDR_3};
+
+ for (uint8_t i=0; i<4; i++) {SAMDID[i] = *((uint32_t*)(id_addresses[i]));}
+}
+
+uint64_t getUID(char* _uidstr)
+{
+ uint32_t id_words[4];
+
+ getSAMDID(id_words);
+
+ char samd_id_buf[33];
+ sprintf(samd_id_buf, "%8lX%8lX%8lX%8lX", id_words[0], id_words[1], id_words[2], id_words[3]);
+ Serial.print("SAMD Id: 0x");
+ Serial.println(samd_id_buf);
+
+ volatile uint32_t samd_id_hash = hash(id_words, 4);
+// volatile uint32_t samd_id_hash = md_hash(id_words, 4);
+ char samd_id_hash_buf[9];
+ sprintf(samd_id_hash_buf, "%8lX", samd_id_hash);
+// sprintf(samd_id_hash_buf, "%8lX", md_hash(id_words, 4));
+// sprintf(samd_id_hash_buf, "%8lX", md_hash(samd_id_buf, strlen(samd_id_buf)));
+ Serial.print("MD Hash: 0x");
+ Serial.println(samd_id_hash_buf);
+
+ sprintf(_uidstr, "%s%02X%s", OUI, 0, samd_id_hash_buf);
+
+ return strtoull(_uidstr, NULL, 16);
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//   Function:     printChipId                                                                                        //
+//   Description:  Print the MCU's 128-Bit UID                                                                        //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    N/A                                                                                                //
+//   Returns:      void                                                                                               //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:        SAM D21 Family Datasheet Section 10.3.3 Serial Number                                              //
+//                 Each device has a unique 128-bit serial number which is a concatenation of four 32-bit words       //
+//                 contained at the following addresses:                                                              //
+//                 Word 0: 0x0080A00C                                                                                 //
+//                 Word 1: 0x0080A040                                                                                 //
+//                 Word 2: 0x0080A044                                                                                 //
+//                 Word 3: 0x0080A048                                                                                 //
+//                 The uniqueness of the serial number is guaranteed only when using all 128 bits.                    //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//void printChipId()
+//{
+// uint32_t val1 = *((uint32_t*)ID_ADDR_0);
+// uint32_t val2 = *((uint32_t*)ID_ADDR_1);
+// uint32_t val3 = *((uint32_t*)ID_ADDR_2);
+// uint32_t val4 = *((uint32_t*)ID_ADDR_3);
+
+ /*
+ volatile uint32_t val1, val2, val3, val4;
+ volatile uint32_t *ptr1 = (volatile uint32_t *)0x0080A00C;
+ val1 = *ptr1;
+ volatile uint32_t *ptr = (volatile uint32_t *)0x0080A040;
+ val2 = *ptr;
+ ptr++;
+ val3 = *ptr;
+ ptr++;
+ val4 = *ptr;
+*/
+// Serial.print("chip id: 0x");
+// char buf[33];
+// sprintf(buf, "%8X%8X%8X%8X", val1, val2, val3, val4);
+// Serial.println(buf);
+// Serial.print("SHA1:");
+// Serial.println(sha1(buf));
+// Serial.print("HASH:");
+// sprintf(buf, "%8X", md_hash(buf, strlen(buf)));
+// Serial.println(buf);
+//}
+
+uint32_t hash(const uint32_t* data, size_t data_length)
+{
+ uint8_t* str = (uint8_t*)data;
+ uint8_t length = 4 * data_length;
+ uint32_t hash = 0xAAAAAAAA;
+
+ for (uint8_t i = 0; i < length; ++str, ++i)
+ {
+  hash ^= ((i & 1) == 0) ? ((hash <<  7) ^ (*str) * (hash >> 3)) : (~((hash << 11) + ((*str) ^ (hash >> 5))));
+ }
+
+ return hash;
+}
+
+uint32_t md_mix(uint32_t message_block, uint32_t internal_state)
+{
+ return (internal_state * message_block) ^ ((internal_state << 3) + (message_block >> 2));
+}
+
+uint32_t md_hash(const uint32_t* message, size_t message_length)
+{
+ uint32_t internal_state = 0xA5A5A5A5; // IV: A magic number
+
+ // Loop over the message 32-bits at-a-time
+ for (uint8_t i=0; i<message_length; i++)
+ {
+  internal_state = md_mix(message[i], internal_state);
+ }
+
+ return internal_state;
+}
+/*
+uint32_t md_hash(const char* message, size_t message_length)
+{
+ uint32_t internal_state = 0xA5A5A5A5; // IV: A magic number
+ uint32_t message_block = 0;
+
+ // Loop over the message 32-bits at-a-time
+ while (message_length >= 4)
+ {
+  message_block = *((uint32_t*)message);
+// memcpy((void*)(&message_block), (void*)message, sizeof(uint32_t));
+
+ internal_state = md_mix(message_block, internal_state);
+
+ message_length -= sizeof(uint32_t);
+ message        += sizeof(uint32_t);
+}
+
+// Are there any remaining bytes?
+if (message_length)
+{
+ message_block = *((uint32_t*)message);
+// memcpy((void*)(&message_block), (void*)message, message_length);
+ internal_state = md_mix(message_block, internal_state);
+}
+
+ return internal_state;
+}
+*/

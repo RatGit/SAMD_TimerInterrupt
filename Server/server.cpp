@@ -203,36 +203,6 @@ uint8_t serialPtr;
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//   Function:     getUID                                                                                             //
-//   Description:  This function returns a 64-bit UID read from the 24AA02E64 IC                                      //
-//                 -------------------------------------------------------------------------------------------------  //
-//   Arguments:    char* _uidstr                                                                                      //
-//   Returns:      uint64_t                                                                                           //
-//                 -------------------------------------------------------------------------------------------------  //
-//   Notes:        It replaces the 24AA02E64 OUI with a custom one, (SERVER_OUI).                                     //
-//   Known Bugs:   None                                                                                               //
-//   ---------------------------------------------------------------------------------------------------------------  //
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-uint64_t getUID(char* _uidstr)
-{
- Wire.beginTransmission(EUI64_CHIP_ADDRESS);
- Wire.write(UID_ADDRESS);
- Wire.endTransmission();
- Wire.requestFrom(EUI64_CHIP_ADDRESS, UID_LENGTH);
-
- unsigned char uidbuf[UID_LENGTH];
-
- uint8_t ptr = 0;
- while (Wire.available()) uidbuf[ptr++] = Wire.read(); // Format needs to be little endian (LSB...MSB)
-
- sprintf(_uidstr, "%s%02X%02X%02X%02X%02X", SERVER_OUI, uidbuf[0], uidbuf[1], uidbuf[2], uidbuf[3], uidbuf[4]);
-
- return strtoull(_uidstr, NULL, 16);
-}
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //   Function:     id2chip                                                                                            //
 //   Description:                                                                                                     //
 //                 -------------------------------------------------------------------------------------------------  //
@@ -921,7 +891,7 @@ void setup()
 {
 // uint32_t pinNumber;
 
- serverOUI = strtoul(SERVER_OUI, NULL, 16);
+ serverOUI = strtoul(OUI, NULL, 16);
 
  // Switch unused pins as input and enabled built-in pullup
 // for (pinNumber = 0; pinNumber < 23; pinNumber++) pinMode(pinNumber, INPUT_PULLUP);
@@ -992,9 +962,11 @@ void setup()
 
  if (VERBOSE)
  {
+//  printChipId();
+
   char buff[255];
   uint32_t low = uid & 0xFFFFFFFF, high = (uid >> 32) & 0xFFFFFFFF;
-  serialPrintf(buff, "SERVER: Starting Server: UID = 0x%08X%08X\n", true, false, high, low);
+  serialPrintf(buff, "SERVER: Starting Server: UID = 0x%08lX%08lX\n", true, false, high, low);
  }
 }
 
