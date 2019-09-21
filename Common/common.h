@@ -161,7 +161,7 @@
 //   Returns:      uint64_t                                                                                           //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Notes:        Prefixes with a custom OUI                                                                         //
-//                 OUI and hash are separated by 00                                                                   //
+//                 OUI and hash are separated by the low byte of the high word of the SAMD21 UID                      //
 //                 Duration is 511 us                                                                                 //
 //   Known Bugs:   None                                                                                               //
 //   ---------------------------------------------------------------------------------------------------------------  //
@@ -209,7 +209,9 @@
 #define CLIENT_ACK_TIMEOUT 5000
 #define NUM_RETRIES 10
 
+#if defined(ARDUINO_SAMD_ZERO) && !defined(SerialUSB)
 #define Serial SerialUSB  // Need this on Arduino Zero with SerialUSB port (eg RocketScream Mini Ultra Pro)
+#endif
 
 // Serial Message Codes
 // Error Codes

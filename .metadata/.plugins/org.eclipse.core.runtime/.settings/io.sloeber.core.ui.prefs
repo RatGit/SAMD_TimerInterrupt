@@ -1,7 +1,7 @@
 Board\ plotter\ filter\ on\ off=true
 Build\ before\ upload\ option=TRUE
 Clean\ Serial\ Monitor\ after\ upload=false
-FmStatus=16
+FmStatus=17
 Hide\ json\ files\ in\ preferences\ platform\ selection\ page=true
 Open\ serial\ connections\ with\ the\ monitor=true
 Serial\ Monitor\ Last\ Used\ Line\ Ending\ index=2

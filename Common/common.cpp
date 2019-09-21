@@ -161,7 +161,7 @@
 //   Returns:      uint64_t                                                                                           //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Notes:        Prefixes with a custom OUI                                                                         //
-//                 OUI and hash are separated by 00                                                                   //
+//                 OUI and hash are separated by the low byte of the high word of the SAMD21 UID                      //
 //                 Duration is 511 us                                                                                 //
 //   Known Bugs:   None                                                                                               //
 //   ---------------------------------------------------------------------------------------------------------------  //
@@ -549,7 +549,7 @@ uint64_t getUID(char* _uidstr)
 //   Returns:      uint64_t                                                                                           //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Notes:        Prefixes with a custom OUI                                                                         //
-//                 OUI and hash are separated by 00                                                                   //
+//                 OUI and hash are separated by the low byte of the high word of the SAMD21 UID                      //
 //                 Duration is 511 us                                                                                 //
 //   Known Bugs:   None                                                                                               //
 //   ---------------------------------------------------------------------------------------------------------------  //
@@ -571,7 +571,7 @@ uint64_t getUID(char* _uidstr)
  sprintf(samd_id_hash_buf, "%8lX", samd_id_hash);
  if (VERBOSE) {serialPrintf(buff, "Hash = 0x%s", true, false, samd_id_hash_buf);}
 
- sprintf(_uidstr, "%s%02X%s", OUI, 0, samd_id_hash_buf);
+ sprintf(_uidstr, "%s%02X%s", OUI, ((uint8_t*)id_words)[0], samd_id_hash_buf);  // OUI and hash are separated by the low byte of the high word of the SAMD21 UID
 
  return strtoull(_uidstr, NULL, 16);
 }
