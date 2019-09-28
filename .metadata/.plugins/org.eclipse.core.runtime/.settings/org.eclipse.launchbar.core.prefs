@@ -7,6 +7,6 @@ org.eclipse.launchbar.core.descriptorType.default\:Client\ Debug/activeLaunchMod
 org.eclipse.launchbar.core.descriptorType.default\:Client\ Debug/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local
 org.eclipse.launchbar.core.descriptorType.default\:Sampler_Controller\ Debug/activeLaunchMode=debug
 org.eclipse.launchbar.core.descriptorType.default\:Sampler_Controller\ Debug/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local
-org.eclipse.launchbar.core.descriptorType.default\:Server\ Debug/activeLaunchMode=run
+org.eclipse.launchbar.core.descriptorType.default\:Server\ Debug/activeLaunchMode=debug
 org.eclipse.launchbar.core.descriptorType.default\:Server\ Debug/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local
 org.eclipse.launchbar.core.descriptorType.default\:SmartaPeristalticSampler\ Debug/activeLaunchMode=debug

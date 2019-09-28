@@ -14,8 +14,8 @@
 //                                                                                                                    //
 //                It is designed to work with the "link-test-server" sketch                                           //
 //                                                                                                                    //
-//                **Important**: When using the "SerialFlash.sleep()" function, the only function that the serial     //
-//                flash chip will then respond to is "SerialFlash.wakeup()".                                          //
+//                **Important**: When using the "SPIFlash.powerDown()" function, the only function that the serial    //
+//                flash chip will then respond to is "SPIFlash.powerUp()".                                            //
 //                                                                                                                    //
 //                Radio Defaults after init:                                                                          //
 //                 434.0MHz, 13dBm, Bw = 125 kHz, Cr = 4/5, Sf = 128chips/symbol, CRC ON //                           //
@@ -217,6 +217,8 @@ RTCZero rtc;
 uint8_t msgBuffer[RH_RF95_MAX_MESSAGE_LEN];  // Buffer to hold received message (Don't put this on stack???)
 RH_RF95 radio(radioChipSelect, radioDio0);   // Singleton instance of the radio driver: Rocket Scream Mini Ultra Pro with the RFM95W
 bool radioInitialised;                       // Flag is set to the manager.init() result during setup
+
+char serialbuf[255];  // Serial write buffer
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -534,7 +536,7 @@ uint64_t getUID(char* _uidstr)
  uint8_t ptr = 0;
  while (Wire.available()) buf[ptr++] = Wire.read(); // Format needs to be little endian (LSB...MSB)
 
- if (VERBOSE) {sprintf(_uidstr, "%s%02X%02X%02X%02X%02X", OUI, buf[0], buf[1], buf[2], buf[3], buf[4]);}
+ if (ENABLE_VERBOSE) {sprintf(_uidstr, "%s%02X%02X%02X%02X%02X", OUI, buf[0], buf[1], buf[2], buf[3], buf[4]);}
 
  return strtoull(_uidstr, NULL, 16);
 }
@@ -557,19 +559,18 @@ uint64_t getUID(char* _uidstr)
 
 uint64_t getUID(char* _uidstr)
 {
- char buff[255];
  uint32_t id_words[4];
 
  getSAMDID(id_words);
 
  char samd_id_buf[33];
  sprintf(samd_id_buf, "%8lX%8lX%8lX%8lX", id_words[0], id_words[1], id_words[2], id_words[3]);
- if (VERBOSE) {serialPrintf(buff, "SAMD Id = 0x%s", true, false, samd_id_buf);}
+ if (ENABLE_VERBOSE) {serialPrintf(serialbuf, "SAMD Id = 0x%s", true, false, samd_id_buf);}
 
  volatile uint32_t samd_id_hash = hash(id_words, 4);
  char samd_id_hash_buf[9];
  sprintf(samd_id_hash_buf, "%8lX", samd_id_hash);
- if (VERBOSE) {serialPrintf(buff, "Hash = 0x%s", true, false, samd_id_hash_buf);}
+ if (ENABLE_VERBOSE) {serialPrintf(serialbuf, "Hash = 0x%s", true, false, samd_id_hash_buf);}
 
  sprintf(_uidstr, "%s%02X%s", OUI, ((uint8_t*)id_words)[0], samd_id_hash_buf);  // OUI and hash are separated by the low byte of the high word of the SAMD21 UID
 

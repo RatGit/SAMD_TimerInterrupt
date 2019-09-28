@@ -14,8 +14,8 @@
 //                                                                                                                    //
 //                It is designed to work with the "link-test-client" sketch                                           //
 //                                                                                                                    //
-//                **Important**: When using the "SerialFlash.sleep()" function, the only function that the serial     //
-//                flash chip will then respond to is "SerialFlash.wakeup()".                                          //
+//                **Important**: When using the "SPIFlash.powerDown()" function, the only function that the serial    //
+//                flash chip will then respond to is "SPIFlash.powerUp()".                                            //
 //                                                                                                                    //
 //                Radio Defaults after init:                                                                          //
 //                 434.0MHz, 13dBm, Bw = 125 kHz, Cr = 4/5, Sf = 128chips/symbol, CRC ON //                           //
@@ -194,7 +194,7 @@
 //  Included Modules and Functions  //
 //////////////////////////////////////
 
-#include <util/SerialFlash_directwrite.h>
+#include <SPIMemory.h>
 
 
 /////////////////////////

@@ -14,8 +14,8 @@
 //                                                                                                                    //
 //                It is designed to work with the "link-test-server" sketch                                           //
 //                                                                                                                    //
-//                **Important**: When using the "SerialFlash.sleep()" function, the only function that the serial     //
-//                flash chip will then respond to is "SerialFlash.wakeup()".                                          //
+//                **Important**: When using the "SPIFlash.powerDown()" function, the only function that the serial    //
+//                flash chip will then respond to is "SPIFlash.powerUp()".                                            //
 //                                                                                                                    //
 //                Radio Defaults after init:                                                                          //
 //                 434.0MHz, 13dBm, Bw = 125 kHz, Cr = 4/5, Sf = 128chips/symbol, CRC ON //                           //
@@ -180,7 +180,7 @@
 
 #include <stdarg.h>
 
-#include <SerialFlash.h>
+//#include <SerialFlash.h>
 #include <RTCZero.h>
 #include <SPI.h>
 #include <Wire.h>
@@ -192,7 +192,7 @@
 //  Macro Definitions  //
 /////////////////////////
 
-#define VERBOSE true  // Enable/Disable verbose output, (set to false for production)
+#define ENABLE_VERBOSE true  // Enable/Disable verbose output, (set to false for production)
 
 #define BAUD_RATE 115200
 
@@ -284,6 +284,8 @@ extern RTCZero rtc;
 extern uint8_t msgBuffer[];    // Buffer to hold received message (Don't put this on stack???)
 extern RH_RF95 radio;          // Singleton instance of the radio driver: Rocket Scream Mini Ultra Pro with the RFM95W
 extern bool radioInitialised;  // Flag is set to the manager.init() result during setup
+
+extern char serialbuf[];  // Serial write buffer
 
 
 /////////////////////////////

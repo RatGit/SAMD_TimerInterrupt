@@ -2,29 +2,31 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="SAMPLER_MIN_PULSE_WIDTH" key="selection"/>
+		<item value="_beginSPI" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="SAMPLER_MIN_PULSE_WIDTH"/>
-			<item value="minPulseWidthMs"/>
-			<item value="pickup"/>
-			<item value="Pickup"/>
-			<item value="unprocessedPickupPulse = true"/>
-			<item value="pickupPulseHighCounter = 0"/>
-			<item value="notifyPulse"/>
-			<item value="autoDriverLAlarm"/>
-			<item value="autoDriverAlarmCallback"/>
-			<item value="autoDriverAlarm"/>
-			<item value="currentPickupPulseHighMs"/>
-			<item value="currentPickupPulseLowMs"/>
-			<item value="currentLoadPulseLowMs"/>
-			<item value="currentLoadPulseHighMs"/>
-			<item value="loadPulseHighMs"/>
+			<item value="_beginSPI"/>
+			<item value="_startSPIBus"/>
+			<item value="SPI_CLK"/>
+			<item value="CHIPBUSY"/>
+			<item value="BUSY_TIMEOUT"/>
+			<item value="PIN_ATTR_DIGITAL"/>
+			<item value="buff"/>
+			<item value="buf"/>
+			<item value="VERBOSE"/>
+			<item value="SPI"/>
+			<item value="SPI."/>
+			<item value="id2chip"/>
+			<item value="sleep"/>
+			<item value="serialPrint"/>
+			<item value="getAddress"/>
 		</list>
 		<list key="replacehistory">
+			<item value="serialbuf"/>
+			<item value="ENABLE_VERBOSE"/>
 			<item value="load"/>
 			<item value="Load"/>
 			<item value="pickupPulseHighCounter"/>
