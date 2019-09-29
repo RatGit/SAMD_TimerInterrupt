@@ -47,10 +47,10 @@
 //   ---------------------------------------------------------------------------------------------------------------  //
 //                                                                                                                    //
 //   Function:     initClients                                                                                        //
-//   Description:  Clear list of client UID's                                                                         //
+//   Description:  Initialises list of client UID's from Serial Flash                                                 //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Arguments:    None                                                                                               //
-//   Returns:      None                                                                                               //
+//   Returns:      bool                                                                                               //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Notes:        None                                                                                               //
 //   Known Bugs:   None                                                                                               //
@@ -197,8 +197,7 @@ uint64_t clientList[NUM_CLIENTS];                           // List of paired cl
 char CLIENT_LIST_FILENAME [] = "CLIENT_LIST_FILENAME";      // Serial Flash File Name to store list of Clients
 bool pairingEnabled = false;                                // Enable Pairing
 bool serialFlashOk;                                         // Boolean Flag to indicate if Serial Flash was properly initialised
-bool clientListFileExists;                                  // Boolean Flag to indicate if Serial Flash Client List File was successfully created
-
+uint32_t clientListAddress = 0;                             // Base Address of Client List UID's stored in Serial Flash
 char serialData[SERIAL_PACKET_LENGTH];
 bool serialReceived;
 uint8_t serialPtr;
@@ -206,20 +205,26 @@ uint8_t serialPtr;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //   Function:     initClients                                                                                        //
-//   Description:  Clear list of client UID's                                                                         //
+//   Description:  Initialises list of client UID's from Serial Flash                                                 //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Arguments:    none                                                                                               //
-//   Returns:      None                                                                                               //
+//   Returns:      bool                                                                                               //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Notes:        None                                                                                               //
 //   Known Bugs:   None                                                                                               //
 //   ---------------------------------------------------------------------------------------------------------------  //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void initClients()
+bool initClients()
 {
- if (serialFlashOk)
- {
+ if (!serialFlashOk) {return false;}
+
+ bool readOk = SerialFlash.readByteArray(clientListAddress, (uint8_t*)clientList, NUM_CLIENTS*sizeof(clientList[0]));
+ for (uint8_t i=0; i<NUM_CLIENTS; i++) if (clientList[i] = 0xFFFFFFFF) {clientList[i] = 0;}
+
+ return readOk;
+}
+/*
   uint32_t clientListAddress = 0; //SerialFlash.getAddress(sizeof(clientList)/sizeof(clientList[0]));
   if (ENABLE_VERBOSE) {serialPrintf(serialbuf, "SERVER: Client List Address = 0x%08lX", true, false, clientListAddress);}
 
@@ -268,7 +273,8 @@ void initClients()
     serialPrintf(serialbuf, "SERVER: Client List[%u] = 0x%08lX%08lX", true, false, i, high, low);
    }
   }
-/*
+
+
   clientListFileExists = SerialFlash.exists(CLIENT_LIST_FILENAME);
   if (clientListFileExists)
   {
@@ -310,7 +316,7 @@ void initClients()
 
    for (uint8_t i=0; i<NUM_CLIENTS; i++) clientList[i] = 0;
   }
-*/
+
 //  SerialFlash.sleep();
  }
  else
@@ -319,6 +325,7 @@ void initClients()
   for (uint8_t i=0; i<NUM_CLIENTS; i++) clientList[i] = 0;
  }
 }
+*/
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -420,7 +427,17 @@ uint8_t addClient(uint64_t clientUID)
 //    SerialFlash.sleep();
    }
 */
+
    clientList[i] = clientUID;
+
+   if (serialFlashOk)
+   {
+    if (SerialFlash.eraseSector(clientListAddress))
+    {
+     bool writeOk = SerialFlash.writeByteArray(clientListAddress, (uint8_t*)clientList, NUM_CLIENTS*sizeof(clientList[0]), true);
+    }
+   }
+
    return i;
   }
  }
@@ -473,6 +490,15 @@ bool removeClient(uint64_t clientUID)
   if (clientList[i] == clientUID)
   {
    clientList[i] = 0;
+
+   if (serialFlashOk)
+   {
+    if (SerialFlash.eraseSector(clientListAddress))
+    {
+     bool writeOk = SerialFlash.writeByteArray(clientListAddress, (uint8_t*)clientList, NUM_CLIENTS*sizeof(clientList[0]), true);
+    }
+   }
+
    return true;
   }
  }

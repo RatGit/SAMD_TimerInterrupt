@@ -47,10 +47,10 @@
 //   ---------------------------------------------------------------------------------------------------------------  //
 //                                                                                                                    //
 //   Function:     initClients                                                                                        //
-//   Description:  Clear list of client UID's                                                                         //
+//   Description:  Initialises list of client UID's from Serial Flash                                                 //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Arguments:    None                                                                                               //
-//   Returns:      None                                                                                               //
+//   Returns:      bool                                                                                               //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Notes:        None                                                                                               //
 //   Known Bugs:   None                                                                                               //
@@ -213,7 +213,7 @@
 //  Function Declarations  //
 /////////////////////////////
 
-void initClients();
+bool initClients();
 uint8_t numClients();
 uint8_t findClient(uint64_t clientUID);
 uint8_t addClient(uint64_t clientUID);
