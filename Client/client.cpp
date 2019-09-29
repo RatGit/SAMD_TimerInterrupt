@@ -131,6 +131,7 @@
 //////////////////////////////////////
 
 uint8_t serverAddress;                                      // Server Address (This will be changed after pairing)
+SPIFlash SerialFlash(flashChipSelect);
 RHReliableDatagram manager(radio, DEFAULT_CLIENT_ADDRESS);  // Class to manage message delivery and receipt, using the driver declared above
 
 bool alarmed;                            // Global flag to indicate that the RTC wakeup has triggered
@@ -183,15 +184,15 @@ void pair()
  serverAddress = PAIRING_ADDRESS;
 
 // #ifndef LOW_POWER
-  if (ENABLE_VERBOSE) {serialPrintf(serialbuf, "CLIENT: [%u > %u]: \"%s\"[%d]", true, false, (uint8_t)(manager.thisAddress()), serverAddress, (char*)data, datalen);}
-//  if (ENABLE_VERBOSE) {serialPrintf(serialbuf, "Sending Message: \"%s\" Length=%d To=%u From=%u", true, false, (char*)data, datalen, serverAddress, (uint8_t)(manager.thisAddress()));}
+  if (ENABLE_VERBOSE) {serialPrintf(USE_SERIAL, serialbuf, "CLIENT: [%u > %u]: \"%s\"[%d]", true, false, (uint8_t)(manager.thisAddress()), serverAddress, (char*)data, datalen);}
+//  if (ENABLE_VERBOSE) {serialPrintf(USE_SERIAL, serialbuf, "Sending Message: \"%s\" Length=%d To=%u From=%u", true, false, (char*)data, datalen, serverAddress, (uint8_t)(manager.thisAddress()));}
 // #endif
 
  if (manager.sendtoWait(data, datalen, serverAddress))  // Send a message to the LoRa Server
  {
 //  #ifndef LOW_POWER
-//   if (ENABLE_VERBOSE) {serialPrint((char*)"Message Sent to Server");}
-   if (ENABLE_VERBOSE) {serialPrint((char*)"CLIENT: Sent OK");}
+//   if (ENABLE_VERBOSE) {serialPrint(USE_SERIAL, (char*)"Message Sent to Server");}
+   if (ENABLE_VERBOSE) {serialPrint(USE_SERIAL, (char*)"CLIENT: Sent OK");}
 //  #endif
 
   #ifndef LOW_POWER
@@ -212,7 +213,7 @@ void pair()
     msgBuffer[22] = 0;
 
 //    #ifndef LOW_POWER
-     if (ENABLE_VERBOSE) {serialPrintf(serialbuf, "CLIENT: Message Received: \"%s\" Length=%u To=%u From=%u", true, false, (char*)msgBuffer, len, manager.headerTo(), from);}
+     if (ENABLE_VERBOSE) {serialPrintf(USE_SERIAL, serialbuf, "CLIENT: Message Received: \"%s\" Length=%u To=%u From=%u", true, false, (char*)msgBuffer, len, manager.headerTo(), from);}
 //    #endif
 
     if (len == 22)
@@ -228,13 +229,13 @@ void pair()
   {
 //   #ifndef LOW_POWER
     msgBuffer[16] = ':';
-    if (ENABLE_VERBOSE) {serialPrintf(serialbuf, "CLIENT: Pairing Request Response Received: \"%s\" Length=%u To=%u From=%u", true, false, (char*)msgBuffer, len, manager.headerTo(), from);}
+    if (ENABLE_VERBOSE) {serialPrintf(USE_SERIAL, serialbuf, "CLIENT: Pairing Request Response Received: \"%s\" Length=%u To=%u From=%u", true, false, (char*)msgBuffer, len, manager.headerTo(), from);}
 //   #endif
 
    uint8_t clientAddress = strtoul((char*)(&(msgBuffer[20])), NULL, 16);     // Convert last 2 hex chars into an 8bit Client Address
    if (clientAddress == 255)
    {
-    if (ENABLE_VERBOSE) {serialPrint((char*)"CLIENT: Pairing Failed");}
+    if (ENABLE_VERBOSE) {serialPrint(USE_SERIAL, (char*)"CLIENT: Pairing Failed");}
    }
    else
    {
@@ -247,13 +248,13 @@ void pair()
     sprintf((char*)response, "%s:%02X",  uidstr, clientAddress);  // Create Pairing Request Response Handshake datagram: <64-bit OUI|UID>:<8bit CLIENT ADDRESS>
 
 //    #ifndef LOW_POWER
-     if (ENABLE_VERBOSE) {serialPrintf(serialbuf, "CLIENT: Sending Pairing Request Response Handshake: \"%s\" To: %u", true, false, (char*)response, PAIRING_ADDRESS);}
+     if (ENABLE_VERBOSE) {serialPrintf(USE_SERIAL, serialbuf, "CLIENT: Sending Pairing Request Response Handshake: \"%s\" To: %u", true, false, (char*)response, PAIRING_ADDRESS);}
 //    #endif
 
     if (manager.sendtoWait(response, 19, PAIRING_ADDRESS))  // Send Pairing Response Handshake: <64bit OUI:UID><8bit CLIENT ADDRESS> From CLIENT_ADDRESS To PAIRING_ADDRESS
     {
 //     #ifndef LOW_POWER
-      if (ENABLE_VERBOSE) {serialPrint((char*)"CLIENT: Waiting for Pairing Request Response Handshake Acknowledgment");}
+      if (ENABLE_VERBOSE) {serialPrint(USE_SERIAL, (char*)"CLIENT: Waiting for Pairing Request Response Handshake Acknowledgment");}
 //     #endif
 
      retries=NUM_RETRIES;
@@ -266,7 +267,7 @@ void pair()
        msgBuffer[33] = 0;
 
 //       #ifndef LOW_POWER
-        if (ENABLE_VERBOSE) {serialPrintf(serialbuf, "CLIENT: Message Received: \"%s\" Length=%u To=%u From=%u", true, false, (char*)msgBuffer, len, manager.headerTo(), from);}
+        if (ENABLE_VERBOSE) {serialPrintf(USE_SERIAL, serialbuf, "CLIENT: Message Received: \"%s\" Length=%u To=%u From=%u", true, false, (char*)msgBuffer, len, manager.headerTo(), from);}
 //       #endif
 
        if (len == 33)
@@ -295,7 +296,7 @@ void pair()
 //      #ifndef LOW_POWER
 //       msgBuffer[16] = ':';
 //       msgBuffer[19] = ':';
-       if (ENABLE_VERBOSE) {serialPrintf(serialbuf, "CLIENT: Pairing Request Response Handshake Acknowledgment Validated: Server Address=%u : This Address=%u", true, false, serverAddress, clientAddress);}
+       if (ENABLE_VERBOSE) {serialPrintf(USE_SERIAL, serialbuf, "CLIENT: Pairing Request Response Handshake Acknowledgment Validated: Server Address=%u : This Address=%u", true, false, serverAddress, clientAddress);}
 //      #endif
 
       isPaired = true;
@@ -314,14 +315,14 @@ void pair()
   else
   {
 //   #ifndef LOW_POWER
-    if (ENABLE_VERBOSE) {serialPrint((char*)"CLIENT: Handshake not Received");}
+    if (ENABLE_VERBOSE) {serialPrint(USE_SERIAL, (char*)"CLIENT: Handshake not Received");}
 //   #endif
   }
  }
  else
  {
 //  #ifndef LOW_POWER
-   if (ENABLE_VERBOSE) {serialPrint((char*)"CLIENT: No ACK from Server");}
+   if (ENABLE_VERBOSE) {serialPrint(USE_SERIAL, (char*)"CLIENT: No ACK from Server");}
 //  #endif
  }
 
@@ -368,15 +369,15 @@ void sendData()
  sprintf((char*)(&(data[31])), "%02X", crc((void*)data, PACKET_LENGTH-2));  // Data Packet: <OUI><UID>:<TEMP>:<RH>:<CRC>  eg. "0004A30B001A531C:123.45:123.45:7E"
 
 // #ifndef LOW_POWER
-  if (ENABLE_VERBOSE) {serialPrintf(serialbuf, "CLIENT: [%u > %u]: \"%s\"[%d]", true, false, (uint8_t)(manager.thisAddress()), serverAddress, (char*)data, datalen);}
-//  if (ENABLE_VERBOSE) {serialPrintf(serialbuf, "Sending Message: \"%s\" Length=%d To=%u From=%u", true, false, (char*)data, datalen, serverAddress, (uint8_t)(manager.thisAddress()));}
+  if (ENABLE_VERBOSE) {serialPrintf(USE_SERIAL, serialbuf, "CLIENT: [%u > %u]: \"%s\"[%d]", true, false, (uint8_t)(manager.thisAddress()), serverAddress, (char*)data, datalen);}
+//  if (ENABLE_VERBOSE) {serialPrintf(USE_SERIAL, serialbuf, "Sending Message: \"%s\" Length=%d To=%u From=%u", true, false, (char*)data, datalen, serverAddress, (uint8_t)(manager.thisAddress()));}
 // #endif
 
  if (manager.sendtoWait(data, datalen, serverAddress))  // Send a message to the LoRa Server
  {
 //  #ifndef LOW_POWER
-//   if (ENABLE_VERBOSE) {serialPrint((char*)"Message Sent to Server");}
-   if (ENABLE_VERBOSE) {serialPrint((char*)"CLIENT: Sent OK");}
+//   if (ENABLE_VERBOSE) {serialPrint(USE_SERIAL, (char*)"Message Sent to Server");}
+   if (ENABLE_VERBOSE) {serialPrint(USE_SERIAL, (char*)"CLIENT: Sent OK");}
 //  #endif
 
   #ifndef LOW_POWER
@@ -390,7 +391,7 @@ void sendData()
  else
  {
 //  #ifndef LOW_POWER
-   if (ENABLE_VERBOSE) {serialPrint((char*)"CLIENT: No ACK from Server");}
+   if (ENABLE_VERBOSE) {serialPrint(USE_SERIAL, (char*)"CLIENT: No ACK from Server");}
 //  #endif
  }
 
@@ -424,7 +425,7 @@ void radioHandshake()
  else pair();
 
 // #ifndef LOW_POWER
-  if (ENABLE_VERBOSE) {serialPrint((char*)"");}
+  if (ENABLE_VERBOSE) {serialPrint(USE_SERIAL, (char*)"");}
 // #endif
 }
 
@@ -474,11 +475,11 @@ void setup()
  pinMode(LED_BUILTIN, OUTPUT);
  digitalWrite(LED_BUILTIN, LOW);
 
-// #ifndef LOW_POWER
-  if (ENABLE_VERBOSE) Serial.begin(BAUD_RATE);
-//  while (!Serial) ; // Wait for serial port to be available (This will cause it to hang when not connected to a USB serial port)
-  if (ENABLE_VERBOSE) {delay(15000);}     // Wait 15 seconds to allow enough time to connect a serial monitor
-// #endif
+ if (USE_SERIAL)
+ {
+  Serial.begin(BAUD_RATE);
+  delay(15000);     // Wait 15 seconds to allow enough time to connect a serial monitor and capture the pairing request result after startup
+ }
 
  uid = getUID(uidstr);
 
@@ -491,7 +492,7 @@ void setup()
 //  else
   if (!Si7021.begin())
   {
-   if (ENABLE_VERBOSE) {serialPrint((char*)"CLIENT: Si7021 inititialisation failed");}
+   if (ENABLE_VERBOSE) {serialPrint(USE_SERIAL, (char*)"CLIENT: Si7021 inititialisation failed");}
   }
  #endif
 
@@ -509,7 +510,7 @@ void setup()
  if (!radioInitialised)
  {
 //  #ifndef LOW_POWER
-   if (ENABLE_VERBOSE) {serialPrint((char*)"CLIENT: Radio inititialisation failed");}
+   if (ENABLE_VERBOSE) {serialPrint(USE_SERIAL, (char*)"CLIENT: Radio inititialisation failed");}
 //  #endif
  }
  else
@@ -527,22 +528,10 @@ void setup()
 // #endif
 
  // Serial Flash Initialisation, (also initialises SPI)
- if (ENABLE_VERBOSE) {serialPrint("CLIENT: Initialising Serial Flash", true);}
+ if (ENABLE_VERBOSE) {serialPrint(USE_SERIAL, "CLIENT: Initialising Serial Flash", true);}
  serialFlashOk = SerialFlash.begin(flashChipSelect);
- if (!serialFlashOk) {if (ENABLE_VERBOSE) {serialPrint("CLIENT: Failed to Initialise Serial Flash", true);} else {serialPrint(ERROR_FLASH_MEMORY, true, true);}}
- SerialFlash.sleep();
-
-// #ifdef LOW_POWER
-//  USBDevice.detach();
-// #endif
-
- // ***** IMPORTANT 15 SEC DELAY FOR CODE UPLOAD BEFORE USB PORT DETACH DURING SLEEP (LOW POWER MODE ONLY) *****
-// #ifdef LOW_POWER
-  delay(15000);
-  if (!ENABLE_VERBOSE) USBDevice.detach();
-// #else
-//  if (ENABLE_VERBOSE) {delay(15000);}     // Wait 15 seconds to allow enough time to connect a serial monitor and capture the pairing request result after startup
-// #endif
+ if (!serialFlashOk) {if (ENABLE_VERBOSE) {serialPrint(USE_SERIAL, "CLIENT: Failed to Initialise Serial Flash", true);} else {serialPrint(USE_SERIAL, ERROR_FLASH_MEMORY, true, true);}}
+ SerialFlash.powerDown();
 
  // Change these values to set the current initial date and time
  dateTime.second = 0;  // 0 - 59
@@ -564,7 +553,7 @@ void setup()
   digitalWrite(LED_BUILTIN, HIGH);  // Turn ON LED
  #endif
 
-  if (ENABLE_VERBOSE) {serialPrint((char*)"CLIENT: Starting Client\n");}
+  if (ENABLE_VERBOSE) {serialPrint(USE_SERIAL, (char*)"CLIENT: Starting Client\n");}
 }
 
 
@@ -588,6 +577,8 @@ void loop()
   {
    alarmed = false;
 
+   if (USE_SERIAL) USBDevice.attach();
+
    if (radioInitialised)
    {
     if (!isPaired)
@@ -598,7 +589,7 @@ void loop()
 
       unsigned long time = micros();
       radioHandshake();  // Attempt to Pair with Master
-      if (ENABLE_VERBOSE) {serialPrintf(serialbuf, "CLIENT: Pairing Duration = %lu (us)\n", true, false, micros() - time);}
+      if (ENABLE_VERBOSE) {serialPrintf(USE_SERIAL, serialbuf, "CLIENT: Pairing Duration = %lu (us)\n", true, false, micros() - time);}
 
       if (!isPaired)
       {
@@ -634,11 +625,13 @@ void loop()
     {
      unsigned long time = micros();
      radioHandshake();  // Send Data
-     if (ENABLE_VERBOSE) {serialPrintf(serialbuf, "CLIENT: Send Data Duration = %lu (us)\n", true, false, micros() - time);}
+     if (ENABLE_VERBOSE) {serialPrintf(USE_SERIAL, serialbuf, "CLIENT: Send Data Duration = %lu (us)\n", true, false, micros() - time);}
     }
 
     radio.sleep();      // Put Radio back to sleep
    }
+
+   if (USE_SERIAL) USBDevice.detach();
 
    rtc.standbyMode();   // Sleep until next alarm match
   }

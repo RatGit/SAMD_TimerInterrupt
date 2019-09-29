@@ -201,7 +201,8 @@
 //  Macro Definitions  //
 /////////////////////////
 
-#define WAIT_SERIAL false     // Wait for serial port to be available (This will cause it to hang when not connected to a USB serial port)
+#define USE_SERIAL true       // Enable USB Serial Port
+#define ENABLE_VERBOSE true   // Enable/Disable verbose output, (set to false for production)
 
 #define NUM_CLIENTS 100
 

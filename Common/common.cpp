@@ -304,8 +304,10 @@ char* ulltohex(char* str, uint64_t value)
 //   ---------------------------------------------------------------------------------------------------------------  //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int serialPrint(const char *str, bool addLF, bool addCRC)
+int serialPrint(bool enabled, const char *str, bool addLF, bool addCRC)
 {
+ if (!enabled) return 0;
+
  int result = -1;
 
  if (str == NULL || !Serial) return result;
@@ -350,8 +352,10 @@ int serialPrint(const char *str, bool addLF, bool addCRC)
 //   ---------------------------------------------------------------------------------------------------------------  //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int serialPrintf(char* str, const char* format, bool addLF, bool addCRC, ...)
+int serialPrintf(bool enabled, char* str, const char* format, bool addLF, bool addCRC, ...)
 {
+ if (!enabled) return 0;
+
  if (str == NULL || format == NULL || !Serial) return -1;
 
  va_list va;
@@ -361,7 +365,7 @@ int serialPrintf(char* str, const char* format, bool addLF, bool addCRC, ...)
  result = vsprintf(str, format, va);
  va_end(va);
 
- if (result >= 0) {result = serialPrint(str, addLF, addCRC);}
+ if (result >= 0) {result = serialPrint(enabled, str, addLF, addCRC);}
 
  return result;
 }
@@ -565,12 +569,10 @@ uint64_t getUID(char* _uidstr)
 
  char samd_id_buf[33];
  sprintf(samd_id_buf, "%8lX%8lX%8lX%8lX", id_words[0], id_words[1], id_words[2], id_words[3]);
- if (ENABLE_VERBOSE) {serialPrintf(serialbuf, "SAMD Id = 0x%s", true, false, samd_id_buf);}
 
  volatile uint32_t samd_id_hash = hash(id_words, 4);
  char samd_id_hash_buf[9];
  sprintf(samd_id_hash_buf, "%8lX", samd_id_hash);
- if (ENABLE_VERBOSE) {serialPrintf(serialbuf, "Hash = 0x%s", true, false, samd_id_hash_buf);}
 
  sprintf(_uidstr, "%s%02X%s", OUI, ((uint8_t*)id_words)[0], samd_id_hash_buf);  // OUI and hash are separated by the low byte of the high word of the SAMD21 UID
 

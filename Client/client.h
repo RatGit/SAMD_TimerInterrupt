@@ -127,6 +127,7 @@
 //////////////////////////////////////
 
 #include <Adafruit_Si7021.h>
+#include <SPIMemory.h>
 
 
 /////////////////////////
@@ -134,6 +135,10 @@
 /////////////////////////
 
 #define LOW_POWER        // Define to enable low power mode
+
+#define USE_SERIAL true       // Enable USB Serial Port
+#define ENABLE_VERBOSE true   // Enable/Disable verbose output, (set to false for production)
+
 #define LED_DEBUG false  // Blink LED in RadioHandshake()
 #define LOOP_DELAY 1000  // Time in milliseconds to wait each loop (when in low power mode)
 #define DEFAULT_CLIENT_ADDRESS 252

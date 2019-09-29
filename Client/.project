@@ -72,9 +72,9 @@
 			<locationURI>WORKSPACE_LOC/Libraries/RadioHeadPairing/1.8.3/src</locationURI>
 		</link>
 		<link>
-			<name>Common/Libraries/SerialFlash</name>
+			<name>Common/Libraries/SPIMemory</name>
 			<type>2</type>
-			<locationURI>WORKSPACE_LOC/Libraries/SerialFlash/0.5.0</locationURI>
+			<locationURI>WORKSPACE_LOC/Libraries/SPIMemory/src</locationURI>
 		</link>
 		<link>
 			<name>Common/Libraries/Si7021</name>

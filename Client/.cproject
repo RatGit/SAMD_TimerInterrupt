@@ -47,9 +47,9 @@
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/Client/core/core}&quot;"/>
                                     									
-                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Common/Libraries/SerialFlash}&quot;"/>
-                                    									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Common/Libraries/RadioHeadPairing}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Common/Libraries/SPIMemory}&quot;"/>
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Common/Libraries/Si7021}&quot;"/>
                                     									
@@ -75,9 +75,9 @@
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/Client/core/core}&quot;"/>
                                     									
-                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Common/Libraries/SerialFlash}&quot;"/>
-                                    									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Common/Libraries/RadioHeadPairing}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Common/Libraries/SPIMemory}&quot;"/>
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Common/Libraries/Si7021}&quot;"/>
                                     									
@@ -103,9 +103,9 @@
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/Client/core/core}&quot;"/>
                                     									
-                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Common/Libraries/SerialFlash}&quot;"/>
-                                    									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Common/Libraries/RadioHeadPairing}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Common/Libraries/SPIMemory}&quot;"/>
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Common/Libraries/Si7021}&quot;"/>
                                     									
@@ -197,9 +197,9 @@
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/Client/Common}&quot;"/>
                                     									
-                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Common/Libraries/SerialFlash}&quot;"/>
-                                    									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Common/Libraries/RadioHeadPairing}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Common/Libraries/SPIMemory}&quot;"/>
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Common/Libraries/Si7021}&quot;"/>
                                     									
@@ -225,9 +225,9 @@
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/Client/Common}&quot;"/>
                                     									
-                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Common/Libraries/SerialFlash}&quot;"/>
-                                    									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Common/Libraries/RadioHeadPairing}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Common/Libraries/SPIMemory}&quot;"/>
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Common/Libraries/Si7021}&quot;"/>
                                     									
@@ -253,9 +253,9 @@
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/Client/Common}&quot;"/>
                                     									
-                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Common/Libraries/SerialFlash}&quot;"/>
-                                    									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Common/Libraries/RadioHeadPairing}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Common/Libraries/SPIMemory}&quot;"/>
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Common/Libraries/Si7021}&quot;"/>
                                     									

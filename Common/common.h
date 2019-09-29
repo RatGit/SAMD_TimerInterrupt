@@ -192,8 +192,6 @@
 //  Macro Definitions  //
 /////////////////////////
 
-#define ENABLE_VERBOSE true  // Enable/Disable verbose output, (set to false for production)
-
 #define BAUD_RATE 115200
 
 #define EUI64_CHIP_ADDRESS 0x50
@@ -294,8 +292,8 @@ extern char serialbuf[];  // Serial write buffer
 
 uint8_t crc(void *data_pointer, uint16_t number_of_bytes);
 char* ulltohex(char* str, uint64_t value);
-int serialPrint(const char *str=NULL, bool addLF=true, bool addCRC=false);
-int serialPrintf(char* str=NULL, const char* format=NULL, bool addLF=true, bool addCRC=false, ...);
+int serialPrint(bool enabled, const char *str=NULL, bool addLF=true, bool addCRC=false);
+int serialPrintf(bool enabled, char* str=NULL, const char* format=NULL, bool addLF=true, bool addCRC=false, ...);
 void getTimestampStr(char* dateTimeStr);
 void getDateTime();
 void getDateTimeStr(char* dateTimeStr);
