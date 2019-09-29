@@ -134,6 +134,8 @@
 //  Macro Definitions  //
 /////////////////////////
 
+//#define TEST_CURRENT  // Define to enable low power current measurement mode
+
 #define LOW_POWER        // Define to enable low power mode
 
 #define USE_SERIAL true       // Enable USB Serial Port

@@ -553,7 +553,7 @@ void setup()
   digitalWrite(LED_BUILTIN, HIGH);  // Turn ON LED
  #endif
 
-  if (ENABLE_VERBOSE) {serialPrint(USE_SERIAL, (char*)"CLIENT: Starting Client\n");}
+ if (ENABLE_VERBOSE) {serialPrint(USE_SERIAL, (char*)"CLIENT: Starting Client\n");}
 }
 
 
@@ -577,63 +577,71 @@ void loop()
   {
    alarmed = false;
 
-   if (USE_SERIAL) USBDevice.attach();
+   #ifdef TEST_CURRENT
+    rtc.setAlarmSeconds(rtc.getSeconds());             // RTC alarms on the current seconds value henceforth
+    rtc.setAlarmMinutes((rtc.getMinutes() + 1) % 60);  // RTC alarms in 1 minute's time
+    rtc.enableAlarm(rtc.MATCH_MMSS);                   // Enable RTC alarm for next minutes and seconds match
+    USBDevice.detach();
+    rtc.standbyMode();                                 // Sleep until next alarm match
+   #else
+    if (USE_SERIAL) USBDevice.attach();
 
-   if (radioInitialised)
-   {
-    if (!isPaired)
+    if (radioInitialised)
     {
-     if (secondsCounter < NUM_PAIRINGS_SECONDS-1)  // Number of times to attempt to pair every 10 seconds, (on startup)
+     if (!isPaired)
      {
-      secondsCounter++;
-
-      unsigned long time = micros();
-      radioHandshake();  // Attempt to Pair with Master
-      if (ENABLE_VERBOSE) {serialPrintf(USE_SERIAL, serialbuf, "CLIENT: Pairing Duration = %lu (us)\n", true, false, micros() - time);}
-
-      if (!isPaired)
+      if (secondsCounter < NUM_PAIRINGS_SECONDS-1)  // Number of times to attempt to pair every 10 seconds, (on startup)
       {
-       rtc.setAlarmSeconds((rtc.getSeconds() + 10) % 60);  // RTC alarms in 10 second's time
-       rtc.enableAlarm(rtc.MATCH_SS);                      // Enable RTC alarm for next seconds match
+       secondsCounter++;
+
+       unsigned long time = micros();
+       radioHandshake();  // Attempt to Pair with Master
+       if (ENABLE_VERBOSE) {serialPrintf(USE_SERIAL, serialbuf, "CLIENT: Pairing Duration = %lu (us)\n", true, false, micros() - time);}
+
+       if (!isPaired)
+       {
+        rtc.setAlarmSeconds((rtc.getSeconds() + 10) % 60);  // RTC alarms in 10 second's time
+        rtc.enableAlarm(rtc.MATCH_SS);                      // Enable RTC alarm for next seconds match
+       }
       }
-     }
-     else if (minutesCounter < NUM_PAIRINGS_MINUTES)  // Number of times to attempt to pair every minute, (on startup)
-     {
-      minutesCounter++;
-
-      radioHandshake();  // Attempt to Pair with Master
-
-      if (!isPaired)
+      else if (minutesCounter < NUM_PAIRINGS_MINUTES)  // Number of times to attempt to pair every minute, (on startup)
       {
+       minutesCounter++;
+
+       radioHandshake();  // Attempt to Pair with Master
+
+       if (!isPaired)
+       {
+        rtc.setAlarmMinutes((rtc.getMinutes() + 1) % 60);  // RTC alarms in 1 minute's time
+        rtc.enableAlarm(rtc.MATCH_MMSS);                   // Enable RTC alarm for next minutes and seconds match
+       }
+      }
+      else
+      {
+       radioHandshake();  // Attempt to Pair with Master
+      }
+
+      if (isPaired)  // If Paired successfully, set device to update in 1 minute's time and then every hour thenceforth
+      {
+       rtc.setAlarmSeconds(rtc.getSeconds());             // RTC alarms on the current seconds value henceforth
        rtc.setAlarmMinutes((rtc.getMinutes() + 1) % 60);  // RTC alarms in 1 minute's time
        rtc.enableAlarm(rtc.MATCH_MMSS);                   // Enable RTC alarm for next minutes and seconds match
       }
      }
      else
      {
-      radioHandshake();  // Attempt to Pair with Master
+      unsigned long time = micros();
+      radioHandshake();  // Send Data
+      if (ENABLE_VERBOSE) {serialPrintf(USE_SERIAL, serialbuf, "CLIENT: Send Data Duration = %lu (us)\n", true, false, micros() - time);}
      }
 
-     if (isPaired)  // If Paired successfully, set device to update in 1 minute's time and then every hour thenceforth
-     {
-      rtc.setAlarmSeconds(rtc.getSeconds());             // RTC alarms on the current seconds value henceforth
-      rtc.setAlarmMinutes((rtc.getMinutes() + 1) % 60);  // RTC alarms in 1 minute's time
-      rtc.enableAlarm(rtc.MATCH_MMSS);                   // Enable RTC alarm for next minutes and seconds match
-     }
-    }
-    else
-    {
-     unsigned long time = micros();
-     radioHandshake();  // Send Data
-     if (ENABLE_VERBOSE) {serialPrintf(USE_SERIAL, serialbuf, "CLIENT: Send Data Duration = %lu (us)\n", true, false, micros() - time);}
+     radio.sleep();      // Put Radio back to sleep
     }
 
-    radio.sleep();      // Put Radio back to sleep
-   }
+    if (USE_SERIAL) USBDevice.detach();
 
-   if (USE_SERIAL) USBDevice.detach();
-
-   rtc.standbyMode();   // Sleep until next alarm match
+    rtc.standbyMode();   // Sleep until next alarm match
+   #endif
   }
  #else
   if (radioInitialised) radioHandshake();  // If Paired, send Valid Data else send a Pairing Request
