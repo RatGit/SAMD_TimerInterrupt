@@ -1,0 +1,206 @@
+<!-- Project file for the Zeus IDE - http://www.zeusedit.com -->
+<Project name="LoRa Comms" sorted="Yes" autosynch="" type="" filename="" st_mtime="">
+    <SccEnable>On</SccEnable>
+    <SccUserID></SccUserID>
+    <SccComment></SccComment>
+    <SccProject></SccProject>
+    <SccAuxPath></SccAuxPath>
+    <SccLocalPath></SccLocalPath>
+    <TagEnable>On</TagEnable>
+    <TagNone>Off</TagNone>
+    <TagBuildNone>Off</TagBuildNone>
+    <TagBuildOnOpen>On</TagBuildOnOpen>
+    <TagBuildOnSave>On</TagBuildOnSave>
+    <TagNoIntellisense>Off</TagNoIntellisense>
+    <TagWorkspace>On</TagWorkspace>
+    <TagOutputDir>$zudzTags</TagOutputDir>
+    <TagInterval>6</TagInterval>
+    <TagBuildTimed></TagBuildTimed>
+    <Tags />
+    <Server></Server>
+    <UserID></UserID>
+    <Password></Password>
+    <LocalDir></LocalDir>
+    <RemoteDir></RemoteDir>
+    <Classes>Classes</Classes>
+    <Enumerations>Enumerations</Enumerations>
+    <Files>Project Files</Files>
+    <Functions>Functions</Functions>
+    <Imports>Imports</Imports>
+    <Interfaces>Interfaces</Interfaces>
+    <Macros>Macros</Macros>
+    <Packages>Packages</Packages>
+    <Prototypes>Prototypes</Prototypes>
+    <References>References</References>
+    <Structures>Structures</Structures>
+    <Typedefs>Typedefs</Typedefs>
+    <Variables>Variables</Variables>
+    <Unions>Unions</Unions>
+    <Properties>Properties</Properties>
+    <Subroutines>Subroutines</Subroutines>
+    <Annotations>Annotations</Annotations>
+    <Constants>Constants</Constants>
+    <Methods>Methods</Methods>
+    <Modules>Modules</Modules>
+    <Fields>Fields</Fields>
+    <MakeFile></MakeFile>
+    <SearchPath></SearchPath>
+    <RegexFile></RegexFile>
+    <RegexLine></RegexLine>
+    <RegexInfo></RegexInfo>
+    <RegexError></RegexError>
+    <RegexWarning></RegexWarning>
+    <EnvLib></EnvLib>
+    <EnvPath>$MsBuildPath;$JREBin;$GoBin;c:\dmd2\windows\bin;</EnvPath>
+    <EnvInclude></EnvInclude>
+    <EnvClassPath></EnvClassPath>
+    <DoxygenAsJava>Off</DoxygenAsJava>
+    <DebugCaptureStdOut>Off</DebugCaptureStdOut>
+    <DebugCaptureStdErr>Off</DebugCaptureStdErr>
+    <DebugExecutable></DebugExecutable>
+    <DebugArguments></DebugArguments>
+    <DebugDirectory></DebugDirectory>
+    <DebugDebugger></DebugDebugger>
+    <ReleaseCaptureStdOut>Off</ReleaseCaptureStdOut>
+    <ReleaseCaptureStdErr>Off</ReleaseCaptureStdErr>
+    <ReleaseExecutable></ReleaseExecutable>
+    <ReleaseArguments></ReleaseArguments>
+    <ReleaseDirectory></ReleaseDirectory>
+    <ReleaseDebugger></ReleaseDebugger>
+    <DebugMake></DebugMake>
+    <DebugClean></DebugClean>
+    <DebugCompile></DebugCompile>
+    <DebugRebuild></DebugRebuild>
+    <DebugProjectOutput>Always</DebugProjectOutput>
+    <DebugCompilerOutput>Always</DebugCompilerOutput>
+    <DebugCompilerStdOut>On</DebugCompilerStdOut>
+    <DebugCompilerStdErr>On</DebugCompilerStdErr>
+    <DebugCompilerSaveAll>Off</DebugCompilerSaveAll>
+    <DebugCompilerReload>Off</DebugCompilerReload>
+    <DebugProjectStdOut>On</DebugProjectStdOut>
+    <DebugProjectStdErr>On</DebugProjectStdErr>
+    <DebugProjectSaveAll>Off</DebugProjectSaveAll>
+    <DebugProjectReload>Off</DebugProjectReload>
+    <DebugClangUsePCH>On</DebugClangUsePCH>
+    <DebugClangExtension>.zpch</DebugClangExtension>
+    <DebugCompilerCaptureToFile>Off</DebugCompilerCaptureToFile>
+    <DebugProjectCaptureToFile>Off</DebugProjectCaptureToFile>
+    <ReleaseMake>make $ws</ReleaseMake>
+    <ReleaseClean>make clean</ReleaseClean>
+    <ReleaseCompile></ReleaseCompile>
+    <ReleaseRebuild>rebuild $ws</ReleaseRebuild>
+    <ReleaseProjectOutput>Always</ReleaseProjectOutput>
+    <ReleaseCompilerOutput>Always</ReleaseCompilerOutput>
+    <ReleaseCompilerStdOut>On</ReleaseCompilerStdOut>
+    <ReleaseCompilerStdErr>On</ReleaseCompilerStdErr>
+    <ReleaseCompilerSaveAll>Off</ReleaseCompilerSaveAll>
+    <ReleaseCompilerReload>Off</ReleaseCompilerReload>
+    <ReleaseProjectStdOut>On</ReleaseProjectStdOut>
+    <ReleaseProjectStdErr>On</ReleaseProjectStdErr>
+    <ReleaseProjectSaveAll>Off</ReleaseProjectSaveAll>
+    <ReleaseProjectReload>Off</ReleaseProjectReload>
+    <ReleaseClangUsePCH>On</ReleaseClangUsePCH>
+    <ReleaseClangExtension>.zpch</ReleaseClangExtension>
+    <ReleaseCompilerCaptureToFile>Off</ReleaseCompilerCaptureToFile>
+    <ReleaseProjectCaptureToFile>Off</ReleaseProjectCaptureToFile>
+    <Folder name="Client" sorted="Yes">
+        <File>Client\client.cpp</File>
+        <File>Client\client.h</File>
+    </Folder>
+    <Folder name="Common" sorted="Yes">
+        <File>Common\common.cpp</File>
+        <File>Common\common.h</File>
+        <Folder name="Libraries" sorted="Yes">
+            <Folder name="RadioHeadPairing" sorted="Yes">
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RadioHead.h</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RH_ASK.cpp</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RH_ASK.h</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RH_CC110.cpp</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RH_CC110.h</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RH_E32.cpp</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RH_E32.h</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RH_MRF89.cpp</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RH_MRF89.h</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RH_NRF24.cpp</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RH_NRF24.h</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RH_NRF51.cpp</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RH_NRF51.h</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RH_NRF905.cpp</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RH_NRF905.h</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RH_RF22.cpp</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RH_RF22.h</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RH_RF24.cpp</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RH_RF24.h</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RH_RF69.cpp</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RH_RF69.h</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RH_RF95.cpp</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RH_RF95.h</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RH_Serial.cpp</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RH_Serial.h</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RH_TCP.cpp</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RH_TCP.h</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RHCRC.cpp</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RHCRC.h</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RHDatagram.cpp</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RHDatagram.h</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RHEncryptedDriver.cpp</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RHEncryptedDriver.h</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RHGenericDriver.cpp</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RHGenericDriver.h</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RHGenericSPI.cpp</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RHGenericSPI.h</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RHHardwareSPI.cpp</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RHHardwareSPI.h</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RHMesh.cpp</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RHMesh.h</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RHNRFSPIDriver.cpp</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RHNRFSPIDriver.h</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RHReliableDatagram.cpp</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RHReliableDatagram.h</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RHRouter.cpp</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RHRouter.h</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RHSoftwareSPI.cpp</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RHSoftwareSPI.h</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RHSPIDriver.cpp</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RHSPIDriver.h</File>
+                <File>Libraries\RadioHeadPairing\1.8.3\src\RHTcpProtocol.h</File>
+                <Folder name="RF24configs" sorted="Yes">
+                    <File>Libraries\RadioHeadPairing\1.8.3\src\RF24configs\radio_config_Si4464_27_434_2GFSK_5_10.h</File>
+                    <File>Libraries\RadioHeadPairing\1.8.3\src\RF24configs\radio_config_Si4464_30_434_2GFSK_10_20.h</File>
+                    <File>Libraries\RadioHeadPairing\1.8.3\src\RF24configs\radio_config_Si4464_30_434_2GFSK_5_10.h</File>
+                    <File>Libraries\RadioHeadPairing\1.8.3\src\RF24configs\radio_config_Si4464_30_915_2GFSK_10_20.h</File>
+                    <File>Libraries\RadioHeadPairing\1.8.3\src\RF24configs\radio_config_Si4464_30_915_2GFSK_5_10.h</File>
+                    <File>Libraries\RadioHeadPairing\1.8.3\src\RF24configs\README</File>
+                </Folder>
+                <Folder name="RHutil" sorted="Yes">
+                    <File>Libraries\RadioHeadPairing\1.8.3\src\RHutil\atomic.h</File>
+                    <File>Libraries\RadioHeadPairing\1.8.3\src\RHutil\HardwareSerial.cpp</File>
+                    <File>Libraries\RadioHeadPairing\1.8.3\src\RHutil\HardwareSerial.h</File>
+                    <File>Libraries\RadioHeadPairing\1.8.3\src\RHutil\RasPi.cpp</File>
+                    <File>Libraries\RadioHeadPairing\1.8.3\src\RHutil\RasPi.h</File>
+                    <File>Libraries\RadioHeadPairing\1.8.3\src\RHutil\simulator.h</File>
+                </Folder>
+            </Folder>
+            <Folder name="SerialFlash" sorted="Yes">
+                <File>Libraries\SerialFlash\0.5.0\README.md</File>
+                <File>Libraries\SerialFlash\0.5.0\SerialFlash.h</File>
+                <File>Libraries\SerialFlash\0.5.0\SerialFlashChip.cpp</File>
+                <File>Libraries\SerialFlash\0.5.0\SerialFlashDirectory.cpp</File>
+                <Folder name="util" sorted="Yes">
+                    <File>Libraries\SerialFlash\0.5.0\util\SerialFlash_directwrite.h</File>
+                </Folder>
+            </Folder>
+            <Folder name="Si7021" sorted="Yes">
+                <File>Libraries\Si7021\Adafruit_Si7021.cpp</File>
+                <File>Libraries\Si7021\Adafruit_Si7021.h</File>
+                <Folder name="examples" sorted="Yes">
+                    <File>Libraries\Si7021\examples\si7021\si7021.ino</File>
+                </Folder>
+            </Folder>
+        </Folder>
+    </Folder>
+    <Folder name="Server" sorted="Yes">
+        <File>Server\server.cpp</File>
+        <File>Server\server.h</File>
+    </Folder>
+</Project>

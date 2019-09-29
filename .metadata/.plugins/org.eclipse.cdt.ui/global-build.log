@@ -2274,3 +2274,390 @@ Total             721410
 
 Finished building target: Server
  
+01:19:47 **** Incremental Build of configuration Release for project Server ****
+make all 
+Building file: ../server.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SPIMemory/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"server.cpp.d" -MT"server.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "../server.cpp"  -o  "server.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericDriver.h:9:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSPIDriver.h:9,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF95.h:15,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common/common.h:187,
+                 from ../server.cpp:184:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHHardwareSPI.h:10:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSPIDriver.h:10,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF95.h:15,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common/common.h:187,
+                 from ../server.cpp:184:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.h:145:18: warning: unused parameter 'interruptNumber' [-Wunused-parameter]
+     virtual void usingInterrupt(uint8_t interruptNumber){}
+                  ^
+Finished building: ../server.cpp
+ 
+Starting combiner
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-gcc"  "-L/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release" -Os -Wl,--gc-sections -save-temps  "-T/opt/sloeber//arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero/linker_scripts/gcc/flash_without_bootloader.ld" "-Wl,-Map,/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.map" --specs=nano.specs --specs=nosys.specs -mcpu=cortex-m0plus -mthumb -Wl,--cref -Wl,--check-sections -Wl,--gc-sections -Wl,--unresolved-symbols=report-all -Wl,--warn-common -Wl,--warn-section-align -o "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf"    ./server.cpp.o  ./libraries/Wire/Wire.cpp.o  ./libraries/SPI/SPI.cpp.o  ./libraries/RTCZero/src/RTCZero.cpp.o  ./core/variant/variant.cpp.o  ./Common/Libraries/SPIMemory/DMASAM.cpp.o ./Common/Libraries/SPIMemory/SPIFlash.cpp.o ./Common/Libraries/SPIMemory/SPIFlashID.cpp.o ./Common/Libraries/SPIMemory/SPIFlashIO.cpp.o ./Common/Libraries/SPIMemory/SPIFlashSFDP.cpp.o ./Common/Libraries/SPIMemory/SPIFram.cpp.o ./Common/Libraries/SPIMemory/SPIFramIO.cpp.o ./Common/Libraries/SPIMemory/SPIMemory.cpp.o ./Common/Libraries/SPIMemory/diagnostics.cpp.o  ./Common/Libraries/RadioHeadPairing/RHutil/HardwareSerial.cpp.o ./Common/Libraries/RadioHeadPairing/RHutil/RasPi.cpp.o  ./Common/Libraries/RadioHeadPairing/RHCRC.cpp.o ./Common/Libraries/RadioHeadPairing/RHDatagram.cpp.o ./Common/Libraries/RadioHeadPairing/RHEncryptedDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHGenericDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHGenericSPI.cpp.o ./Common/Libraries/RadioHeadPairing/RHHardwareSPI.cpp.o ./Common/Libraries/RadioHeadPairing/RHMesh.cpp.o ./Common/Libraries/RadioHeadPairing/RHNRFSPIDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHReliableDatagram.cpp.o ./Common/Libraries/RadioHeadPairing/RHRouter.cpp.o ./Common/Libraries/RadioHeadPairing/RHSPIDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHSoftwareSPI.cpp.o ./Common/Libraries/RadioHeadPairing/RH_ASK.cpp.o ./Common/Libraries/RadioHeadPairing/RH_CC110.cpp.o ./Common/Libraries/RadioHeadPairing/RH_E32.cpp.o ./Common/Libraries/RadioHeadPairing/RH_MRF89.cpp.o ./Common/Libraries/RadioHeadPairing/RH_NRF24.cpp.o ./Common/Libraries/RadioHeadPairing/RH_NRF51.cpp.o ./Common/Libraries/RadioHeadPairing/RH_NRF905.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF22.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF24.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF69.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF95.cpp.o ./Common/Libraries/RadioHeadPairing/RH_Serial.cpp.o ./Common/Libraries/RadioHeadPairing/RH_TCP.cpp.o  ./Common/common.cpp.o   -Wl,--start-group "-L/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Lib/GCC/" -larm_cortexM0l_math -lm  /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/arduino.ar  -Wl,--end-group
+Finished building: Server.elf
+ 
+Do all objcopy commands
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-objcopy" -O binary  "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf" "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.bin"
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-objcopy" -O ihex -R .eeprom  "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf" "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.hex"
+Finished building: Server.hex
+ 
+Building target: Server
+Printing size:
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-size" -A "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf"
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf  :
+section             size        addr
+.text              51664           0
+.ARM.exidx             8       51664
+.data                432   536870912
+.bss                4880   536871344
+.ARM.attributes       40           0
+.comment             128           0
+.debug_info       420300           0
+.debug_abbrev      37706           0
+.debug_loc         62171           0
+.debug_aranges      5568           0
+.debug_ranges       9952           0
+.debug_line        53219           0
+.debug_str         56805           0
+.debug_frame       18220           0
+.stabstr             441           0
+Total             721534
+
+
+Finished building target: Server
+ 
+01:21:46 **** Incremental Build of configuration Release for project Server ****
+make all 
+Building file: ../server.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SPIMemory/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"server.cpp.d" -MT"server.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "../server.cpp"  -o  "server.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericDriver.h:9:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSPIDriver.h:9,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF95.h:15,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common/common.h:187,
+                 from ../server.cpp:184:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHHardwareSPI.h:10:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSPIDriver.h:10,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF95.h:15,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common/common.h:187,
+                 from ../server.cpp:184:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.h:145:18: warning: unused parameter 'interruptNumber' [-Wunused-parameter]
+     virtual void usingInterrupt(uint8_t interruptNumber){}
+                  ^
+Finished building: ../server.cpp
+ 
+Starting combiner
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-gcc"  "-L/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release" -Os -Wl,--gc-sections -save-temps  "-T/opt/sloeber//arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero/linker_scripts/gcc/flash_without_bootloader.ld" "-Wl,-Map,/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.map" --specs=nano.specs --specs=nosys.specs -mcpu=cortex-m0plus -mthumb -Wl,--cref -Wl,--check-sections -Wl,--gc-sections -Wl,--unresolved-symbols=report-all -Wl,--warn-common -Wl,--warn-section-align -o "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf"    ./server.cpp.o  ./libraries/Wire/Wire.cpp.o  ./libraries/SPI/SPI.cpp.o  ./libraries/RTCZero/src/RTCZero.cpp.o  ./core/variant/variant.cpp.o  ./Common/Libraries/SPIMemory/DMASAM.cpp.o ./Common/Libraries/SPIMemory/SPIFlash.cpp.o ./Common/Libraries/SPIMemory/SPIFlashID.cpp.o ./Common/Libraries/SPIMemory/SPIFlashIO.cpp.o ./Common/Libraries/SPIMemory/SPIFlashSFDP.cpp.o ./Common/Libraries/SPIMemory/SPIFram.cpp.o ./Common/Libraries/SPIMemory/SPIFramIO.cpp.o ./Common/Libraries/SPIMemory/SPIMemory.cpp.o ./Common/Libraries/SPIMemory/diagnostics.cpp.o  ./Common/Libraries/RadioHeadPairing/RHutil/HardwareSerial.cpp.o ./Common/Libraries/RadioHeadPairing/RHutil/RasPi.cpp.o  ./Common/Libraries/RadioHeadPairing/RHCRC.cpp.o ./Common/Libraries/RadioHeadPairing/RHDatagram.cpp.o ./Common/Libraries/RadioHeadPairing/RHEncryptedDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHGenericDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHGenericSPI.cpp.o ./Common/Libraries/RadioHeadPairing/RHHardwareSPI.cpp.o ./Common/Libraries/RadioHeadPairing/RHMesh.cpp.o ./Common/Libraries/RadioHeadPairing/RHNRFSPIDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHReliableDatagram.cpp.o ./Common/Libraries/RadioHeadPairing/RHRouter.cpp.o ./Common/Libraries/RadioHeadPairing/RHSPIDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHSoftwareSPI.cpp.o ./Common/Libraries/RadioHeadPairing/RH_ASK.cpp.o ./Common/Libraries/RadioHeadPairing/RH_CC110.cpp.o ./Common/Libraries/RadioHeadPairing/RH_E32.cpp.o ./Common/Libraries/RadioHeadPairing/RH_MRF89.cpp.o ./Common/Libraries/RadioHeadPairing/RH_NRF24.cpp.o ./Common/Libraries/RadioHeadPairing/RH_NRF51.cpp.o ./Common/Libraries/RadioHeadPairing/RH_NRF905.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF22.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF24.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF69.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF95.cpp.o ./Common/Libraries/RadioHeadPairing/RH_Serial.cpp.o ./Common/Libraries/RadioHeadPairing/RH_TCP.cpp.o  ./Common/common.cpp.o   -Wl,--start-group "-L/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Lib/GCC/" -larm_cortexM0l_math -lm  /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/arduino.ar  -Wl,--end-group
+Finished building: Server.elf
+ 
+Do all objcopy commands
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-objcopy" -O binary  "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf" "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.bin"
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-objcopy" -O ihex -R .eeprom  "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf" "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.hex"
+Finished building: Server.hex
+ 
+Building target: Server
+Printing size:
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-size" -A "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf"
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf  :
+section             size        addr
+.text              51656           0
+.ARM.exidx             8       51656
+.data                432   536870912
+.bss                4880   536871344
+.ARM.attributes       40           0
+.comment             128           0
+.debug_info       420300           0
+.debug_abbrev      37706           0
+.debug_loc         62171           0
+.debug_aranges      5568           0
+.debug_ranges       9952           0
+.debug_line        53219           0
+.debug_str         56805           0
+.debug_frame       18220           0
+.stabstr             441           0
+Total             721526
+
+
+Finished building target: Server
+ 
+01:23:11 **** Incremental Build of configuration Release for project Server ****
+make all 
+Building file: ../server.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SPIMemory/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"server.cpp.d" -MT"server.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "../server.cpp"  -o  "server.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericDriver.h:9:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSPIDriver.h:9,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF95.h:15,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common/common.h:187,
+                 from ../server.cpp:184:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHHardwareSPI.h:10:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSPIDriver.h:10,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF95.h:15,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common/common.h:187,
+                 from ../server.cpp:184:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.h:145:18: warning: unused parameter 'interruptNumber' [-Wunused-parameter]
+     virtual void usingInterrupt(uint8_t interruptNumber){}
+                  ^
+Finished building: ../server.cpp
+ 
+Starting combiner
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-gcc"  "-L/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release" -Os -Wl,--gc-sections -save-temps  "-T/opt/sloeber//arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero/linker_scripts/gcc/flash_without_bootloader.ld" "-Wl,-Map,/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.map" --specs=nano.specs --specs=nosys.specs -mcpu=cortex-m0plus -mthumb -Wl,--cref -Wl,--check-sections -Wl,--gc-sections -Wl,--unresolved-symbols=report-all -Wl,--warn-common -Wl,--warn-section-align -o "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf"    ./server.cpp.o  ./libraries/Wire/Wire.cpp.o  ./libraries/SPI/SPI.cpp.o  ./libraries/RTCZero/src/RTCZero.cpp.o  ./core/variant/variant.cpp.o  ./Common/Libraries/SPIMemory/DMASAM.cpp.o ./Common/Libraries/SPIMemory/SPIFlash.cpp.o ./Common/Libraries/SPIMemory/SPIFlashID.cpp.o ./Common/Libraries/SPIMemory/SPIFlashIO.cpp.o ./Common/Libraries/SPIMemory/SPIFlashSFDP.cpp.o ./Common/Libraries/SPIMemory/SPIFram.cpp.o ./Common/Libraries/SPIMemory/SPIFramIO.cpp.o ./Common/Libraries/SPIMemory/SPIMemory.cpp.o ./Common/Libraries/SPIMemory/diagnostics.cpp.o  ./Common/Libraries/RadioHeadPairing/RHutil/HardwareSerial.cpp.o ./Common/Libraries/RadioHeadPairing/RHutil/RasPi.cpp.o  ./Common/Libraries/RadioHeadPairing/RHCRC.cpp.o ./Common/Libraries/RadioHeadPairing/RHDatagram.cpp.o ./Common/Libraries/RadioHeadPairing/RHEncryptedDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHGenericDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHGenericSPI.cpp.o ./Common/Libraries/RadioHeadPairing/RHHardwareSPI.cpp.o ./Common/Libraries/RadioHeadPairing/RHMesh.cpp.o ./Common/Libraries/RadioHeadPairing/RHNRFSPIDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHReliableDatagram.cpp.o ./Common/Libraries/RadioHeadPairing/RHRouter.cpp.o ./Common/Libraries/RadioHeadPairing/RHSPIDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHSoftwareSPI.cpp.o ./Common/Libraries/RadioHeadPairing/RH_ASK.cpp.o ./Common/Libraries/RadioHeadPairing/RH_CC110.cpp.o ./Common/Libraries/RadioHeadPairing/RH_E32.cpp.o ./Common/Libraries/RadioHeadPairing/RH_MRF89.cpp.o ./Common/Libraries/RadioHeadPairing/RH_NRF24.cpp.o ./Common/Libraries/RadioHeadPairing/RH_NRF51.cpp.o ./Common/Libraries/RadioHeadPairing/RH_NRF905.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF22.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF24.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF69.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF95.cpp.o ./Common/Libraries/RadioHeadPairing/RH_Serial.cpp.o ./Common/Libraries/RadioHeadPairing/RH_TCP.cpp.o  ./Common/common.cpp.o   -Wl,--start-group "-L/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Lib/GCC/" -larm_cortexM0l_math -lm  /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/arduino.ar  -Wl,--end-group
+Finished building: Server.elf
+ 
+Do all objcopy commands
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-objcopy" -O binary  "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf" "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.bin"
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-objcopy" -O ihex -R .eeprom  "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf" "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.hex"
+Finished building: Server.hex
+ 
+Building target: Server
+Printing size:
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-size" -A "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf"
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf  :
+section             size        addr
+.text              51656           0
+.ARM.exidx             8       51656
+.data                432   536870912
+.bss                4880   536871344
+.ARM.attributes       40           0
+.comment             128           0
+.debug_info       420300           0
+.debug_abbrev      37706           0
+.debug_loc         62171           0
+.debug_aranges      5568           0
+.debug_ranges       9952           0
+.debug_line        53219           0
+.debug_str         56805           0
+.debug_frame       18220           0
+.stabstr             441           0
+Total             721526
+
+
+Finished building target: Server
+ 
+01:24:04 **** Incremental Build of configuration Release for project Server ****
+make all 
+Building file: ../server.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SPIMemory/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"server.cpp.d" -MT"server.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "../server.cpp"  -o  "server.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericDriver.h:9:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSPIDriver.h:9,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF95.h:15,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common/common.h:187,
+                 from ../server.cpp:184:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHHardwareSPI.h:10:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSPIDriver.h:10,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF95.h:15,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common/common.h:187,
+                 from ../server.cpp:184:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.h:145:18: warning: unused parameter 'interruptNumber' [-Wunused-parameter]
+     virtual void usingInterrupt(uint8_t interruptNumber){}
+                  ^
+Finished building: ../server.cpp
+ 
+Starting combiner
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-gcc"  "-L/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release" -Os -Wl,--gc-sections -save-temps  "-T/opt/sloeber//arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero/linker_scripts/gcc/flash_without_bootloader.ld" "-Wl,-Map,/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.map" --specs=nano.specs --specs=nosys.specs -mcpu=cortex-m0plus -mthumb -Wl,--cref -Wl,--check-sections -Wl,--gc-sections -Wl,--unresolved-symbols=report-all -Wl,--warn-common -Wl,--warn-section-align -o "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf"    ./server.cpp.o  ./libraries/Wire/Wire.cpp.o  ./libraries/SPI/SPI.cpp.o  ./libraries/RTCZero/src/RTCZero.cpp.o  ./core/variant/variant.cpp.o  ./Common/Libraries/SPIMemory/DMASAM.cpp.o ./Common/Libraries/SPIMemory/SPIFlash.cpp.o ./Common/Libraries/SPIMemory/SPIFlashID.cpp.o ./Common/Libraries/SPIMemory/SPIFlashIO.cpp.o ./Common/Libraries/SPIMemory/SPIFlashSFDP.cpp.o ./Common/Libraries/SPIMemory/SPIFram.cpp.o ./Common/Libraries/SPIMemory/SPIFramIO.cpp.o ./Common/Libraries/SPIMemory/SPIMemory.cpp.o ./Common/Libraries/SPIMemory/diagnostics.cpp.o  ./Common/Libraries/RadioHeadPairing/RHutil/HardwareSerial.cpp.o ./Common/Libraries/RadioHeadPairing/RHutil/RasPi.cpp.o  ./Common/Libraries/RadioHeadPairing/RHCRC.cpp.o ./Common/Libraries/RadioHeadPairing/RHDatagram.cpp.o ./Common/Libraries/RadioHeadPairing/RHEncryptedDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHGenericDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHGenericSPI.cpp.o ./Common/Libraries/RadioHeadPairing/RHHardwareSPI.cpp.o ./Common/Libraries/RadioHeadPairing/RHMesh.cpp.o ./Common/Libraries/RadioHeadPairing/RHNRFSPIDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHReliableDatagram.cpp.o ./Common/Libraries/RadioHeadPairing/RHRouter.cpp.o ./Common/Libraries/RadioHeadPairing/RHSPIDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHSoftwareSPI.cpp.o ./Common/Libraries/RadioHeadPairing/RH_ASK.cpp.o ./Common/Libraries/RadioHeadPairing/RH_CC110.cpp.o ./Common/Libraries/RadioHeadPairing/RH_E32.cpp.o ./Common/Libraries/RadioHeadPairing/RH_MRF89.cpp.o ./Common/Libraries/RadioHeadPairing/RH_NRF24.cpp.o ./Common/Libraries/RadioHeadPairing/RH_NRF51.cpp.o ./Common/Libraries/RadioHeadPairing/RH_NRF905.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF22.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF24.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF69.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF95.cpp.o ./Common/Libraries/RadioHeadPairing/RH_Serial.cpp.o ./Common/Libraries/RadioHeadPairing/RH_TCP.cpp.o  ./Common/common.cpp.o   -Wl,--start-group "-L/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Lib/GCC/" -larm_cortexM0l_math -lm  /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/arduino.ar  -Wl,--end-group
+Finished building: Server.elf
+ 
+Do all objcopy commands
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-objcopy" -O binary  "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf" "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.bin"
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-objcopy" -O ihex -R .eeprom  "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf" "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.hex"
+Finished building: Server.hex
+ 
+Building target: Server
+Printing size:
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-size" -A "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf"
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf  :
+section             size        addr
+.text              51680           0
+.ARM.exidx             8       51680
+.data                432   536870912
+.bss                4880   536871344
+.ARM.attributes       40           0
+.comment             128           0
+.debug_info       420346           0
+.debug_abbrev      37706           0
+.debug_loc         62171           0
+.debug_aranges      5568           0
+.debug_ranges       9952           0
+.debug_line        53224           0
+.debug_str         56805           0
+.debug_frame       18220           0
+.stabstr             441           0
+Total             721601
+
+
+Finished building target: Server
+ 
+01:25:39 **** Incremental Build of configuration Release for project Server ****
+make all 
+Building file: ../server.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SPIMemory/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"server.cpp.d" -MT"server.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "../server.cpp"  -o  "server.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericDriver.h:9:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSPIDriver.h:9,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF95.h:15,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common/common.h:187,
+                 from ../server.cpp:184:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHHardwareSPI.h:10:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSPIDriver.h:10,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF95.h:15,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common/common.h:187,
+                 from ../server.cpp:184:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.h:145:18: warning: unused parameter 'interruptNumber' [-Wunused-parameter]
+     virtual void usingInterrupt(uint8_t interruptNumber){}
+                  ^
+Finished building: ../server.cpp
+ 
+Starting combiner
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-gcc"  "-L/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release" -Os -Wl,--gc-sections -save-temps  "-T/opt/sloeber//arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero/linker_scripts/gcc/flash_without_bootloader.ld" "-Wl,-Map,/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.map" --specs=nano.specs --specs=nosys.specs -mcpu=cortex-m0plus -mthumb -Wl,--cref -Wl,--check-sections -Wl,--gc-sections -Wl,--unresolved-symbols=report-all -Wl,--warn-common -Wl,--warn-section-align -o "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf"    ./server.cpp.o  ./libraries/Wire/Wire.cpp.o  ./libraries/SPI/SPI.cpp.o  ./libraries/RTCZero/src/RTCZero.cpp.o  ./core/variant/variant.cpp.o  ./Common/Libraries/SPIMemory/DMASAM.cpp.o ./Common/Libraries/SPIMemory/SPIFlash.cpp.o ./Common/Libraries/SPIMemory/SPIFlashID.cpp.o ./Common/Libraries/SPIMemory/SPIFlashIO.cpp.o ./Common/Libraries/SPIMemory/SPIFlashSFDP.cpp.o ./Common/Libraries/SPIMemory/SPIFram.cpp.o ./Common/Libraries/SPIMemory/SPIFramIO.cpp.o ./Common/Libraries/SPIMemory/SPIMemory.cpp.o ./Common/Libraries/SPIMemory/diagnostics.cpp.o  ./Common/Libraries/RadioHeadPairing/RHutil/HardwareSerial.cpp.o ./Common/Libraries/RadioHeadPairing/RHutil/RasPi.cpp.o  ./Common/Libraries/RadioHeadPairing/RHCRC.cpp.o ./Common/Libraries/RadioHeadPairing/RHDatagram.cpp.o ./Common/Libraries/RadioHeadPairing/RHEncryptedDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHGenericDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHGenericSPI.cpp.o ./Common/Libraries/RadioHeadPairing/RHHardwareSPI.cpp.o ./Common/Libraries/RadioHeadPairing/RHMesh.cpp.o ./Common/Libraries/RadioHeadPairing/RHNRFSPIDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHReliableDatagram.cpp.o ./Common/Libraries/RadioHeadPairing/RHRouter.cpp.o ./Common/Libraries/RadioHeadPairing/RHSPIDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHSoftwareSPI.cpp.o ./Common/Libraries/RadioHeadPairing/RH_ASK.cpp.o ./Common/Libraries/RadioHeadPairing/RH_CC110.cpp.o ./Common/Libraries/RadioHeadPairing/RH_E32.cpp.o ./Common/Libraries/RadioHeadPairing/RH_MRF89.cpp.o ./Common/Libraries/RadioHeadPairing/RH_NRF24.cpp.o ./Common/Libraries/RadioHeadPairing/RH_NRF51.cpp.o ./Common/Libraries/RadioHeadPairing/RH_NRF905.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF22.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF24.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF69.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF95.cpp.o ./Common/Libraries/RadioHeadPairing/RH_Serial.cpp.o ./Common/Libraries/RadioHeadPairing/RH_TCP.cpp.o  ./Common/common.cpp.o   -Wl,--start-group "-L/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Lib/GCC/" -larm_cortexM0l_math -lm  /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/arduino.ar  -Wl,--end-group
+Finished building: Server.elf
+ 
+Do all objcopy commands
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-objcopy" -O binary  "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf" "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.bin"
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-objcopy" -O ihex -R .eeprom  "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf" "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.hex"
+Finished building: Server.hex
+ 
+Building target: Server
+Printing size:
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-size" -A "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf"
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf  :
+section             size        addr
+.text              51680           0
+.ARM.exidx             8       51680
+.data                432   536870912
+.bss                4880   536871344
+.ARM.attributes       40           0
+.comment             128           0
+.debug_info       420346           0
+.debug_abbrev      37706           0
+.debug_loc         62171           0
+.debug_aranges      5568           0
+.debug_ranges       9952           0
+.debug_line        53224           0
+.debug_str         56805           0
+.debug_frame       18220           0
+.stabstr             441           0
+Total             721601
+
+
+Finished building target: Server
+ 
+14:23:19 **** Incremental Build of configuration Release for project Server ****
+make all 
+Building target: Server
+Printing size:
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-size" -A "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf"
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf  :
+section             size        addr
+.text              51680           0
+.ARM.exidx             8       51680
+.data                432   536870912
+.bss                4880   536871344
+.ARM.attributes       40           0
+.comment             128           0
+.debug_info       420346           0
+.debug_abbrev      37706           0
+.debug_loc         62171           0
+.debug_aranges      5568           0
+.debug_ranges       9952           0
+.debug_line        53224           0
+.debug_str         56805           0
+.debug_frame       18220           0
+.stabstr             441           0
+Total             721601
+
+
+Finished building target: Server
+ 
+14:26:18 **** Incremental Build of configuration Release for project Server ****
+make all 
+Building file: ../server.cpp
+Starting C++ compile
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-g++" -mcpu=cortex-m0plus -mthumb -c -g -Os -Wall -Wextra -std=gnu++11 -ffunction-sections -fdata-sections -fno-threadsafe-statics -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -MMD -DF_CPU=48000000L -DARDUINO=10802 -DARDUINO_SAMD_ZERO -DARDUINO_ARCH_SAMD  -D__SAMD21G18A__ -DUSB_VID=0x2341 -DUSB_PID=0x804d -DUSBCON '-DUSB_MANUFACTURER="Arduino LLC"' '-DUSB_PRODUCT="Arduino Zero"' "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Include/" "-I/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS-Atmel/1.1.0/CMSIS/Device/ATMEL/"   -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/cores/arduino" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src" -I"/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/SPIMemory/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero" -I"/opt/sloeber/arduinoPlugin/libraries/RTCZero/1.5.2/src" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/SPI" -I"/opt/sloeber/arduinoPlugin/packages/arduino/hardware/samd/1.6.19/libraries/Wire" -MMD -MP -MF"server.cpp.d" -MT"server.cpp.o" -D__IN_ECLIPSE__=1 -x c++ "../server.cpp"  -o  "server.cpp.o"
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericDriver.h:9:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSPIDriver.h:9,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF95.h:15,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common/common.h:187,
+                 from ../server.cpp:184:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:299:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
+ ^
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RadioHead.h:300:51: warning: "/*" within comment [-Wcomment]
+ cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+ ^
+In file included from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHHardwareSPI.h:10:0,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHSPIDriver.h:10,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RH_RF95.h:15,
+                 from /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Common/common.h:187,
+                 from ../server.cpp:184:
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Libraries/RadioHeadPairing/1.8.3/src/RHGenericSPI.h:145:18: warning: unused parameter 'interruptNumber' [-Wunused-parameter]
+     virtual void usingInterrupt(uint8_t interruptNumber){}
+                  ^
+Finished building: ../server.cpp
+ 
+Starting combiner
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-gcc"  "-L/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release" -Os -Wl,--gc-sections -save-temps  "-T/opt/sloeber//arduinoPlugin/packages/arduino/hardware/samd/1.6.19/variants/arduino_zero/linker_scripts/gcc/flash_without_bootloader.ld" "-Wl,-Map,/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.map" --specs=nano.specs --specs=nosys.specs -mcpu=cortex-m0plus -mthumb -Wl,--cref -Wl,--check-sections -Wl,--gc-sections -Wl,--unresolved-symbols=report-all -Wl,--warn-common -Wl,--warn-section-align -o "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf"    ./server.cpp.o  ./libraries/Wire/Wire.cpp.o  ./libraries/SPI/SPI.cpp.o  ./libraries/RTCZero/src/RTCZero.cpp.o  ./core/variant/variant.cpp.o  ./Common/Libraries/SPIMemory/DMASAM.cpp.o ./Common/Libraries/SPIMemory/SPIFlash.cpp.o ./Common/Libraries/SPIMemory/SPIFlashID.cpp.o ./Common/Libraries/SPIMemory/SPIFlashIO.cpp.o ./Common/Libraries/SPIMemory/SPIFlashSFDP.cpp.o ./Common/Libraries/SPIMemory/SPIFram.cpp.o ./Common/Libraries/SPIMemory/SPIFramIO.cpp.o ./Common/Libraries/SPIMemory/SPIMemory.cpp.o ./Common/Libraries/SPIMemory/diagnostics.cpp.o  ./Common/Libraries/RadioHeadPairing/RHutil/HardwareSerial.cpp.o ./Common/Libraries/RadioHeadPairing/RHutil/RasPi.cpp.o  ./Common/Libraries/RadioHeadPairing/RHCRC.cpp.o ./Common/Libraries/RadioHeadPairing/RHDatagram.cpp.o ./Common/Libraries/RadioHeadPairing/RHEncryptedDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHGenericDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHGenericSPI.cpp.o ./Common/Libraries/RadioHeadPairing/RHHardwareSPI.cpp.o ./Common/Libraries/RadioHeadPairing/RHMesh.cpp.o ./Common/Libraries/RadioHeadPairing/RHNRFSPIDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHReliableDatagram.cpp.o ./Common/Libraries/RadioHeadPairing/RHRouter.cpp.o ./Common/Libraries/RadioHeadPairing/RHSPIDriver.cpp.o ./Common/Libraries/RadioHeadPairing/RHSoftwareSPI.cpp.o ./Common/Libraries/RadioHeadPairing/RH_ASK.cpp.o ./Common/Libraries/RadioHeadPairing/RH_CC110.cpp.o ./Common/Libraries/RadioHeadPairing/RH_E32.cpp.o ./Common/Libraries/RadioHeadPairing/RH_MRF89.cpp.o ./Common/Libraries/RadioHeadPairing/RH_NRF24.cpp.o ./Common/Libraries/RadioHeadPairing/RH_NRF51.cpp.o ./Common/Libraries/RadioHeadPairing/RH_NRF905.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF22.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF24.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF69.cpp.o ./Common/Libraries/RadioHeadPairing/RH_RF95.cpp.o ./Common/Libraries/RadioHeadPairing/RH_Serial.cpp.o ./Common/Libraries/RadioHeadPairing/RH_TCP.cpp.o  ./Common/common.cpp.o   -Wl,--start-group "-L/opt/sloeber//arduinoPlugin/packages/arduino/tools/CMSIS/4.5.0/CMSIS/Lib/GCC/" -larm_cortexM0l_math -lm  /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/arduino.ar  -Wl,--end-group
+Finished building: Server.elf
+ 
+Do all objcopy commands
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-objcopy" -O binary  "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf" "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.bin"
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-objcopy" -O ihex -R .eeprom  "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf" "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.hex"
+Finished building: Server.hex
+ 
+Building target: Server
+Printing size:
+"/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-size" -A "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf"
+/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf  :
+section             size        addr
+.text              51592           0
+.ARM.exidx             8       51592
+.data                432   536870912
+.bss                4880   536871344
+.ARM.attributes       40           0
+.comment             128           0
+.debug_info       420253           0
+.debug_abbrev      37706           0
+.debug_loc         62171           0
+.debug_aranges      5568           0
+.debug_ranges       9952           0
+.debug_line        53214           0
+.debug_str         56805           0
+.debug_frame       18220           0
+.stabstr             441           0
+Total             721410
+
+
+Finished building target: Server
+ 
