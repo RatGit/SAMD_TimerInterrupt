@@ -173,7 +173,7 @@ void alarmMatch()
 //   ---------------------------------------------------------------------------------------------------------------  //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void pair()
+bool pair()
 {
  uint8_t* data, datalen;
 
@@ -327,6 +327,8 @@ void pair()
  }
 
  delete [] data;
+
+ return isPaired;
 }
 
 
@@ -345,8 +347,9 @@ void pair()
 //   ---------------------------------------------------------------------------------------------------------------  //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void sendData()
+bool sendData()
 {
+ bool result = false;
  uint8_t* data, datalen;
 
  // Send Data: <64bit OUI|UID>:<12-bit Data>:<12-bit Data>
@@ -357,7 +360,7 @@ void sendData()
  #ifdef USE_Si7021
   float temperature = Si7021.readTemperature();
   float humidity = Si7021.readHumidity();
-  if (temperature == NAN || humidity == NAN) return;
+  if (temperature == NAN || humidity == NAN) return false;
  #else
   float temperature = (((float)rand()) / (float)RAND_MAX) * 100.0;  // Random Float in the range 0 to 100.0, (simulate 12-bit Si7021 sensor data)
   float humidity = (((float)rand()) / (float)RAND_MAX) * 100.0;     // Random Float in the range 0 to 100.0, (simulate 12-bit Si7021 sensor data)
@@ -387,6 +390,8 @@ void sendData()
   #endif
 
  // Wait for a response from the server with a new timestamp, (maybe not required for concrete sensor)
+
+  result = true;
  }
  else
  {
@@ -396,6 +401,8 @@ void sendData()
  }
 
  delete [] data;
+
+ return result;
 }
 
 
@@ -412,8 +419,10 @@ void sendData()
 //   ---------------------------------------------------------------------------------------------------------------  //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void radioHandshake()
+bool radioHandshake()
 {
+ bool result = false;
+
  if (LED_DEBUG)  // Blink LED, (for debugging only)
  {
   digitalWrite(LED_BUILTIN, HIGH);
@@ -421,12 +430,14 @@ void radioHandshake()
   digitalWrite(LED_BUILTIN, LOW);
  }
 
- if (isPaired) sendData();
- else pair();
+ if (isPaired) result = sendData();
+ else result = pair();
 
 // #ifndef LOW_POWER
   if (ENABLE_VERBOSE) {serialPrint(USE_SERIAL, (char*)"");}
 // #endif
+
+ return result;
 }
 
 
@@ -457,6 +468,9 @@ void setup()
 
  // Tri-State GPIO pin incorrectly connected to MISO net
  pinMode(30, INPUT);
+
+ // Tri-State Power OFF GPIO pin, (it remains a high impedance inputs until it needs to be used as an output)
+ pinMode(POWER_OFF_PIN, INPUT);
 
  // Tri-State Unused Radio Pins
  pinMode(radioReset, INPUT);
@@ -612,8 +626,15 @@ void loop()
 
        if (!isPaired)
        {
-        rtc.setAlarmMinutes((rtc.getMinutes() + 1) % 60);  // RTC alarms in 1 minute's time
-        rtc.enableAlarm(rtc.MATCH_MMSS);                   // Enable RTC alarm for next minutes and seconds match
+        int alarmSeconds = rtc.getSeconds();  // Read current RTC seconds
+        int alarmMinutes = rtc.getMinutes();  // Read current RTC minutes
+        int nextAlarmTime = (rand() % 60) + alarmMinutes * 60 + alarmSeconds;
+        int nextAlarmSeconds = nextAlarmTime % 60;
+        int nextAlarmMinutes = (nextAlarmTime - nextAlarmSeconds) / 60;
+
+        rtc.setAlarmSeconds((uint8_t)nextAlarmSeconds);  // RTC alarms on a random number of seconds, (0-59) at least 1 minute from now in case there was a comms collision
+        rtc.setAlarmMinutes((uint8_t)nextAlarmMinutes);
+        rtc.enableAlarm(rtc.MATCH_MMSS);                 // Enable RTC alarm for next minutes and seconds match
        }
       }
       else
@@ -621,18 +642,37 @@ void loop()
        radioHandshake();  // Attempt to Pair with Master
       }
 
-      if (isPaired)  // If Paired successfully, set device to update in 1 minute's time and then every hour thenceforth
+      if (isPaired)  // If Paired successfully, set device to update in 1 minute's time and then every hour thenceforth, (because the next matching minutes and seconds will then be an hour away)
       {
        rtc.setAlarmSeconds(rtc.getSeconds());             // RTC alarms on the current seconds value henceforth
        rtc.setAlarmMinutes((rtc.getMinutes() + 1) % 60);  // RTC alarms in 1 minute's time
        rtc.enableAlarm(rtc.MATCH_MMSS);                   // Enable RTC alarm for next minutes and seconds match
       }
+      else
+      {
+       pinMode(POWER_OFF_PIN, OUTPUT);  // Kill the Power if the device hasn't paired after NUM_PAIRINGS_SECONDS + NUM_PAIRINGS_MINUTES attempts
+       digitalWrite(POWER_OFF_PIN, LOW);
+      }
      }
      else
      {
       unsigned long time = micros();
-      radioHandshake();  // Send Data
-      if (ENABLE_VERBOSE) {serialPrintf(USE_SERIAL, serialbuf, "CLIENT: Send Data Duration = %lu (us)\n", true, false, micros() - time);}
+      if (radioHandshake())  // Send Data
+      {
+       if (ENABLE_VERBOSE) {serialPrintf(USE_SERIAL, serialbuf, "CLIENT: Send Data Duration = %lu (us)\n", true, false, micros() - time);}
+      }
+      else
+      {
+       int alarmSeconds = rtc.getSeconds();  // Read current RTC seconds
+       int alarmMinutes = rtc.getMinutes();  // Read current RTC minutes
+       int nextAlarmTime = (rand() % 60) + alarmMinutes * 60 + alarmSeconds;
+       int nextAlarmSeconds = nextAlarmTime % 60;
+       int nextAlarmMinutes = (nextAlarmTime - nextAlarmSeconds) / 60;
+
+       rtc.setAlarmSeconds((uint8_t)nextAlarmSeconds);  // RTC alarms on a random number of seconds, (0-59) at least 1 minute from now in case there was a comms collision
+       rtc.setAlarmMinutes((uint8_t)nextAlarmMinutes);
+       rtc.enableAlarm(rtc.MATCH_MMSS);                  // Enable RTC alarm for next minutes and seconds match
+      }
      }
 
      radio.sleep();      // Put Radio back to sleep

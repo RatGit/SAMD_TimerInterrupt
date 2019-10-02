@@ -215,11 +215,12 @@
 // Error Codes
 #define ERROR_FLASH_MEMORY    "0001"  // Flash Memory Failed to Initialise
 #define ERROR_INVALID_CRC     "0002"  // Invalid Serial Message CRC
-#define ERROR_UNKNOWN_MESSAGE "0003"  // Unknown Serial Command
 
 // Command Response Codes
-#define MESSAGE_RCVD_OK "1000"  // Serial command received and handled correctly
-#define CLIENT_PAIRED   "1001"  // Client Paired Successfully
+#define COMMAND_SUCCESS "1000"  // Serial command successful
+#define COMMAND_FAIL    "1001"  // Serial command failed
+#define COMMAND_UNKNOWN "1002"  // Unknown Serial Command
+#define CLIENT_PAIRED   "1003"  // Client Paired Successfully
 
 #define OUI "0004A3"  // Have to apply for an OUI
 
@@ -228,6 +229,18 @@
 #define ID_ADDR_1 0x0080A040
 #define ID_ADDR_2 0x0080A044
 #define ID_ADDR_3 0x0080A048
+
+// Power Off GPIO Pin
+#define POWER_OFF_PIN 9
+
+// Chip Select Pin Numbers
+#define radioDio0        2
+#define radioDio1        6
+#define radioDio2        7
+#define radioReset       3
+#define radioChipSelect  5
+
+#define flashChipSelect 4
 
 
 ////////////////////////
@@ -243,7 +256,7 @@ struct DateTime
 ///////////////////////////////////////////////
 //  External Global Variables and Constants  //
 ///////////////////////////////////////////////
-
+/*
 // Chip Select Pin Numbers
 extern const int radioDio0;
 extern const int radioDio1;
@@ -252,7 +265,7 @@ extern const int radioReset;
 extern const int radioChipSelect;
 
 extern const int flashChipSelect;
-
+*/
 // Change these values to set the current initial time
 extern const uint8_t seconds;
 extern const uint8_t minutes;

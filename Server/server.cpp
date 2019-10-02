@@ -215,16 +215,17 @@ uint8_t serialPtr;
 //   ---------------------------------------------------------------------------------------------------------------  //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool initClients()
+bool initClients(bool clearFlash)
 {
  if (!serialFlashOk) {return false;}
 
-// SerialFlash.eraseSector(clientListAddress);
+ bool eraseFlash = false;
+ if (clearFlash) eraseFlash = SerialFlash.eraseSector(clientListAddress);
 
  bool readOk = SerialFlash.readByteArray(clientListAddress, (uint8_t*)clientList, NUM_CLIENTS*sizeof(clientList[0]));
  for (uint8_t i=0; i<NUM_CLIENTS; i++) {if (clientList[i] == 0xFFFFFFFFFFFFFFFF) {clientList[i] = 0;}}
 
- return readOk;
+ return readOk && (!clearFlash || eraseFlash);
 }
 
 
@@ -666,55 +667,22 @@ bool serialRead()
   {
    case 'T':  // Timestamp "T0123456789<CRC><LF>"  eg. "T156231193407"
    {
-//    uint32_t timestamp = strtoul(&(serialData[1]), NULL, 10);  // Convert remaining chars into a 32-bit timestamp
     uint32_t timestamp = convertStrToUint(&(serialData[1]));  // Convert remaining chars into a 32-bit timestamp
     rtc.setY2kEpoch(timestamp);
 
-//    if (ENABLE_VERBOSE)
-//    {
-//     char pbuf[255];
-////     serialPrint(USE_SERIAL, (char*)(&(serialData[1])));
-//     serialPrintf(USE_SERIAL, pbuf, "Timestamp = %u", (uint32_t)(strtoul(&(serialData[1]), NULL, 10)));
-//     serialPrintf(USE_SERIAL, pbuf, "Timestamp = %u", convertStrToUint(serialData));
+    getDateTime();  // Update the global dateTime struct from the RTC.
 
-    getDateTime();
-//     serialPrintf(USE_SERIAL, pbuf, "rtc.getY2kEpoch() = %u", rtc.getY2kEpoch());
-//     serialPrintf(USE_SERIAL, pbuf, "rtc.getDay() = %u", dateTime.day);
-//     serialPrintf(USE_SERIAL, pbuf, "rtc.getMonth() = %u", dateTime.month);
-//     serialPrintf(USE_SERIAL, pbuf, "rtc.getYear() = %u", dateTime.year);
-//     serialPrintf(USE_SERIAL, pbuf, "rtc.getHours() = %u", dateTime.hour);
-//     serialPrintf(USE_SERIAL, pbuf, "rtc.getMinutes() = %u", dateTime.minute);
-//     serialPrintf(USE_SERIAL, pbuf, "rtc.getSeconds() = %u", dateTime.second);
-//    }
     if (ENABLE_VERBOSE) {serialPrint(USE_SERIAL, "SERVER: Date/Time Successfully Set", true);}
-    else {serialPrintf(USE_SERIAL, serialbuf, "%s%s", true, true, MESSAGE_RCVD_OK, ":");}  // eg. "1000:32"
+    else {serialPrintf(USE_SERIAL, serialbuf, "%s%s", true, true, COMMAND_SUCCESS, ":");}  // eg. "1000:32"
    }
    break;
 
    case 'C':  // Clear Client List, eg "CA4<LF>"
    {
-/*
-    clientListFileExists = SerialFlash.exists(CLIENT_LIST_FILENAME);
-    if (clientListFileExists)
-    {
-     SerialFlashFile clientListFile;
-     clientListFile = SerialFlash.open(CLIENT_LIST_FILENAME);
-     if ((bool)clientListFile)
-     {
-      char clientListBuffer[NUM_CLIENTS * 64];
+    bool cleared = initClients(true);
 
-      for (uint8_t i=0; i<NUM_CLIENTS; i++) ((uint64_t*)clientListBuffer)[i] = 0;
-
-      clientListFile.seek(0);
-      clientListFile.write(clientListBuffer, NUM_CLIENTS * 64);
-      clientListFile.close();
-     }
-    }
-*/
-    for (uint8_t i=0; i<NUM_CLIENTS; i++) clientList[i] = 0;
-
-    if (ENABLE_VERBOSE) {serialPrint(USE_SERIAL, "SERVER: Client List Cleared", true);}
-    else {serialPrintf(USE_SERIAL, serialbuf, "%s%s", true, true, MESSAGE_RCVD_OK, ":");}  // eg. "1000:32"
+    if (ENABLE_VERBOSE) {if (cleared) serialPrint(USE_SERIAL, "SERVER: Client List Cleared", true); else serialPrint(USE_SERIAL, "SERVER: Failed to Clear Client List", true);}
+    else {if (cleared) serialPrintf(USE_SERIAL, serialbuf, "%s%s", true, true, COMMAND_SUCCESS, ":"); else serialPrintf(USE_SERIAL, serialbuf, "%s%s", true, true, COMMAND_FAIL, ":");}  // eg. "1000:32"
    }
    break;
 
@@ -725,12 +693,12 @@ bool serialRead()
      case '0':
       pairingEnabled = false;
       if (ENABLE_VERBOSE) {serialPrint(USE_SERIAL, "SERVER: Pairing Disabled", true);}
-      else {serialPrintf(USE_SERIAL, serialbuf, "%s%s", true, true, MESSAGE_RCVD_OK, ":");}  // eg. "1000:32"
+      else {serialPrintf(USE_SERIAL, serialbuf, "%s%s", true, true, COMMAND_SUCCESS, ":");}  // eg. "1000:32"
      break;
      case '1':
       pairingEnabled = true;
       if (ENABLE_VERBOSE) {serialPrint(USE_SERIAL, "SERVER: Pairing Enabled", true);}
-      else {serialPrintf(USE_SERIAL, serialbuf, "%s%s", true, true, MESSAGE_RCVD_OK, ":");}  // eg. "1000:32"
+      else {serialPrintf(USE_SERIAL, serialbuf, "%s%s", true, true, COMMAND_SUCCESS, ":");}  // eg. "1000:32"
      break;
     }
    }
@@ -739,7 +707,7 @@ bool serialRead()
    default:
    {
     if (ENABLE_VERBOSE) {serialPrint(USE_SERIAL, "SERVER: Unknown Command", true);}
-    else {serialPrintf(USE_SERIAL, serialbuf, "%s%s", true, true, ERROR_UNKNOWN_MESSAGE, ":");}  // eg. "0003:AA"
+    else {serialPrintf(USE_SERIAL, serialbuf, "%s%s", true, true, COMMAND_UNKNOWN, ":");}  // eg. "0003:AA"
    }
    break;
   }

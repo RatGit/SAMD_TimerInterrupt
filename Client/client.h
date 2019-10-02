@@ -146,8 +146,8 @@
 #define DEFAULT_CLIENT_ADDRESS 252
 #define SERVER_ACK_TIMEOUT 5000
 #define USE_Si7021  // Include code for the Si7021 Humidity/Temperature Sensor
-#define NUM_PAIRINGS_SECONDS 10  // Number of times to attempt to pair every 10 seconds, (on startup)
-#define NUM_PAIRINGS_MINUTES 10  // Number of times to attempt to pair every minute, (on startup)
+#define NUM_PAIRINGS_SECONDS 6 //10  // Number of times to attempt to pair every 10 seconds, (on startup)
+#define NUM_PAIRINGS_MINUTES 2 //10  // Number of times to attempt to pair every minute, (on startup)
 
 
 //////////////////////////////////////
@@ -161,9 +161,9 @@ bool isPaired;
 //  Function Declarations  //
 /////////////////////////////
 
-void pair();
-void sendData();
-void radioHandshake();
+bool pair();
+bool sendData();
+bool radioHandshake();
 
 
 #endif

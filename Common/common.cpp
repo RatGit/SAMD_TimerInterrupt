@@ -178,7 +178,7 @@
 //////////////////////////////////////
 //  Global Variables and Constants  //
 //////////////////////////////////////
-
+/*
 // Chip Select Pin Numbers
 const int radioDio0 = 2;
 const int radioDio1 = 6;
@@ -187,7 +187,7 @@ const int radioReset = 3;
 const int radioChipSelect = 5;
 
 const int flashChipSelect = 4;
-
+*/
 // Change these values to set the current initial time
 const uint8_t seconds = 0;
 const uint8_t minutes = 0;

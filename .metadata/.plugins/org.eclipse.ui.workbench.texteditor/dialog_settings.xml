@@ -2,29 +2,31 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="_beginSPI" key="selection"/>
+		<item value="NUM_PAIRINGS_MINUTES" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
-		<item value="true" key="wrap"/>
+		<item value="false" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="_beginSPI"/>
-			<item value="_startSPIBus"/>
-			<item value="SPI_CLK"/>
-			<item value="CHIPBUSY"/>
-			<item value="BUSY_TIMEOUT"/>
-			<item value="PIN_ATTR_DIGITAL"/>
-			<item value="buff"/>
-			<item value="buf"/>
-			<item value="VERBOSE"/>
-			<item value="SPI"/>
-			<item value="SPI."/>
-			<item value="id2chip"/>
-			<item value="sleep"/>
+			<item value="NUM_PAIRINGS_MINUTES"/>
 			<item value="serialPrint"/>
-			<item value="getAddress"/>
+			<item value="serialPrintf("/>
+			<item value="serialPrint("/>
+			<item value="SERVER: ["/>
+			<item value="ENABLE_VERBOSE"/>
+			<item value="defined"/>
+			<item value="initClients"/>
+			<item value="clientList"/>
+			<item value="array"/>
+			<item value="readchar"/>
+			<item value="readbyte"/>
+			<item value="USES_SFDP"/>
+			<item value="SERVER: Client List Address"/>
+			<item value="_beginSPI"/>
 		</list>
 		<list key="replacehistory">
+			<item value="serialPrint(USE_SERIAL, "/>
+			<item value="serialPrintf(USE_SERIAL, "/>
 			<item value="serialbuf"/>
 			<item value="ENABLE_VERBOSE"/>
 			<item value="load"/>

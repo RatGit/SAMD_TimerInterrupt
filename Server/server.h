@@ -214,7 +214,7 @@
 //  Function Declarations  //
 /////////////////////////////
 
-bool initClients();
+bool initClients(bool clearFlash=false);
 uint8_t numClients();
 uint8_t findClient(uint64_t clientUID);
 uint8_t addClient(uint64_t clientUID);
