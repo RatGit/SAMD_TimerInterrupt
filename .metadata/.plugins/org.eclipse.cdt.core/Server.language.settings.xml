@@ -165,6 +165,12 @@
                         					
                     </entry>
                     					
+                    <entry kind="macro" name="__ARM_FP" value="201112L">
+                        						
+                        <flag value="BUILTIN|READONLY"/>
+                        					
+                    </entry>
+                    					
                     <entry kind="macro" name="__ARM_FP" value="12">
                         						
                         <flag value="BUILTIN|READONLY"/>
@@ -1503,12 +1509,6 @@
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__STDC_VERSION__" value="201112L">
-                        						
-                        <flag value="BUILTIN|READONLY"/>
-                        					
-                    </entry>
-                    					
                     <entry kind="macro" name="__STDC__" value="1">
                         						
                         <flag value="BUILTIN|READONLY"/>
@@ -2227,12 +2227,6 @@
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="ARDUINO_ARCH_SAMD" value="1">
-                        						
-                        <flag value="BUILTIN|READONLY"/>
-                        					
-                    </entry>
-                    					
                     <entry kind="macro" name="ARDUINO_SAMD_ZERO" value="1">
                         						
                         <flag value="BUILTIN|READONLY"/>
@@ -2647,6 +2641,12 @@
                         					
                     </entry>
                     					
+                    <entry kind="macro" name="__DEC64_MAX_EXP__" value="(-0.5LR-0.5LR)">
+                        						
+                        <flag value="BUILTIN|READONLY"/>
+                        					
+                    </entry>
+                    					
                     <entry kind="macro" name="__DEC64_MAX__" value="9.999999999999999E384DD">
                         						
                         <flag value="BUILTIN|READONLY"/>
@@ -2714,12 +2714,6 @@
                     </entry>
                     					
                     <entry kind="macro" name="__FLOAT_WORD_ORDER__" value="__ORDER_LITTLE_ENDIAN__">
-                        						
-                        <flag value="BUILTIN|READONLY"/>
-                        					
-                    </entry>
-                    					
-                    <entry kind="macro" name="__FLT_DECIMAL_DIG__" value="9">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -3337,12 +3331,6 @@
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__LFRACT_MIN__" value="(-0.5LR-0.5LR)">
-                        						
-                        <flag value="BUILTIN|READONLY"/>
-                        					
-                    </entry>
-                    					
                     <entry kind="macro" name="__LLACCUM_EPSILON__" value="0x1P-31LLK">
                         						
                         <flag value="BUILTIN|READONLY"/>
@@ -3517,12 +3505,6 @@
                         					
                     </entry>
                     					
-                    <entry kind="macro" name="__SA_FBIT__" value="15">
-                        						
-                        <flag value="BUILTIN|READONLY"/>
-                        					
-                    </entry>
-                    					
                     <entry kind="macro" name="__SA_IBIT__" value="16">
                         						
                         <flag value="BUILTIN|READONLY"/>
@@ -3560,6 +3542,12 @@
                     </entry>
                     					
                     <entry kind="macro" name="__SFRACT_MIN__" value="(-0.5HR-0.5HR)">
+                        						
+                        <flag value="BUILTIN|READONLY"/>
+                        					
+                    </entry>
+                    					
+                    <entry kind="macro" name="__SFRACT_MIN__" value="8">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -3979,6 +3967,12 @@
                         					
                     </entry>
                     					
+                    <entry kind="macro" name="__UINT_FAST64_MAX__" value="9">
+                        						
+                        <flag value="BUILTIN|READONLY"/>
+                        					
+                    </entry>
+                    					
                     <entry kind="macro" name="__UINT_FAST64_TYPE__" value="long long unsigned int">
                         						
                         <flag value="BUILTIN|READONLY"/>
@@ -4046,6 +4040,12 @@
                     </entry>
                     					
                     <entry kind="macro" name="__ULACCUM_EPSILON__" value="0x1P-32ULK">
+                        						
+                        <flag value="BUILTIN|READONLY"/>
+                        					
+                    </entry>
+                    					
+                    <entry kind="macro" name="__ULACCUM_EPSILON__" value="1">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					
@@ -4147,6 +4147,12 @@
                         					
                     </entry>
                     					
+                    <entry kind="macro" name="__ULLFRACT_FBIT__" value="15">
+                        						
+                        <flag value="BUILTIN|READONLY"/>
+                        					
+                    </entry>
+                    					
                     <entry kind="macro" name="__ULLFRACT_IBIT__" value="0">
                         						
                         <flag value="BUILTIN|READONLY"/>
@@ -4184,12 +4190,6 @@
                     </entry>
                     					
                     <entry kind="macro" name="__USACCUM_FBIT__" value="8">
-                        						
-                        <flag value="BUILTIN|READONLY"/>
-                        					
-                    </entry>
-                    					
-                    <entry kind="macro" name="__USACCUM_IBIT__" value="8">
                         						
                         <flag value="BUILTIN|READONLY"/>
                         					

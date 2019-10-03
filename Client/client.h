@@ -56,6 +56,19 @@
 //   Known Bugs:   None                                                                                               //
 //   ---------------------------------------------------------------------------------------------------------------  //
 //                                                                                                                    //
+//   Function:     setAlarm                                                                                           //
+//   Description:  Set next RTC Alarm Time.                                                                           //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    bool randomise                                                                                     //
+//                 uint8_t seconds                                                                                    //
+//   Returns:      None                                                                                               //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:        Enable RTC alarm for next minutes and seconds match                                                //
+//                 RTC optionally alarms on a random number of seconds, (0-59) at least 1 minute from now             //
+//                 in case there was a comms collision                                                                //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+//                                                                                                                    //
 //   Function:     pair                                                                                               //
 //   Description:  This function attempts to pair the Client to a LoRa Master node                                    //
 //                 If not in Low Power mode, it wakes up the USB port and sends serial status messages                //
@@ -161,6 +174,8 @@ bool isPaired;
 //  Function Declarations  //
 /////////////////////////////
 
+void alarmMatch();
+void setAlarm(bool randomise=false, uint8_t seconds=0);
 bool pair();
 bool sendData();
 bool radioHandshake();

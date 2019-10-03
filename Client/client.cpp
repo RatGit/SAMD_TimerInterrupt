@@ -56,6 +56,19 @@
 //   Known Bugs:   None                                                                                               //
 //   ---------------------------------------------------------------------------------------------------------------  //
 //                                                                                                                    //
+//   Function:     setAlarm                                                                                           //
+//   Description:  Set next RTC Alarm Time.                                                                           //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    bool randomise                                                                                     //
+//                 uint8_t seconds                                                                                    //
+//   Returns:      None                                                                                               //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:        Enable RTC alarm for next minutes and seconds match                                                //
+//                 RTC optionally alarms on a random number of seconds, (0-59) at least 1 minute from now             //
+//                 in case there was a comms collision                                                                //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+//                                                                                                                    //
 //   Function:     pair                                                                                               //
 //   Description:  This function attempts to pair the Client to a LoRa Master node                                    //
 //                 If not in Low Power mode, it wakes up the USB port and sends serial status messages                //
@@ -156,6 +169,56 @@ Adafruit_Si7021 Si7021 = Adafruit_Si7021();  // Class to manage the Si7021 Tempe
 void alarmMatch()
 {
  alarmed = true;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//   Function:     setAlarm                                                                                           //
+//   Description:  Set next RTC Alarm Time.                                                                           //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    bool randomise                                                                                     //
+//                 uint8_t seconds                                                                                    //
+//   Returns:      None                                                                                               //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:        Enable RTC alarm for next minutes and seconds match                                                //
+//                 RTC optionally alarms on a random number of seconds, (0-59) at least 1 minute from now             //
+//                 in case there was a comms collision                                                                //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void setAlarm(bool randomise, uint8_t seconds)
+{
+ int nextAlarmSeconds, nextAlarmMinutes;
+
+ int alarmSeconds = rtc.getSeconds();  // Read current RTC seconds
+
+ if (seconds > 0)
+ {
+  rtc.setAlarmSeconds((alarmSeconds + seconds) % 60);  // RTC alarms in specified second's time
+  rtc.enableAlarm(rtc.MATCH_SS);                       // Enable RTC alarm for next seconds match
+ }
+ else
+ {
+  int alarmMinutes = rtc.getMinutes();  // Read current RTC minutes
+
+  if (randomise)
+  {
+   int nextAlarmTime = (rand() % 60) + (alarmMinutes + 1) * 60 + alarmSeconds;
+   nextAlarmSeconds = nextAlarmTime % 60;
+   nextAlarmMinutes = (nextAlarmTime - nextAlarmSeconds) / 60;
+  }
+  else
+  {
+   nextAlarmSeconds = alarmSeconds;             // RTC alarms on the current seconds value henceforth
+   nextAlarmMinutes = (alarmMinutes + 1) % 60;  // RTC alarms in 1 minute's time
+  }
+
+  rtc.setAlarmSeconds((uint8_t)nextAlarmSeconds);  // RTC alarms on a random number of seconds, (0-59) at least 1 minute from now in case there was a comms collision
+  rtc.setAlarmMinutes((uint8_t)nextAlarmMinutes);
+
+  rtc.enableAlarm(rtc.MATCH_MMSS);                 // Enable RTC alarm for next minutes and seconds match
+ }
 }
 
 
@@ -592,11 +655,9 @@ void loop()
    alarmed = false;
 
    #ifdef TEST_CURRENT
-    rtc.setAlarmSeconds(rtc.getSeconds());             // RTC alarms on the current seconds value henceforth
-    rtc.setAlarmMinutes((rtc.getMinutes() + 1) % 60);  // RTC alarms in 1 minute's time
-    rtc.enableAlarm(rtc.MATCH_MMSS);                   // Enable RTC alarm for next minutes and seconds match
-    USBDevice.detach();
-    rtc.standbyMode();                                 // Sleep until next alarm match
+    setAlarm(true);     // RTC alarms in 1 minute's time
+    USBDevice.detach(); // Detach USB port
+    rtc.standbyMode();  // Sleep until next alarm match
    #else
     if (USE_SERIAL) USBDevice.attach();
 
@@ -612,11 +673,7 @@ void loop()
        radioHandshake();  // Attempt to Pair with Master
        if (ENABLE_VERBOSE) {serialPrintf(USE_SERIAL, serialbuf, "CLIENT: Pairing Duration = %lu (us)\n", true, false, micros() - time);}
 
-       if (!isPaired)
-       {
-        rtc.setAlarmSeconds((rtc.getSeconds() + 10) % 60);  // RTC alarms in 10 second's time
-        rtc.enableAlarm(rtc.MATCH_SS);                      // Enable RTC alarm for next seconds match
-       }
+       if (!isPaired) setAlarm(false, 10);  // RTC alarms in 10 second's time
       }
       else if (minutesCounter < NUM_PAIRINGS_MINUTES)  // Number of times to attempt to pair every minute, (on startup)
       {
@@ -624,31 +681,15 @@ void loop()
 
        radioHandshake();  // Attempt to Pair with Master
 
-       if (!isPaired)
-       {
-        int alarmSeconds = rtc.getSeconds();  // Read current RTC seconds
-        int alarmMinutes = rtc.getMinutes();  // Read current RTC minutes
-        int nextAlarmTime = (rand() % 60) + alarmMinutes * 60 + alarmSeconds;
-        int nextAlarmSeconds = nextAlarmTime % 60;
-        int nextAlarmMinutes = (nextAlarmTime - nextAlarmSeconds) / 60;
-
-        rtc.setAlarmSeconds((uint8_t)nextAlarmSeconds);  // RTC alarms on a random number of seconds, (0-59) at least 1 minute from now in case there was a comms collision
-        rtc.setAlarmMinutes((uint8_t)nextAlarmMinutes);
-        rtc.enableAlarm(rtc.MATCH_MMSS);                 // Enable RTC alarm for next minutes and seconds match
-       }
+       if (!isPaired) setAlarm(true);
       }
       else
       {
        radioHandshake();  // Attempt to Pair with Master
       }
 
-      if (isPaired)  // If Paired successfully, set device to update in 1 minute's time and then every hour thenceforth, (because the next matching minutes and seconds will then be an hour away)
-      {
-       rtc.setAlarmSeconds(rtc.getSeconds());             // RTC alarms on the current seconds value henceforth
-       rtc.setAlarmMinutes((rtc.getMinutes() + 1) % 60);  // RTC alarms in 1 minute's time
-       rtc.enableAlarm(rtc.MATCH_MMSS);                   // Enable RTC alarm for next minutes and seconds match
-      }
-      else
+      if (isPaired) setAlarm(false);  // If Paired successfully, set device to update in 1 minute's time and then every hour thenceforth, (because the next matching minutes and seconds will then be an hour away)
+      else if (minutesCounter >= NUM_PAIRINGS_MINUTES)
       {
        pinMode(POWER_OFF_PIN, OUTPUT);  // Kill the Power if the device hasn't paired after NUM_PAIRINGS_SECONDS + NUM_PAIRINGS_MINUTES attempts
        digitalWrite(POWER_OFF_PIN, LOW);
@@ -656,23 +697,12 @@ void loop()
      }
      else
      {
-      unsigned long time = micros();
+//      unsigned long time = micros();
       if (radioHandshake())  // Send Data
       {
-       if (ENABLE_VERBOSE) {serialPrintf(USE_SERIAL, serialbuf, "CLIENT: Send Data Duration = %lu (us)\n", true, false, micros() - time);}
+//       if (ENABLE_VERBOSE) {serialPrintf(USE_SERIAL, serialbuf, "CLIENT: Send Data Duration = %lu (us)\n", true, false, micros() - time);}
       }
-      else
-      {
-       int alarmSeconds = rtc.getSeconds();  // Read current RTC seconds
-       int alarmMinutes = rtc.getMinutes();  // Read current RTC minutes
-       int nextAlarmTime = (rand() % 60) + alarmMinutes * 60 + alarmSeconds;
-       int nextAlarmSeconds = nextAlarmTime % 60;
-       int nextAlarmMinutes = (nextAlarmTime - nextAlarmSeconds) / 60;
-
-       rtc.setAlarmSeconds((uint8_t)nextAlarmSeconds);  // RTC alarms on a random number of seconds, (0-59) at least 1 minute from now in case there was a comms collision
-       rtc.setAlarmMinutes((uint8_t)nextAlarmMinutes);
-       rtc.enableAlarm(rtc.MATCH_MMSS);                  // Enable RTC alarm for next minutes and seconds match
-      }
+      else setAlarm(true);
      }
 
      radio.sleep();      // Put Radio back to sleep
