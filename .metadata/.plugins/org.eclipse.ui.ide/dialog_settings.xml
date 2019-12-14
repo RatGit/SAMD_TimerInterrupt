@@ -9,6 +9,7 @@
 		<item value="false" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
 		<item value="false" key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="/home/sysadmin/Documents/RFID_Controller"/>
 			<item value="/root/Documents/sloeber-workspace/PN5180_Test"/>
 			<item value="/home/sysadmin/Documents/Smarta Industrial/Projects/Sampler/Software/PN5180_Test"/>
 		</list>
@@ -20,5 +21,12 @@
 		<item value="/home/sysadmin/Documents/Projects/Test" key="OUTSIDE_LOCATION"/>
 	</section>
 	<section name="NewWizardAction">
+	</section>
+	<section name="SaveAsDialogSettings">
+		<item value="525" key="DIALOG_WIDTH"/>
+		<item value="1|Noto Sans|9.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
+		<item value="582" key="DIALOG_HEIGHT"/>
+		<item value="699" key="DIALOG_X_ORIGIN"/>
+		<item value="137" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

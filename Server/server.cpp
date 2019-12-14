@@ -663,6 +663,8 @@ bool serialRead()
    return false;
   }
 
+  serialData[serialPtr-2] = 0;  // Append a NULL to the end of the string
+
   switch (serialData[0])
   {
    case 'T':  // Timestamp "T0123456789<CRC><LF>"  eg. "T156231193407"

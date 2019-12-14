@@ -151,13 +151,14 @@
 
 #define LOW_POWER        // Define to enable low power mode
 
-#define USE_SERIAL true       // Enable USB Serial Port
-#define ENABLE_VERBOSE true   // Enable/Disable verbose output, (set to false for production)
+#define USE_SERIAL false       // Enable USB Serial Port
+#define ENABLE_VERBOSE false   // Enable/Disable verbose output, (set to false for production)
 
 #define LED_DEBUG false  // Blink LED in RadioHandshake()
 #define LOOP_DELAY 1000  // Time in milliseconds to wait each loop (when in low power mode)
 #define DEFAULT_CLIENT_ADDRESS 252
 #define SERVER_ACK_TIMEOUT 5000
+#define USE_FLASH   // Include code for the Serial Flash Memory
 #define USE_Si7021  // Include code for the Si7021 Humidity/Temperature Sensor
 #define NUM_PAIRINGS_SECONDS 6 //10  // Number of times to attempt to pair every 10 seconds, (on startup)
 #define NUM_PAIRINGS_MINUTES 2 //10  // Number of times to attempt to pair every minute, (on startup)

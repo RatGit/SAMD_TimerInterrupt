@@ -195,8 +195,24 @@ void setAlarm(bool randomise, uint8_t seconds)
 
  if (seconds > 0)
  {
-  rtc.setAlarmSeconds((alarmSeconds + seconds) % 60);  // RTC alarms in specified second's time
-  rtc.enableAlarm(rtc.MATCH_SS);                       // Enable RTC alarm for next seconds match
+  if (seconds > 60)  // Set RTC alarm an arbitrary number of seconds into the future, (> 1 minute)
+  {
+   int alarmMinutes = rtc.getMinutes();  // Read current RTC minutes
+   int nextAlarmTime = seconds + (alarmMinutes + 1) * 60 + alarmSeconds;
+
+   nextAlarmSeconds = nextAlarmTime % 60;
+   nextAlarmMinutes = (nextAlarmTime - nextAlarmSeconds) / 60;
+
+   rtc.setAlarmSeconds((uint8_t)nextAlarmSeconds);  // RTC alarms on a random number of seconds, (0-59) at least 1 minute from now in case there was a comms collision
+   rtc.setAlarmMinutes((uint8_t)nextAlarmMinutes);
+
+   rtc.enableAlarm(rtc.MATCH_MMSS);                 // Enable RTC alarm for next minutes and seconds match
+  }
+  else
+  {
+   rtc.setAlarmSeconds((alarmSeconds + seconds) % 60);  // RTC alarms in specified second's time
+   rtc.enableAlarm(rtc.MATCH_SS);                       // Enable RTC alarm for next seconds match
+  }
  }
  else
  {
@@ -605,10 +621,12 @@ void setup()
 // #endif
 
  // Serial Flash Initialisation, (also initialises SPI)
- if (ENABLE_VERBOSE) {serialPrint(USE_SERIAL, "CLIENT: Initialising Serial Flash", true);}
- serialFlashOk = SerialFlash.begin(flashChipSelect);
- if (!serialFlashOk) {if (ENABLE_VERBOSE) {serialPrint(USE_SERIAL, "CLIENT: Failed to Initialise Serial Flash", true);} else {serialPrint(USE_SERIAL, ERROR_FLASH_MEMORY, true, true);}}
- SerialFlash.powerDown();
+ #ifdef USE_FLASH
+  if (ENABLE_VERBOSE) {serialPrint(USE_SERIAL, "CLIENT: Initialising Serial Flash", true);}
+  serialFlashOk = SerialFlash.begin(flashChipSelect);
+  if (!serialFlashOk) {if (ENABLE_VERBOSE) {serialPrint(USE_SERIAL, "CLIENT: Failed to Initialise Serial Flash", true);} else {serialPrint(USE_SERIAL, ERROR_FLASH_MEMORY, true, true);}}
+  SerialFlash.powerDown();
+ #endif
 
  // Change these values to set the current initial date and time
  dateTime.second = 0;  // 0 - 59

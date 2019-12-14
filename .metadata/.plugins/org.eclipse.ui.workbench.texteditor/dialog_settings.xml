@@ -2,12 +2,18 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="NUM_PAIRINGS_MINUTES" key="selection"/>
-		<item value="true" key="casesensitive"/>
+		<item value="" key="selection"/>
+		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
-		<item value="false" key="wrap"/>
+		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="CRC ERROR"/>
+			<item value="PN5180 Hard-Reset..."/>
+			<item value="SerialFlash"/>
+			<item value="sleep"/>
+			<item value="TEST_CURRENT"/>
+			<item value="POWER_OFF_PIN"/>
 			<item value="NUM_PAIRINGS_MINUTES"/>
 			<item value="serialPrint"/>
 			<item value="serialPrintf("/>
@@ -17,12 +23,6 @@
 			<item value="defined"/>
 			<item value="initClients"/>
 			<item value="clientList"/>
-			<item value="array"/>
-			<item value="readchar"/>
-			<item value="readbyte"/>
-			<item value="USES_SFDP"/>
-			<item value="SERVER: Client List Address"/>
-			<item value="_beginSPI"/>
 		</list>
 		<list key="replacehistory">
 			<item value="serialPrint(USE_SERIAL, "/>
