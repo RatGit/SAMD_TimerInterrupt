@@ -3,6 +3,18 @@
 # Periodically checks for LoRa Commands and Responses via file system "pigeon holes"
 # Runs as a daemon on system startup
 # Daemon Commands: service lora_daemon [start|stop|restart|status]
+#
+# Comms Between the Gateway GUI and the CD Server:
+# ================================================
+# Data from the CDS Server:
+#     CDS Server => Daemon (Serial Comms)
+#     Daemon => Gateway GUI (File System):   "/dev/shm/lora/IN"
+#
+# Commands from The Gateway GUI:
+#     Gateway GUI => Daemon (File System):   "/dev/shm/lora/OUT"
+#     Daemon => CDS Server (Serial Comms)
+#
+# Note: If the GUI is expecting a Response from a Command then it needs to check the "/dev/shm/lora/IN" folder for the incoming response data file
 #------------------------------------------------------------
 
 # Import Libraries
@@ -28,7 +40,7 @@ except:
 #------------------------------------------------------------
 
 # Remote Command Format: "C, P:1, P:0, T:1562311934"
-def process(command):
+def processCommand(command):
 #{
  global commDev, commandPath, loraController
 
@@ -40,7 +52,7 @@ def process(command):
 
   if (os.system("sudo ls /dev | grep '" + commDev + "' &> /dev/null") == 0):  # Check if RFID Controller is connected and powered up
   #{
-   if (loraController is not None and loraController.open()):  # Connect to RFID Controller
+   if (loraController is not None and loraController.open(device.COM_TIMEOUT)):  # Connect to RFID Controller
    #{
     try:
     #{
@@ -69,7 +81,7 @@ def process(command):
      #{
       if command[2] == "0":  # Disable Pairing
       #{
-       result = loraController.enablePairing(0)
+       result = loraController.enablePairing(0, True)
 
        with open(commandPath + "/IN/" + str(time.time()), 'w+') as handle:  # Write command response
         handle.write("P:0:" + ("1" if (result) else "0"))
@@ -78,7 +90,7 @@ def process(command):
       #}
       if command[2] == "1":  # Enable Pairing
       #{
-       result = loraController.enablePairing(1)
+       result = loraController.enablePairing(1, True)
 
        with open(commandPath + "/IN/" + str(time.time()), 'w+') as handle:  # Write command response
         handle.write("P:1:" + ("1" if (result) else "0"))
@@ -102,8 +114,8 @@ def process(command):
  #}
  except:
  #{
-  common.logging.exception("<<< [" + common.getlogtimestamp() + "] [lora_daemon.py: process] ERROR START >>>")
-  common.logging.debug("<<<  [lora_daemon.py: process] ERROR END >>>\n")
+  common.logging.exception("<<< [" + common.getlogtimestamp() + "] [lora_daemon.py: processCommand] ERROR START >>>")
+  common.logging.debug("<<<  [lora_daemon.py: processCommand] ERROR END >>>\n")
  #}
 
  return False
@@ -132,7 +144,7 @@ def getCommandFiles():
 #}
 #------------------------------------------------------------
 
-def update():
+def processCommands():
 #{
  try:
  #{
@@ -146,7 +158,7 @@ def update():
    with open(commandFile, 'r') as handle:
    #{
     command = handle.read()
-    process(command.strip())
+    processCommand(command.strip())
     os.remove(commandFile)
    #}
   #}
@@ -155,8 +167,44 @@ def update():
  #}
  except:
  #{
-  common.logging.exception("<<< [" + common.getlogtimestamp() + "] [lora_daemon.py: update] ERROR START >>>")
-  common.logging.debug("<<<  [lora_daemon.py: update] ERROR END >>>\n")
+  common.logging.exception("<<< [" + common.getlogtimestamp() + "] [lora_daemon.py: processCommands] ERROR START >>>")
+  common.logging.debug("<<<  [lora_daemon.py: processCommands] ERROR END >>>\n")
+ #}
+
+ return False
+#}
+#------------------------------------------------------------
+
+def processData():
+#{
+ global loraController, commandPath
+
+ try:
+ #{
+  if (loraController is not None and loraController.open(0)):  # Connect to RFID Controller
+  #{
+   try:
+   #{
+    while loraController.readData():  # Read Serial Data from CDS Server
+    #{
+     with open(commandPath + "/IN/" + str(time.time()), 'w+') as handle:  # Write Data Packet: <OUI><UID>:<TEMP>:<RH>:<CRC>  eg. "0004A30B001A531C:123.45:123.45:7E"
+      handle.write(loraController.response)
+    #}
+   #}
+   finally:
+   #{
+    loraController.close()
+   #}
+
+   return True
+  #}
+
+  return False
+ #}
+ except:
+ #{
+  common.logging.exception("<<< [" + common.getlogtimestamp() + "] [lora_daemon.py: processData] ERROR START >>>")
+  common.logging.debug("<<<  [lora_daemon.py: processData] ERROR END >>>\n")
  #}
 
  return False
@@ -204,7 +252,8 @@ def loop():
 
   while(1):
   #{
-   update()
+   processCommands()
+   processData()
    common.delay(loopDelay)
   #}
  #}

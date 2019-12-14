@@ -202,7 +202,7 @@
 /////////////////////////
 
 #define USE_SERIAL true       // Enable USB Serial Port
-#define ENABLE_VERBOSE true   // Enable/Disable verbose output, (set to false for production)
+#define ENABLE_VERBOSE false  // Enable/Disable verbose output, (set to false for production)
 
 #define NUM_CLIENTS 100
 

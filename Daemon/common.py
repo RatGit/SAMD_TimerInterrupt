@@ -71,7 +71,7 @@ try:
  ScriptPath = os.path.dirname(os.path.realpath(sys.argv[0]))
 
  ErrorLog = ScriptPath + "/logs/error.log"
- SystemLog = ScriptPath + "/logs/rfid_daemon.log"
+ SystemLog = ScriptPath + "/logs/lora_daemon.log"
 
  logging.basicConfig(filename=ErrorLog, level=logging.DEBUG,)
 

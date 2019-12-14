@@ -1,30 +1,30 @@
-15:52:38 **** Incremental Build of configuration Release for project Server ****
+00:30:35 **** Incremental Build of configuration Release for project Server ****
 make all 
 Building target: Server
 Printing size:
 "/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-size" -A "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf"
 /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Server/Release/Server.elf  :
 section             size        addr
-.text              51168           0
-.ARM.exidx             8       51168
+.text              49064           0
+.ARM.exidx             8       49064
 .data                432   536870912
 .bss                4880   536871344
 .ARM.attributes       40           0
 .comment             128           0
-.debug_info       419877           0
+.debug_info       419065           0
 .debug_abbrev      37803           0
-.debug_loc         62032           0
+.debug_loc         61940           0
 .debug_aranges      5568           0
-.debug_ranges      10016           0
-.debug_line        53099           0
-.debug_str         56743           0
-.debug_frame       18236           0
+.debug_ranges       9936           0
+.debug_line        52988           0
+.debug_str         56738           0
+.debug_frame       18232           0
 .stabstr             441           0
-Total             720471
+Total             717263
 
 
 Finished building target: Server
  
 
-15:52:38 Build Finished. 0 errors, 0 warnings. (took 314ms)
+00:30:35 Build Finished. 0 errors, 0 warnings. (took 264ms)
 

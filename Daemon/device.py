@@ -9,8 +9,8 @@ import common
 
 # Global Constant Definitions
 # Serial Comms
-COM_TIMEOUT = 15
-FLUSH_DELAY = 100
+COM_TIMEOUT = 15   # Seconds
+FLUSH_DELAY = 100  # Milliseconds
 
 # Command Response Codes
 COMMAND_SUCCESS = "1000"  # Serial command successful
@@ -50,7 +50,7 @@ class Device:
  #}
  ################################################################################
 
- def open(self):
+ def open(self, commsTimeout):
  #{
   try:
   #{
@@ -60,9 +60,9 @@ class Device:
 #    return True
 #   #}
 
-#   self.handle = serial.Serial(port=self.port, baudrate=self.baudrate, parity=self.parity, stopbits=self.stopbits, bytesize=self.bytesize, timeout=self.timeout, writeTimeout=self.write_timeout, xonxoff=self.xonxoff, rtscts=self.rtscts, dsrdtr=self.dsrdtr)
-#   self.handle = serial.Serial(port=self.port, baudrate=self.baudrate, parity=self.parity, stopbits=self.stopbits, bytesize=self.bytesize, timeout=self.timeout, write_timeout=self.write_timeout, xonxoff=self.xonxoff, rtscts=self.rtscts, dsrdtr=self.dsrdtr)
-   self.handle = serial.Serial(port=self.port, baudrate=self.baudrate, parity=self.parity, stopbits=self.stopbits, bytesize=self.bytesize, timeout=self.timeout, xonxoff=self.xonxoff, rtscts=self.rtscts, dsrdtr=self.dsrdtr)
+#   self.handle = serial.Serial(port=self.port, baudrate=self.baudrate, parity=self.parity, stopbits=self.stopbits, bytesize=self.bytesize, timeout=commsTimeout, writeTimeout=commsTimeout, xonxoff=self.xonxoff, rtscts=self.rtscts, dsrdtr=self.dsrdtr)
+#   self.handle = serial.Serial(port=self.port, baudrate=self.baudrate, parity=self.parity, stopbits=self.stopbits, bytesize=self.bytesize, timeout=commsTimeout, write_timeout=commsTimeout, xonxoff=self.xonxoff, rtscts=self.rtscts, dsrdtr=self.dsrdtr)
+   self.handle = serial.Serial(port=self.port, baudrate=self.baudrate, parity=self.parity, stopbits=self.stopbits, bytesize=self.bytesize, timeout=commsTimeout, xonxoff=self.xonxoff, rtscts=self.rtscts, dsrdtr=self.dsrdtr)
    if (self.handle is None): return False
 
    self.clearCOMBuffers()
@@ -202,7 +202,7 @@ class Device:
    msgLength = len(message)
    if (msgLength < 3): return False
 
-   return (self.calcCRC(message[:msgLength-3]) == message[msgLength-2:])
+   return (self.calcCRC(message[:msgLength-2]) == message[msgLength-2:])
   #}
   except:
   #{
@@ -254,7 +254,8 @@ class Device:
     if (hasResponse):
     #{
      response = self.handle.readline().strip()  # Read response
-     if (debug): print("RESPONSE: " + response + " (CRC " + ("OK" if (self.checkCRC(response)) else 'ERROR: Received="' + response[len(response)-2:] + '" Expected="' + self.calcCRC(response[:len(response)-3]) + '"') + ")")
+     if (debug): print("MESSAGE: " + response[:len(response)-2])
+     if (debug): print("RESPONSE: " + response + " (CRC " + ("OK" if (self.checkCRC(response)) else 'ERROR: Received="' + response[len(response)-2:] + '" Expected="' + self.calcCRC(response[:len(response)-2]) + '"') + ")")
      if (self.checkCRC(response)): return response
      return False
     #}
@@ -283,6 +284,54 @@ class Device:
 
 class LoRaController(Device):
 #{
+ def __init__(self, _port, _baudrate, _parity, _stopbits, _bytesize, _timeout, _write_timeout, _xonxoff, _rtscts, _dsrdtr):
+ #{
+  Device.__init__(self, _port, _baudrate, _parity, _stopbits, _bytesize, _timeout, _write_timeout, _xonxoff, _rtscts, _dsrdtr)
+
+  self.responseBuffer = []
+  self.response = ''
+ #}
+ ################################################################################
+
+ def __del__(self):
+ #{
+  Device.__del__(self)
+ #}
+ ################################################################################
+
+ def readData(self, debug = False):
+ #{
+  try:
+  #{
+   if (self.handle is None): return False
+
+   for char in self.handle.read():
+   #{
+    self.responseBuffer.append(char)
+    if char == '\n':
+    #{
+     self.response = ''.join(self.responseBuffer)
+     self.responseBuffer = []
+    #}
+   #}
+
+   if (debug): print("RESPONSE: " + self.response + " (CRC " + ("OK" if (self.checkCRC(self.response)) else 'ERROR: Received="' + self.response[len(self.response)-2:] + '" Expected="' + self.calcCRC(self.response[:len(self.response)-3]) + '"') + ")")
+
+   if (self.checkCRC(self.response)): return True
+   else: self.response = ''
+
+   return False
+  #}
+  except:
+  #{
+   common.logging.exception("<<< [" + common.getlogtimestamp() + "] [device.py: Device:readData] ERROR START >>>")
+   common.logging.debug("<<<  [device.py: Device:readData] ERROR END >>>\n")
+  #}
+
+  return False
+ #}
+ ################################################################################
+
  def setDateTime(self, seconds, debug=False):  # Set Date Time: "T1562311934<CRC><LF>"  eg. "T156231193407"
  #{                                            # Command Successful Response: "1000:32"
   global COMMAND_SUCCESS
