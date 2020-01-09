@@ -527,7 +527,7 @@ bool radioRead()
         data[16] = 0;
 //        serialPrint(USE_SERIAL, ulltohex(serialbuf, clientUID));
         if (ENABLE_VERBOSE) serialPrintf(USE_SERIAL, serialbuf, "%s [%s]", true, false, "SERVER: Client successfully paired", data);
-        else {serialPrintf(USE_SERIAL, serialbuf, "%s:%s:", true, true, CLIENT_PAIRED, data);}
+        else {serialPrintf(USE_SERIAL, serialbuf, "%s:%s:", true, true, CLIENT_PAIRED, data);}  // eg. "1003:0004A30B001A531C"
        }
       }
       else if (ENABLE_VERBOSE) serialPrint(USE_SERIAL, (char *)"SERVER: Pairing client failed to ACK Pairing Request Response Handshake Acknowledgment");
