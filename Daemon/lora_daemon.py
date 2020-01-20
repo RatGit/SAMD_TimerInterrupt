@@ -9,10 +9,12 @@
 # Data from the CDS Server:
 #     CDS Server => Daemon (Serial Comms)
 #     Daemon => Gateway GUI (File System):   "/dev/shm/lora/IN"
+#            => CDS API Server (Internet)
 #
 # Commands from The Gateway GUI:
 #     Gateway GUI => Daemon (File System):   "/dev/shm/lora/OUT"
 #     Daemon => CDS Server (Serial Comms)
+#            => CDS API Server (Internet)
 #
 # Note: If the GUI is expecting a Response from a Command then it needs to check the "/dev/shm/lora/IN" folder for the incoming response data file
 #------------------------------------------------------------
@@ -25,10 +27,13 @@ import time
 import serial
 import common
 import device
+import sqlite3
 #------------------------------------------------------------
 
 try:
  commandPath = "/dev/shm/lora"
+ databasePath = '/home/pi/gateway.db';
+ cdsApiUrl = 'http://cds.netsoft-projects.com:1234'
  loopDelay = 100
  commDev = "cds_lora"
  commPort = "/dev/" + commDev
@@ -144,7 +149,7 @@ def getCommandFiles():
 #}
 #------------------------------------------------------------
 
-def processCommands():
+def processOutput():
 #{
  try:
  #{
@@ -167,8 +172,8 @@ def processCommands():
  #}
  except:
  #{
-  common.logging.exception("<<< [" + common.getlogtimestamp() + "] [lora_daemon.py: processCommands] ERROR START >>>")
-  common.logging.debug("<<<  [lora_daemon.py: processCommands] ERROR END >>>\n")
+  common.logging.exception("<<< [" + common.getlogtimestamp() + "] [lora_daemon.py: processOutput] ERROR START >>>")
+  common.logging.debug("<<<  [lora_daemon.py: processOutput] ERROR END >>>\n")
  #}
 
  return False
@@ -176,7 +181,7 @@ def processCommands():
 #------------------------------------------------------------
 
 # Write any received Data Packets to Files in the "IN" Pidgeon Hole
-def processData():
+def processInput():
 #{
  global loraController, commandPath
 
@@ -201,6 +206,51 @@ def processData():
   #}
 
   return False
+ #}
+ except:
+ #{
+  common.logging.exception("<<< [" + common.getlogtimestamp() + "] [lora_daemon.py: processInput] ERROR START >>>")
+  common.logging.debug("<<<  [lora_daemon.py: processInput] ERROR END >>>\n")
+ #}
+
+ return False
+#}
+#------------------------------------------------------------
+
+# Send any Unsynced Sensor Data to the CDS API Server
+def processData():
+#{
+ global cdsApiUrl, databasePath
+
+ try:
+ #{
+  try: db = sqlite3.connect(databasePath)
+  except: return False
+
+  cur = db.cursor()
+  cur.execute('SELECT sensorid, printf(''%16X'', sensorid), timestamp, temperature, humidity, accx, accy, accz FROM data WHERE synced = 0')
+
+  updatecur = None
+  rows = cur.fetchall()
+  for row in rows:
+  #{
+   command = 'sudo curl -s -H "Content-Type: application/json" -H "Accept: application/vnd.cds.100+application/json" -H "Accept-Encoding: gzip" --request POST --url "' + cdsApiUrl + '/data/create" --data ''{"sensorid":"' + row[1] + '","timestamp":' + row[2] + ',"temperature":' + row[3] + ',"humidity":' + row[4] + ',"accx":' + row[5] + ',"accy":' + row[6] + ',"accz":' + row[7] +'}'''
+   response = commands.getoutput(command)
+   if (response == '1'):
+   #{
+    if (updatecur is None): updatecur = db.cursor()
+
+    updatecur.execute('UPDATE data SET synced = 1 WHERE sensorid = ' + row[0] + ' AND timestamp = ' + row[2])
+    db.commit()
+   #}
+  #}
+
+#  if (not updatecur is None): updatecur.close()
+#  cur.close()
+
+  db.close()
+
+  return True
  #}
  except:
  #{
@@ -253,8 +303,9 @@ def loop():
 
   while(1):
   #{
-   processCommands()
-   processData()
+   processOutput()
+   processInput()
+   processData();
    common.delay(loopDelay)
   #}
  #}
