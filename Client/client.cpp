@@ -189,21 +189,22 @@ void alarmMatch()
 
 void setAlarm(bool randomise, uint8_t seconds)
 {
- int nextAlarmSeconds, nextAlarmMinutes;
+ int nextAlarmSeconds, nextAlarmMinutes, nextAlarmHours;
+ volatile int alarmSeconds, alarmMinutes, alarmHours;
 
- int alarmSeconds = rtc.getSeconds();  // Read current RTC seconds
+ alarmSeconds = rtc.getSeconds();  // Read current RTC seconds
 
  if (seconds > 0)
  {
-  if (seconds > 60)  // Set RTC alarm an arbitrary number of seconds into the future, (> 1 minute)
+  if (seconds > 60)  // Set RTC alarm an arbitrary number of seconds into the future, (> 60 seconds)
   {
-   int alarmMinutes = rtc.getMinutes();  // Read current RTC minutes
-   int nextAlarmTime = seconds + (alarmMinutes + 1) * 60 + alarmSeconds;
+   alarmMinutes = rtc.getMinutes();  // Read current RTC minutes
+   int nextAlarmTime = seconds + (alarmMinutes + CAP_CHARGE_DELAY_MINUTES) * 60 + alarmSeconds;
 
    nextAlarmSeconds = nextAlarmTime % 60;
    nextAlarmMinutes = (nextAlarmTime - nextAlarmSeconds) / 60;
 
-   rtc.setAlarmSeconds((uint8_t)nextAlarmSeconds);  // RTC alarms on a random number of seconds, (0-59) at least 1 minute from now in case there was a comms collision
+   rtc.setAlarmSeconds((uint8_t)nextAlarmSeconds);  // RTC alarms on a random number of seconds, (0-59) at least CAP_CHARGE_DELAY_MINUTES from now in case there was a comms collision
    rtc.setAlarmMinutes((uint8_t)nextAlarmMinutes);
 
    rtc.enableAlarm(rtc.MATCH_MMSS);                 // Enable RTC alarm for next minutes and seconds match
@@ -216,22 +217,28 @@ void setAlarm(bool randomise, uint8_t seconds)
  }
  else
  {
-  int alarmMinutes = rtc.getMinutes();  // Read current RTC minutes
+  alarmMinutes = rtc.getMinutes();  // Read current RTC minutes
+  alarmHours = rtc.getHours();      // Read current RTC hours
 
   if (randomise)
   {
-   int nextAlarmTime = (rand() % 60) + (alarmMinutes + 1) * 60 + alarmSeconds;
+   int nextAlarmTime = (rand() % 60) + (alarmMinutes + CAP_CHARGE_DELAY_MINUTES) * 60 + alarmSeconds;  // RTC alarms in "CAP_CHARGE_DELAY_MINUTES" + some random seconds, (< 60) time
    nextAlarmSeconds = nextAlarmTime % 60;
-   nextAlarmMinutes = (nextAlarmTime - nextAlarmSeconds) / 60;
+   nextAlarmMinutes = ((nextAlarmTime - nextAlarmSeconds) / 60) % 60;
+   nextAlarmHours = (alarmHours + (int)(round((double)nextAlarmTime/60.0/60.0))) % 24;
   }
   else
   {
-   nextAlarmSeconds = alarmSeconds;             // RTC alarms on the current seconds value henceforth
-   nextAlarmMinutes = (alarmMinutes + 1) % 60;  // RTC alarms in 1 minute's time
+   nextAlarmSeconds = alarmSeconds;                                    // RTC alarms on the current seconds value henceforth
+   nextAlarmMinutes = (alarmMinutes + CAP_CHARGE_DELAY_MINUTES) % 60;  // RTC alarms in "CAP_CHARGE_DELAY_MINUTES" time
+   nextAlarmHours = (alarmHours + (int)(round((double)(alarmMinutes + CAP_CHARGE_DELAY_MINUTES)/60.0))) % 24;
   }
 
-  rtc.setAlarmSeconds((uint8_t)nextAlarmSeconds);  // RTC alarms on a random number of seconds, (0-59) at least 1 minute from now in case there was a comms collision
-  rtc.setAlarmMinutes((uint8_t)nextAlarmMinutes);
+//  rtc.setAlarmHours((uint8_t)nextAlarmHours);
+//  rtc.setAlarmMinutes((uint8_t)nextAlarmMinutes);
+//  rtc.setAlarmSeconds((uint8_t)nextAlarmSeconds);  // RTC alarms on a random number of seconds, (0-59) at least 1 minute from now in case there was a comms collision
+
+  rtc.setAlarmTime((uint8_t)nextAlarmHours, (uint8_t)nextAlarmMinutes, (uint8_t)nextAlarmSeconds);
 
   rtc.enableAlarm(rtc.MATCH_MMSS);                 // Enable RTC alarm for next minutes and seconds match
  }
@@ -341,7 +348,7 @@ bool pair()
      while (!PairingRequestResponseHandshakeAcknowledgementReceived && retries-- > 0)
      {
       len = 33;
-      if (manager.recvfromAckTimeout(msgBuffer, &len, SERVER_ACK_TIMEOUT, &from))  // Now wait for a Pairing Request Response Handshake Acknowledgement from the server: <64bit OUI:UID>:<8bit SERVER ADDRESS>:<8bit CLIENT ADDRESS>:<Timestamp>
+      if (manager.recvfromAckTimeout(msgBuffer, &len, SERVER_ACK_TIMEOUT, &from))  // Now wait for a Pairing Request Response Handshake Acknowledgment from the server: <64bit OUI:UID>:<8bit SERVER ADDRESS>:<8bit CLIENT ADDRESS>:<Timestamp>
       {
        msgBuffer[33] = 0;
 
@@ -536,14 +543,14 @@ bool radioHandshake()
 
 void setup()
 {
-// uint32_t pinNumber;
+ uint32_t pinNumber;
 
  // Switch unused pins as input and enabled built-in pullup
-// for (pinNumber = 0; pinNumber < 23; pinNumber++) pinMode(pinNumber, INPUT_PULLUP);
-// for (pinNumber = 32; pinNumber < 42; pinNumber++) pinMode(pinNumber, INPUT_PULLUP);
+ for (pinNumber = 0; pinNumber < 23; pinNumber++) pinMode(pinNumber, INPUT_PULLUP);
+ for (pinNumber = 32; pinNumber < 42; pinNumber++) pinMode(pinNumber, INPUT_PULLUP);
 
-// pinMode(25, INPUT_PULLUP);
-// pinMode(26, INPUT_PULLUP);
+ pinMode(25, INPUT_PULLUP);
+ pinMode(26, INPUT_PULLUP);
 
  // Tri-State GPIO pin incorrectly connected to MISO net
  pinMode(30, INPUT);
@@ -675,6 +682,7 @@ void loop()
    #ifdef TEST_CURRENT
     setAlarm(true);     // RTC alarms in 1 minute's time
     USBDevice.detach(); // Detach USB port
+    radio.sleep();      // Put Radio back to sleep
     rtc.standbyMode();  // Sleep until next alarm match
    #else
     if (USE_SERIAL) USBDevice.attach();
@@ -683,31 +691,33 @@ void loop()
     {
      if (!isPaired)
      {
-      if (secondsCounter < NUM_PAIRINGS_SECONDS-1)  // Number of times to attempt to pair every 10 seconds, (on startup)
+      if (secondsCounter < NUM_PAIRINGS_SECONDS)  // Number of times to attempt to pair every 10 seconds, (on startup)
       {
        secondsCounter++;
 
-       unsigned long time = micros();
+       unsigned long time;
+       if (ENABLE_VERBOSE) {time = micros();}
        radioHandshake();  // Attempt to Pair with Master
        if (ENABLE_VERBOSE) {serialPrintf(USE_SERIAL, serialbuf, "CLIENT: Pairing Duration = %lu (us)\n", true, false, micros() - time);}
 
        if (!isPaired) setAlarm(false, 10);  // RTC alarms in 10 second's time
       }
-      else if (minutesCounter < NUM_PAIRINGS_MINUTES)  // Number of times to attempt to pair every minute, (on startup)
-      {
-       minutesCounter++;
-
-       radioHandshake();  // Attempt to Pair with Master
-
-       if (!isPaired) setAlarm(true);
-      }
+//      else if (minutesCounter < NUM_PAIRINGS_MINUTES)  // Number of times to attempt to pair every minute, (on startup)
+//      {
+//       minutesCounter++;
+//
+//       radioHandshake();  // Attempt to Pair with Master
+//
+//       if (!isPaired) setAlarm(true);
+//      }
       else
       {
        radioHandshake();  // Attempt to Pair with Master
       }
 
-      if (isPaired) setAlarm(false);  // If Paired successfully, set device to update in 1 minute's time and then every hour thenceforth, (because the next matching minutes and seconds will then be an hour away)
-      else if (minutesCounter >= NUM_PAIRINGS_MINUTES)
+      if (isPaired) setAlarm(false);  // If Paired successfully, set device to update in CAP_CHARGE_DELAY_MINUTES time and then every hour thenceforth, (because the next matching minutes and seconds will then be an hour away)
+//      else if (minutesCounter >= NUM_PAIRINGS_MINUTES)
+      else if (secondsCounter >= NUM_PAIRINGS_SECONDS)
       {
        pinMode(POWER_OFF_PIN, OUTPUT);  // Kill the Power if the device hasn't paired after NUM_PAIRINGS_SECONDS + NUM_PAIRINGS_MINUTES attempts
        digitalWrite(POWER_OFF_PIN, LOW);

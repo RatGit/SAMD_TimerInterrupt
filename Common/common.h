@@ -208,7 +208,7 @@
 #define NUM_RETRIES 10
 
 #if defined(ARDUINO_SAMD_ZERO) && !defined(SerialUSB)
-#define Serial SerialUSB  // Need this on Arduino Zero with SerialUSB port (eg RocketScream Mini Ultra Pro)
+ #define Serial SerialUSB  // Need this on Arduino Zero with SerialUSB port (eg RocketScream Mini Ultra Pro)
 #endif
 
 // Serial Message Codes

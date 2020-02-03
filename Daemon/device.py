@@ -60,9 +60,10 @@ class Device:
 #    return True
 #   #}
 
+   if (self.handle is not None): self.close()
 #   self.handle = serial.Serial(port=self.port, baudrate=self.baudrate, parity=self.parity, stopbits=self.stopbits, bytesize=self.bytesize, timeout=commsTimeout, writeTimeout=commsTimeout, xonxoff=self.xonxoff, rtscts=self.rtscts, dsrdtr=self.dsrdtr)
 #   self.handle = serial.Serial(port=self.port, baudrate=self.baudrate, parity=self.parity, stopbits=self.stopbits, bytesize=self.bytesize, timeout=commsTimeout, write_timeout=commsTimeout, xonxoff=self.xonxoff, rtscts=self.rtscts, dsrdtr=self.dsrdtr)
-   self.handle = serial.Serial(port=self.port, baudrate=self.baudrate, parity=self.parity, stopbits=self.stopbits, bytesize=self.bytesize, timeout=commsTimeout, xonxoff=self.xonxoff, rtscts=self.rtscts, dsrdtr=self.dsrdtr)
+   if (self.handle is None): self.handle = serial.Serial(port=self.port, baudrate=self.baudrate, parity=self.parity, stopbits=self.stopbits, bytesize=self.bytesize, timeout=commsTimeout, xonxoff=self.xonxoff, rtscts=self.rtscts, dsrdtr=self.dsrdtr)
    if (self.handle is None): return False
 
    self.clearCOMBuffers()
@@ -305,20 +306,51 @@ class LoRaController(Device):
   #{
    if (self.handle is None): return False
 
-   for char in self.handle.read():
+   self.response = self.handle.readline().strip()  # Read response
+   if (self.response <> ''):
    #{
-    self.responseBuffer.append(char)
-    if char == '\n':
-    #{
-     self.response = ''.join(self.responseBuffer)
-     self.responseBuffer = []
-    #}
+    if (debug): print("RESPONSE: " + self.response + " (CRC " + ("OK" if (self.checkCRC(self.response)) else 'ERROR: Received="' + self.response[len(self.response)-2:] + '" Expected="' + self.calcCRC(self.response[:len(self.response)-3]) + '"') + ")")
+
+    if (self.checkCRC(self.response)): return True
+    else: self.response = ''
    #}
 
-   if (debug): print("RESPONSE: " + self.response + " (CRC " + ("OK" if (self.checkCRC(self.response)) else 'ERROR: Received="' + self.response[len(self.response)-2:] + '" Expected="' + self.calcCRC(self.response[:len(self.response)-3]) + '"') + ")")
+#   numBytes = self.handle.inWaiting()   # Test if incoming bytes are waiting to be read from the serial input buffer
+#   if (numBytes > 0):
+#   #{
+#    bytes = self.handle.read(numBytes)  # Read the bytes into a binary array
+#    if (bytes[numBytes-1] == '\n':
+#    #{
+#    #}
+#    else:
+#    #{
+#     self.responseBuffer = []
+#    #}
+#   #}
 
-   if (self.checkCRC(self.response)): return True
-   else: self.response = ''
+#   while (self.handle.in_waiting > 0):
+#   #{
+#    char = self.handle.read(1)
+#
+#    if (debug): print("DEBUG: 1")
+#    if char[0] == '\n':
+#    #{
+#     if (debug): print("DEBUG: 2")
+#     self.response = ''.join(self.responseBuffer)
+#     self.responseBuffer = []
+#
+#     if (debug): print("RESPONSE: " + self.response + " (CRC " + ("OK" if (self.checkCRC(self.response)) else 'ERROR: Received="' + self.response[len(self.response)-2:] + '" Expected="' + self.calcCRC(self.response[:len(self.response)-3]) + '"') + ")")
+#
+#     if (self.checkCRC(self.response)): return True
+#     else: self.response = ''
+#    #}
+#    else: self.responseBuffer.append(char[0])
+#   #}
+
+#   if (debug): print("RESPONSE: " + self.response + " (CRC " + ("OK" if (self.checkCRC(self.response)) else 'ERROR: Received="' + self.response[len(self.response)-2:] + '" Expected="' + self.calcCRC(self.response[:len(self.response)-3]) + '"') + ")")
+
+#   if (self.checkCRC(self.response)): return True
+#   else: self.response = ''
 
    return False
   #}

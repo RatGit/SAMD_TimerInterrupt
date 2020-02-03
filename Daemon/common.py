@@ -75,7 +75,7 @@ try:
 
  logging.basicConfig(filename=ErrorLog, level=logging.DEBUG,)
 
- debug = 0
+ debug = 1
 
  version = 1000
 
@@ -85,7 +85,7 @@ try:
  now = datetime.datetime.now()
  currenttime = now.hour*60 + now.minute
 
- daemon = 1
+ daemon = 0
 #}
 except:
 #{
