@@ -189,14 +189,14 @@ void alarmMatch()
 
 void setAlarm(bool randomise, uint8_t seconds)
 {
- int nextAlarmSeconds, nextAlarmMinutes; //, nextAlarmHours;
- int alarmSeconds, alarmMinutes; //, alarmHours;
+ int nextAlarmSeconds, nextAlarmMinutes;
+ int alarmSeconds, alarmMinutes;
 
  alarmSeconds = rtc.getSeconds();  // Read current RTC seconds
 
  if (seconds > 0)
  {
-  if (seconds > 60)  // RTC alarms at least CAP_CHARGE_DELAY_MINUTES plus an arbitrary number of seconds, (> 60) into the future
+  if (seconds > 60)  // RTC alarms at least CAP_CHARGE_DELAY_MINUTES plus an arbitrary number of seconds, (> 60) into the future. (This option is currently unused in the firmware)
   {
    alarmMinutes = rtc.getMinutes();  // Read current RTC minutes
    int nextAlarmTime = seconds + (alarmMinutes + CAP_CHARGE_DELAY_MINUTES) * 60 + alarmSeconds;
@@ -207,7 +207,7 @@ void setAlarm(bool randomise, uint8_t seconds)
    rtc.setAlarmSeconds((uint8_t)nextAlarmSeconds);
    rtc.setAlarmMinutes((uint8_t)nextAlarmMinutes);
 
-   rtc.enableAlarm(rtc.MATCH_MMSS);                 // Enable RTC alarm for next minutes and seconds match
+   rtc.enableAlarm(rtc.MATCH_MMSS);  // Enable RTC alarm for next minutes and seconds match
   }
   else
   {
@@ -218,27 +218,21 @@ void setAlarm(bool randomise, uint8_t seconds)
  else
  {
   alarmMinutes = rtc.getMinutes();  // Read current RTC minutes
-//  alarmHours = rtc.getHours();      // Read current RTC hours
 
   if (randomise)
   {
    int nextAlarmTime = (rand() % 60) + (alarmMinutes + CAP_CHARGE_DELAY_MINUTES) * 60 + alarmSeconds;  // RTC alarms in "CAP_CHARGE_DELAY_MINUTES" plus some random number of seconds, (< 60) from now in case there was a comms collision
    nextAlarmSeconds = nextAlarmTime % 60;
    nextAlarmMinutes = ((nextAlarmTime - nextAlarmSeconds) / 60) % 60;
-//   nextAlarmHours = (alarmHours + (int)(round((double)nextAlarmTime/60.0/60.0))) % 24;
   }
   else
   {
    nextAlarmSeconds = alarmSeconds;                                    // RTC alarms on the current seconds value henceforth
    nextAlarmMinutes = (alarmMinutes + CAP_CHARGE_DELAY_MINUTES) % 60;  // RTC alarms in "CAP_CHARGE_DELAY_MINUTES" time
-//   nextAlarmHours = (alarmHours + (int)(round((double)(alarmMinutes + CAP_CHARGE_DELAY_MINUTES)/60.0))) % 24;
   }
 
-//  rtc.setAlarmHours((uint8_t)nextAlarmHours);
   rtc.setAlarmMinutes((uint8_t)nextAlarmMinutes);
   rtc.setAlarmSeconds((uint8_t)nextAlarmSeconds);  // RTC alarms on a random number of seconds, (0-59) at least 1 minute from now in case there was a comms collision
-
-//  rtc.setAlarmTime((uint8_t)nextAlarmHours, (uint8_t)nextAlarmMinutes, (uint8_t)nextAlarmSeconds);
 
   rtc.enableAlarm(rtc.MATCH_MMSS);                 // Enable RTC alarm for next minutes and seconds match
  }
