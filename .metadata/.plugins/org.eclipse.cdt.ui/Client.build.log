@@ -1,4 +1,4 @@
-11:49:43 **** Incremental Build of configuration Release for project Client ****
+11:58:59 **** Incremental Build of configuration Release for project Client ****
 make all 
 Building file: ../client.cpp
 Starting C++ compile
@@ -38,26 +38,26 @@ Printing size:
 "/opt/sloeber//arduinoPlugin/packages/arduino/tools/arm-none-eabi-gcc/4.8.3-2014q1/bin/arm-none-eabi-size" -A "/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Client/Release/Client.elf"
 /home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/Client/Release/Client.elf  :
 section             size        addr
-.text              45264           0
-.ARM.exidx             8       45264
+.text              44864           0
+.ARM.exidx             8       44864
 .data                432   536870912
 .bss                3772   536871344
 .ARM.attributes       40           0
 .comment             128           0
-.debug_info       358287           0
-.debug_abbrev      34916           0
-.debug_loc         57318           0
+.debug_info       358209           0
+.debug_abbrev      34882           0
+.debug_loc         57453           0
 .debug_aranges      5192           0
 .debug_ranges       9392           0
-.debug_line        49567           0
-.debug_str         56944           0
-.debug_frame       17220           0
+.debug_line        49548           0
+.debug_str         56912           0
+.debug_frame       17172           0
 .stabstr             441           0
-Total             638921
+Total             638445
 
 
 Finished building target: Client
  
 
-11:49:44 Build Finished. 0 errors, 3 warnings. (took 466ms)
+11:58:59 Build Finished. 0 errors, 3 warnings. (took 464ms)
 
