@@ -147,9 +147,9 @@ uint8_t serverAddress;                                      // Server Address (T
 SPIFlash SerialFlash(flashChipSelect);
 RHReliableDatagram manager(radio, DEFAULT_CLIENT_ADDRESS);  // Class to manage message delivery and receipt, using the driver declared above
 
-bool alarmed;                            // Global flag to indicate that the RTC wakeup has triggered
-bool serialFlashOk;                      // Boolean Flag to indicate if Serial Flash was properly initialised
-uint8_t secondsCounter, minutesCounter;  // These counters are used on startup to switch from pairing attempts every 10 seconds, 1 minute and 1 hour
+bool alarmed;            // Global flag to indicate that the RTC wakeup has triggered
+bool serialFlashOk;      // Boolean Flag to indicate if Serial Flash was properly initialised
+uint8_t pairingCounter;  // This counter is used on startup to count the initial pairing attempts every 10 seconds
 
 Adafruit_Si7021 Si7021 = Adafruit_Si7021();  // Class to manage the Si7021 Temperature/Humidity Sensor
 
@@ -601,8 +601,7 @@ void setup()
  isPaired = false;
  alarmed = true;
 
- secondsCounter = 0;  // These counters are used on startup to switch from pairing attempts every 10 seconds, 1 minute and 1 hour
- minutesCounter = 0;
+ pairingCounter = 0;  // This counter is used on startup to count the initial pairing attempts every 10 seconds
 
  manager.setRetries(0);  // Prevent excessive delays waiting for acknowledgments by disabling retries. (This will prevent the super capacitor being drained)
  manager.setTimeout(200);
@@ -691,9 +690,9 @@ void loop()
     {
      if (!isPaired)
      {
-      if (secondsCounter < NUM_PAIRINGS_SECONDS)  // Number of times to attempt to pair every 10 seconds, (on startup)
+      if (pairingCounter < NUM_PAIRING_ATTEMPTS)  // Number of times to attempt to pair every 10 seconds, (on startup)
       {
-       secondsCounter++;
+       pairingCounter++;
 
        unsigned long time;
        if (ENABLE_VERBOSE) {time = micros();}
@@ -702,35 +701,27 @@ void loop()
 
        if (!isPaired) setAlarm(false, 10);  // RTC alarms in 10 second's time
       }
-//      else if (minutesCounter < NUM_PAIRINGS_MINUTES)  // Number of times to attempt to pair every minute, (on startup)
-//      {
-//       minutesCounter++;
-//
-//       radioHandshake();  // Attempt to Pair with Master
-//
-//       if (!isPaired) setAlarm(true);
-//      }
       else
       {
        radioHandshake();  // Attempt to Pair with Master
       }
 
       if (isPaired) setAlarm(false);  // If Paired successfully, set device to update in CAP_CHARGE_DELAY_MINUTES time and then every hour thenceforth, (because the next matching minutes and seconds will then be an hour away)
-//      else if (minutesCounter >= NUM_PAIRINGS_MINUTES)
-      else if (secondsCounter >= NUM_PAIRINGS_SECONDS)
+      else if (pairingCounter >= NUM_PAIRING_ATTEMPTS)
       {
-       pinMode(POWER_OFF_PIN, OUTPUT);  // Kill the Power if the device hasn't paired after NUM_PAIRINGS_SECONDS + NUM_PAIRINGS_MINUTES attempts
+       pinMode(POWER_OFF_PIN, OUTPUT);  // Kill the Power if the device hasn't paired after NUM_PAIRING_ATTEMPTS
        digitalWrite(POWER_OFF_PIN, LOW);
       }
      }
      else
      {
-//      unsigned long time = micros();
+      unsigned long time;
+      if (ENABLE_VERBOSE) {time = micros();}
       if (radioHandshake())  // Send Data
       {
-//       if (ENABLE_VERBOSE) {serialPrintf(USE_SERIAL, serialbuf, "CLIENT: Send Data Duration = %lu (us)\n", true, false, micros() - time);}
+       if (ENABLE_VERBOSE) {serialPrintf(USE_SERIAL, serialbuf, "CLIENT: Send Data Duration = %lu (us)\n", true, false, micros() - time);}
       }
-      else setAlarm(true);
+      else setAlarm(true);  // If sending data failed, try again in CAP_CHARGE_DELAY_MINUTES + some random seconds, (< 60)
      }
 
      radio.sleep();      // Put Radio back to sleep
