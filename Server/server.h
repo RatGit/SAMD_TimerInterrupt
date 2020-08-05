@@ -203,6 +203,7 @@
 
 #define USE_SERIAL true       // Enable USB Serial Port
 #define ENABLE_VERBOSE false  // Enable/Disable verbose output, (set to false for production)
+#define DELAY_ON_START false  // Enable a 15 second delay on start up to allow enough time to connect a serial monitor
 
 #define NUM_CLIENTS 100
 

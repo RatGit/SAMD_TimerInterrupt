@@ -4,11 +4,19 @@
 		<item value="/home/sysadmin/Documents/PeristalticSamplerController/3_Software/Sampler_Controller"/>
 		<item value="/home/sysadmin/Documents/Smarta Industrial/Projects/Sampler/Software/PeristalticSamplerController/3_Software/Sampler_Controller"/>
 	</list>
+	<section name="CleanDialogSettings">
+		<item value="486" key="DIALOG_WIDTH"/>
+		<item value="true" key="TOGGLE_SELECTED"/>
+		<item value="391" key="DIALOG_HEIGHT"/>
+		<item value="718" key="DIALOG_X_ORIGIN"/>
+		<item value="265" key="DIALOG_Y_ORIGIN"/>
+	</section>
 	<section name="ExternalProjectImportWizard">
 		<item value="false" key="WizardProjectsImportPage.STORE_NESTED_PROJECTS"/>
 		<item value="false" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
 		<item value="false" key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="/home/sysadmin/Documents/Projects/CDS/Sensor/Arduino/lora-serial"/>
 			<item value="/home/sysadmin/Documents/RFID_Controller"/>
 			<item value="/root/Documents/sloeber-workspace/PN5180_Test"/>
 			<item value="/home/sysadmin/Documents/Smarta Industrial/Projects/Sampler/Software/PN5180_Test"/>

@@ -106,6 +106,16 @@
 //   Known Bugs:   None                                                                                               //
 //   ---------------------------------------------------------------------------------------------------------------  //
 //                                                                                                                    //
+//   Function:     pinStr                                                                                             //
+//   Description:  Set the IO Pin Drive Strength                                                                      //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    None                                                                                               //
+//   Returns:      None                                                                                               //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:        Works like pinMode(), but to set drive strength                                                    //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+//                                                                                                                    //
 //   Function:     setup                                                                                              //
 //   Description:  Main sketch initialisation function. Sets unused IO pins to their lowest power mode, (ie. Input    //
 //                 + PullUp), puts the Serial Flash to sleep, detaches the USB port, configures the LoRa radio module //
@@ -139,6 +149,7 @@
 //  Included Modules and Functions  //
 //////////////////////////////////////
 
+#include <time.h>
 #include <Adafruit_Si7021.h>
 #include <SPIMemory.h>
 
@@ -180,6 +191,7 @@ void setAlarm(bool randomise=false, uint8_t seconds=0);
 bool pair();
 bool sendData();
 bool radioHandshake();
+void pinStr(uint32_t ulPin, unsigned strength);
 
 
 #endif

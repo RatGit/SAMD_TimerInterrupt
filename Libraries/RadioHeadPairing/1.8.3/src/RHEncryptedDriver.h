@@ -7,7 +7,7 @@
 //
 // Author: Philippe.Rochat'at'gmail.com
 // Contributed to the RadioHead project by the author
-// $Id: RHEncryptedDriver.h,v 1.2 2017/10/03 06:04:59 mikem Exp $
+// $Id: RHEncryptedDriver.h,v 1.3 2018/09/23 23:54:01 mikem Exp $
 
 #ifndef RHEncryptedDriver_h
 #define RHEncryptedDriver_h
@@ -31,7 +31,8 @@
 /// \brief Virtual Driver to encrypt/decrypt data. Can be used with any other RadioHead driver.
 ///
 /// This driver acts as a wrapper for any other RadioHead driver, adding encryption and decryption of
-/// messages that are passed to and from the actual radio driver. Any of the encryption ciphers supported by
+/// messages that are passed to and from the actual radio driver. Only the message payload is encrypted,
+/// and not the to/from address or flags. Any of the encryption ciphers supported by
 /// ArduinoLibs Cryptographic Library http://rweather.github.io/arduinolibs/crypto.html may be used.
 ///
 /// For successful communications, both sender and receiver must use the same cipher and the same key.

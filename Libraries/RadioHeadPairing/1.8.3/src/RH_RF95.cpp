@@ -1,7 +1,7 @@
 // RH_RF95.cpp
 //
 // Copyright (C) 2011 Mike McCauley
-// $Id: RH_RF95.cpp,v 1.18 2018/01/06 23:50:45 mikem Exp $
+// $Id: RH_RF95.cpp,v 1.22 2020/01/05 07:02:23 mikem Exp mikem $
 
 #include <RH_RF95.h>
 
@@ -125,7 +125,14 @@ void RH_RF95::handleInterrupt()
 {
     // Read the interrupt register
     uint8_t irq_flags = spiRead(RH_RF95_REG_12_IRQ_FLAGS);
-    if (_mode == RHModeRx && irq_flags & (RH_RF95_RX_TIMEOUT | RH_RF95_PAYLOAD_CRC_ERROR))
+    // Read the RegHopChannel register to check if CRC presence is signalled
+    // in the header. If not it might be a stray (noise) packet.*
+    uint8_t crc_present = spiRead(RH_RF95_REG_1C_HOP_CHANNEL);
+
+    if (_mode == RHModeRx
+	&& ((irq_flags & (RH_RF95_RX_TIMEOUT | RH_RF95_PAYLOAD_CRC_ERROR))
+	    | !(crc_present & RH_RF95_RX_PAYLOAD_CRC_IS_ON)))
+//    if (_mode == RHModeRx && irq_flags & (RH_RF95_RX_TIMEOUT | RH_RF95_PAYLOAD_CRC_ERROR))
     {
 	_rxBad++;
     }
@@ -182,17 +189,17 @@ void RH_RF95::handleInterrupt()
 // These are low level functions that call the interrupt handler for the correct
 // instance of RH_RF95.
 // 3 interrupts allows us to have 3 different devices
-void RH_RF95::isr0()
+void RH_INTERRUPT_ATTR RH_RF95::isr0()
 {
     if (_deviceForInterrupt[0])
 	_deviceForInterrupt[0]->handleInterrupt();
 }
-void RH_RF95::isr1()
+void RH_INTERRUPT_ATTR RH_RF95::isr1()
 {
     if (_deviceForInterrupt[1])
 	_deviceForInterrupt[1]->handleInterrupt();
 }
-void RH_RF95::isr2()
+void RH_INTERRUPT_ATTR RH_RF95::isr2()
 {
     if (_deviceForInterrupt[2])
 	_deviceForInterrupt[2]->handleInterrupt();
@@ -478,3 +485,130 @@ int RH_RF95::lastSNR()
 {
     return _lastSNR;
 }
+
+ ///////////////////////////////////////////////////
+ //
+ // additions below by Brian Norman 9th Nov 2018
+ // brian.n.norman@gmail.com
+ //
+ // Routines intended to make changing BW, SF and CR
+ // a bit more intuitive
+ //
+ ///////////////////////////////////////////////////
+
+ void RH_RF95::setSpreadingFactor(uint8_t sf)
+ {
+   if (sf <= 6)
+     sf = RH_RF95_SPREADING_FACTOR_64CPS;
+   else if (sf == 7)
+     sf = RH_RF95_SPREADING_FACTOR_128CPS;
+   else if (sf == 8)
+     sf = RH_RF95_SPREADING_FACTOR_256CPS;
+   else if (sf == 9)
+     sf = RH_RF95_SPREADING_FACTOR_512CPS;
+   else if (sf == 10)
+     sf = RH_RF95_SPREADING_FACTOR_1024CPS;
+   else if (sf == 11)
+     sf = RH_RF95_SPREADING_FACTOR_2048CPS;
+   else if (sf >= 12)
+     sf =  RH_RF95_SPREADING_FACTOR_4096CPS;
+
+   // set the new spreading factor
+   spiWrite(RH_RF95_REG_1E_MODEM_CONFIG2, (spiRead(RH_RF95_REG_1E_MODEM_CONFIG2) & ~RH_RF95_SPREADING_FACTOR) | sf);
+   // check if Low data Rate bit should be set or cleared
+   setLowDatarate();
+ }
+
+void RH_RF95::setSignalBandwidth(long sbw)
+{
+    uint8_t bw; //register bit pattern
+
+    if (sbw <= 7800)
+	bw = RH_RF95_BW_7_8KHZ;
+    else if (sbw <= 10400)
+	bw =  RH_RF95_BW_10_4KHZ;
+    else if (sbw <= 15600)
+	bw = RH_RF95_BW_15_6KHZ ;
+    else if (sbw <= 20800)
+	bw = RH_RF95_BW_20_8KHZ;
+    else if (sbw <= 31250)
+	bw = RH_RF95_BW_31_25KHZ;
+    else if (sbw <= 41700)
+	bw = RH_RF95_BW_41_7KHZ;
+    else if (sbw <= 62500)
+	bw = RH_RF95_BW_62_5KHZ;
+    else if (sbw <= 125000)
+	bw = RH_RF95_BW_125KHZ;
+    else if (sbw <= 250000)
+	bw = RH_RF95_BW_250KHZ;
+    else
+	bw =  RH_RF95_BW_500KHZ;
+
+    // top 4 bits of reg 1D control bandwidth
+    spiWrite(RH_RF95_REG_1D_MODEM_CONFIG1, (spiRead(RH_RF95_REG_1D_MODEM_CONFIG1) & ~RH_RF95_BW) | bw);
+    // check if low data rate bit should be set or cleared
+    setLowDatarate();
+}
+
+void RH_RF95::setCodingRate4(uint8_t denominator)
+{
+    int cr = RH_RF95_CODING_RATE_4_5;
+
+//    if (denominator <= 5)
+//	cr = RH_RF95_CODING_RATE_4_5;
+    if (denominator == 6)
+	cr = RH_RF95_CODING_RATE_4_6;
+    else if (denominator == 7)
+	cr = RH_RF95_CODING_RATE_4_7;
+    else if (denominator >= 8)
+	cr = RH_RF95_CODING_RATE_4_8;
+
+    // CR is bits 3..1 of RH_RF95_REG_1D_MODEM_CONFIG1
+    spiWrite(RH_RF95_REG_1D_MODEM_CONFIG1, (spiRead(RH_RF95_REG_1D_MODEM_CONFIG1) & ~RH_RF95_CODING_RATE) | cr);
+}
+
+void RH_RF95::setLowDatarate()
+{
+    // called after changing bandwidth and/or spreading factor
+    //  Semtech modem design guide AN1200.13 says
+    // "To avoid issues surrounding  drift  of  the  crystal  reference  oscillator  due  to  either  temperature  change
+    // or  motion,the  low  data  rate optimization  bit  is  used. Specifically for 125  kHz  bandwidth  and  SF  =  11  and  12,
+    // this  adds  a  small  overhead  to increase robustness to reference frequency variations over the timescale of the LoRa packet."
+
+    // read current value for BW and SF
+    uint8_t BW = spiRead(RH_RF95_REG_1D_MODEM_CONFIG1) >> 4;	// bw is in bits 7..4
+    uint8_t SF = spiRead(RH_RF95_REG_1E_MODEM_CONFIG2) >> 4;	// sf is in bits 7..4
+
+    // calculate symbol time (see Semtech AN1200.22 section 4)
+    float bw_tab[] = {7800, 10400, 15600, 20800, 31250, 41700, 62500, 125000, 250000, 500000};
+
+    float bandwidth = bw_tab[BW];
+
+    float symbolTime = 1000.0 * pow(2, SF) / bandwidth;	// ms
+
+    // the symbolTime for SF 11 BW 125 is 16.384ms.
+    // and, according to this :-
+    // https://www.thethingsnetwork.org/forum/t/a-point-to-note-lora-low-data-rate-optimisation-flag/12007
+    // the LDR bit should be set if the Symbol Time is > 16ms
+    // So the threshold used here is 16.0ms
+
+    // the LDR is bit 3 of RH_RF95_REG_26_MODEM_CONFIG3
+    uint8_t current = spiRead(RH_RF95_REG_26_MODEM_CONFIG3) & ~RH_RF95_LOW_DATA_RATE_OPTIMIZE; // mask off the LDR bit
+    if (symbolTime > 16.0)
+	spiWrite(RH_RF95_REG_26_MODEM_CONFIG3, current | RH_RF95_LOW_DATA_RATE_OPTIMIZE);
+    else
+	spiWrite(RH_RF95_REG_26_MODEM_CONFIG3, current);
+
+}
+
+void RH_RF95::setPayloadCRC(bool on)
+{
+    // Payload CRC is bit 2 of register 1E
+    uint8_t current = spiRead(RH_RF95_REG_1E_MODEM_CONFIG2) & ~RH_RF95_PAYLOAD_CRC_ON; // mask off the CRC
+
+    if (on)
+	spiWrite(RH_RF95_REG_1E_MODEM_CONFIG2, current | RH_RF95_PAYLOAD_CRC_ON);
+    else
+	spiWrite(RH_RF95_REG_1E_MODEM_CONFIG2, current);
+}
+

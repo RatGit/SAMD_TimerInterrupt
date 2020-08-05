@@ -106,6 +106,16 @@
 //   Known Bugs:   None                                                                                               //
 //   ---------------------------------------------------------------------------------------------------------------  //
 //                                                                                                                    //
+//   Function:     pinStr                                                                                             //
+//   Description:  Set the IO Pin Drive Strength                                                                      //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    None                                                                                               //
+//   Returns:      None                                                                                               //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:        Works like pinMode(), but to set drive strength                                                    //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+//                                                                                                                    //
 //   Function:     setup                                                                                              //
 //   Description:  Main sketch initialisation function. Sets unused IO pins to their lowest power mode, (ie. Input    //
 //                 + PullUp), puts the Serial Flash to sleep, detaches the USB port, configures the LoRa radio module //
@@ -181,7 +191,8 @@ void alarmMatch()
 //   Returns:      None                                                                                               //
 //                 -------------------------------------------------------------------------------------------------  //
 //   Notes:        Enable RTC alarm for next minutes and seconds match                                                //
-//                 RTC optionally alarms on a random number of seconds, (0-59) at least 1 minute from now             //
+//                 RTC optionally alarms on a random number of seconds, (0-59) at least CAP_CHARGE_DELAY_MINUTES      //
+//                 minutes from now                                                                                   //
 //                 in case there was a comms collision                                                                //
 //   Known Bugs:   None                                                                                               //
 //   ---------------------------------------------------------------------------------------------------------------  //
@@ -221,6 +232,7 @@ void setAlarm(bool randomise, uint8_t seconds)
 
   if (randomise)
   {
+   srand(time(0));  // Initialize random number generator.
    int nextAlarmTime = (rand() % 60) + (alarmMinutes + CAP_CHARGE_DELAY_MINUTES) * 60 + alarmSeconds;  // RTC alarms in "CAP_CHARGE_DELAY_MINUTES" plus some random number of seconds, (< 60) from now in case there was a comms collision
    nextAlarmSeconds = nextAlarmTime % 60;
    nextAlarmMinutes = ((nextAlarmTime - nextAlarmSeconds) / 60) % 60;
@@ -268,7 +280,8 @@ bool pair()
 //  if (ENABLE_VERBOSE) {serialPrintf(USE_SERIAL, serialbuf, "Sending Message: \"%s\" Length=%d To=%u From=%u", true, false, (char*)data, datalen, serverAddress, (uint8_t)(manager.thisAddress()));}
 // #endif
 
- if (manager.sendtoWait(data, datalen, serverAddress))  // Send a message to the LoRa Server
+ if (manager.sendtoWait(data, datalen, serverAddress, SEND_TIMEOUT))  // Send a message to the LoRa Server
+// if (manager.sendtoWait(data, datalen, serverAddress))  // Send a message to the LoRa Server
  {
 //  #ifndef LOW_POWER
 //   if (ENABLE_VERBOSE) {serialPrint(USE_SERIAL, (char*)"Message Sent to Server");}
@@ -331,7 +344,8 @@ bool pair()
      if (ENABLE_VERBOSE) {serialPrintf(USE_SERIAL, serialbuf, "CLIENT: Sending Pairing Request Response Handshake: \"%s\" To: %u", true, false, (char*)response, PAIRING_ADDRESS);}
 //    #endif
 
-    if (manager.sendtoWait(response, 19, PAIRING_ADDRESS))  // Send Pairing Response Handshake: <64bit OUI:UID><8bit CLIENT ADDRESS> From CLIENT_ADDRESS To PAIRING_ADDRESS
+    if (manager.sendtoWait(response, 19, PAIRING_ADDRESS, SEND_TIMEOUT))  // Send Pairing Response Handshake: <64bit OUI:UID><8bit CLIENT ADDRESS> From CLIENT_ADDRESS To PAIRING_ADDRESS
+//    if (manager.sendtoWait(response, 19, PAIRING_ADDRESS))  // Send Pairing Response Handshake: <64bit OUI:UID><8bit CLIENT ADDRESS> From CLIENT_ADDRESS To PAIRING_ADDRESS
     {
 //     #ifndef LOW_POWER
       if (ENABLE_VERBOSE) {serialPrint(USE_SERIAL, (char*)"CLIENT: Waiting for Pairing Request Response Handshake Acknowledgment");}
@@ -456,7 +470,8 @@ bool sendData()
 //  if (ENABLE_VERBOSE) {serialPrintf(USE_SERIAL, serialbuf, "Sending Message: \"%s\" Length=%d To=%u From=%u", true, false, (char*)data, datalen, serverAddress, (uint8_t)(manager.thisAddress()));}
 // #endif
 
- if (manager.sendtoWait(data, datalen, serverAddress))  // Send a message to the LoRa Server
+ if (manager.sendtoWait(data, datalen, serverAddress, SEND_TIMEOUT))  // Send a message to the LoRa Server
+// if (manager.sendtoWait(data, datalen, serverAddress))  // Send a message to the LoRa Server
  {
 //  #ifndef LOW_POWER
 //   if (ENABLE_VERBOSE) {serialPrint(USE_SERIAL, (char*)"Message Sent to Server");}
@@ -520,6 +535,24 @@ bool radioHandshake()
  return result;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//   Function:     pinStr                                                                                             //
+//   Description:  Set the IO Pin Drive Strength                                                                      //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Arguments:    None                                                                                               //
+//   Returns:      None                                                                                               //
+//                 -------------------------------------------------------------------------------------------------  //
+//   Notes:        Works like pinMode(), but to set drive strength                                                    //
+//   Known Bugs:   None                                                                                               //
+//   ---------------------------------------------------------------------------------------------------------------  //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void pinStr(uint32_t ulPin, unsigned strength)
+{
+ if ( g_APinDescription[ulPin].ulPinType == PIO_NOT_A_PIN ) {return;}  // Handle the case the pin isn't usable as PIO
+ if (strength) strength = 1;      // set drive strength to either 0 or 1 copied
+ PORT->Group[g_APinDescription[ulPin].ulPort].PINCFG[g_APinDescription[ulPin].ulPin].bit.DRVSTR = strength;
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //   Function:     setup                                                                                              //
@@ -703,6 +736,7 @@ void loop()
       if (isPaired) setAlarm(false);  // If Paired successfully, set device to update in CAP_CHARGE_DELAY_MINUTES time and then every hour thenceforth, (because the next matching minutes and seconds will then be an hour away)
       else if (pairingCounter >= NUM_PAIRING_ATTEMPTS)
       {
+       pinStr(POWER_OFF_PIN, HIGH);     // Set the pin to High Drive Strength
        pinMode(POWER_OFF_PIN, OUTPUT);  // Kill the Power if the device hasn't paired after NUM_PAIRING_ATTEMPTS
        digitalWrite(POWER_OFF_PIN, LOW);
       }
@@ -714,6 +748,7 @@ void loop()
       if (radioHandshake())  // Send Data
       {
        if (ENABLE_VERBOSE) {serialPrintf(USE_SERIAL, serialbuf, "CLIENT: Send Data Duration = %lu (us)\n", true, false, micros() - time);}
+//       setAlarm(false, 3); // Send next data in 3 seconds time, (This is for accelerated data testing)
       }
       else setAlarm(true);  // If sending data failed, try again in CAP_CHARGE_DELAY_MINUTES + some random seconds, (< 60)
      }

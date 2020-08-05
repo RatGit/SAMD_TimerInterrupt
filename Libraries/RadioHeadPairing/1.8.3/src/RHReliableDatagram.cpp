@@ -9,7 +9,7 @@
 //
 // Author: Mike McCauley (mikem@airspayce.com)
 // Copyright (C) 2011 Mike McCauley
-// $Id: RHReliableDatagram.cpp,v 1.17 2017/03/08 09:30:47 mikem Exp $
+// $Id: RHReliableDatagram.cpp,v 1.18 2018/11/08 02:31:43 mikem Exp $
 
 #include <RHReliableDatagram.h>
 
@@ -47,20 +47,30 @@ uint8_t RHReliableDatagram::retries()
 ////////////////////////////////////////////////////////////////////
 bool RHReliableDatagram::sendtoWait(uint8_t* buf, uint8_t len, uint8_t address)
 {
-char buffer[255];
-//sprintf(buffer, "sendtoWait: buf=\"%s\" len=%d address=%d", (char*)buf, len, address);
-//SerialUSB.println(buffer);
     // Assemble the message
     uint8_t thisSequenceNumber = ++_lastSequenceNumber;
     uint8_t retries = 0;
     while (retries++ <= _retries)
     {
 	setHeaderId(thisSequenceNumber);
-	setHeaderFlags(RH_FLAGS_NONE, RH_FLAGS_ACK); // Clear the ACK flag
+
+        // Set and clear header flags depending on if this is an
+        // initial send or a retry.
+        uint8_t headerFlagsToSet = RH_FLAGS_NONE;
+        // Always clear the ACK flag
+        uint8_t headerFlagsToClear = RH_FLAGS_ACK;
+        if (retries == 1) {
+            // On an initial send, clear the RETRY flag in case
+            // it was previously set
+            headerFlagsToClear |= RH_FLAGS_RETRY;
+        } else {
+            // Not an initial send, set the RETRY flag
+            headerFlagsToSet = RH_FLAGS_RETRY;
+        }
+        setHeaderFlags(headerFlagsToSet, headerFlagsToClear);
+
 	sendto(buf, len, address);
 	waitPacketSent();
-//sprintf(buffer, "sendtoWait/sendto: buf=\"%s\" len=%d address=%d", (char*)buf, len, address);
-//SerialUSB.println(buffer);
 
 	// Never wait for ACKS to broadcasts:
 	if (address == RH_BROADCAST_ADDRESS)
@@ -86,9 +96,6 @@ char buffer[255];
 		uint8_t from, to, id, flags;
 		if (recvfrom(0, 0, &from, &to, &id, &flags)) // Discards the message
 		{
-//sprintf(buffer, "sendtoWait/recvfrom: from=%d to=%d id=%d flags=%d", from, to, id, flags);
-//SerialUSB.println(buffer);
-//	        if (to == RH_PAIRING_ADDRESS) setRxHeaderTo(to);
 		    // Now have a message: is it our ACK?
 		    if (  (from == address || address == RH_PAIRING_ADDRESS)  // If this was a pairing request then ignore the "from" address
 			   && to == _thisAddress
@@ -118,11 +125,88 @@ char buffer[255];
 }
 
 ////////////////////////////////////////////////////////////////////
+bool RHReliableDatagram::sendtoWait(uint8_t* buf, uint8_t len, uint8_t address, uint16_t atimeout)
+{
+ // Assemble the message
+ uint8_t thisSequenceNumber = ++_lastSequenceNumber;
+ uint8_t retries = 0;
+ while (retries++ <= _retries)
+ {
+setHeaderId(thisSequenceNumber);
+
+     // Set and clear header flags depending on if this is an
+     // initial send or a retry.
+     uint8_t headerFlagsToSet = RH_FLAGS_NONE;
+     // Always clear the ACK flag
+     uint8_t headerFlagsToClear = RH_FLAGS_ACK;
+     if (retries == 1) {
+         // On an initial send, clear the RETRY flag in case
+         // it was previously set
+         headerFlagsToClear |= RH_FLAGS_RETRY;
+     } else {
+         // Not an initial send, set the RETRY flag
+         headerFlagsToSet = RH_FLAGS_RETRY;
+     }
+     setHeaderFlags(headerFlagsToSet, headerFlagsToClear);
+
+sendto(buf, len, address);
+if (!waitPacketSent(atimeout)) continue;
+
+// Never wait for ACKS to broadcasts:
+if (address == RH_BROADCAST_ADDRESS)
+  return true;
+
+if (retries > 1)
+  _retransmissions++;
+unsigned long thisSendTime = millis(); // Timeout does not include original transmit time
+
+// Compute a new timeout, random between _timeout and _timeout*2
+// This is to prevent collisions on every retransmit
+// if 2 nodes try to transmit at the same time
+#if (RH_PLATFORM == RH_PLATFORM_RASPI) // use standard library random(), bugs in random(min, max)
+uint16_t timeout = _timeout + (_timeout * (random() & 0xFF) / 256);
+#else
+uint16_t timeout = _timeout + (_timeout * random(0, 256) / 256);
+#endif
+int32_t timeLeft;
+     while ((timeLeft = timeout - (millis() - thisSendTime)) > 0)
+{
+  if (waitAvailableTimeout(timeLeft))
+  {
+uint8_t from, to, id, flags;
+if (recvfrom(0, 0, &from, &to, &id, &flags)) // Discards the message
+{
+   // Now have a message: is it our ACK?
+   if (  (from == address || address == RH_PAIRING_ADDRESS)  // If this was a pairing request then ignore the "from" address
+   && to == _thisAddress
+   && (flags & RH_FLAGS_ACK)
+   && (id == thisSequenceNumber))
+   {
+// Its the ACK we are waiting for
+return true;
+   }
+   else if (   !(flags & RH_FLAGS_ACK)
+ && (id == _seenIds[from]))
+   {
+// This is a request we have already received. ACK it again
+acknowledge(id, from, atimeout);
+   }
+   // Else discard it
+}
+  }
+  // Not the one we are waiting for, maybe keep waiting until timeout exhausted
+  YIELD;
+}
+// Timeout exhausted, maybe retry
+YIELD;
+ }
+ // Retries exhausted
+ return false;
+}
+
+////////////////////////////////////////////////////////////////////
 bool RHReliableDatagram::recvfromAck(uint8_t* buf, uint8_t* len, uint8_t* from, uint8_t* to, uint8_t* id, uint8_t* flags)
 {
-char buffer[255];
-//sprintf(buffer, "recvfromAck: buf=\"%s\", len=%d, from=%d to=%d id=%d flags=%d", (char*)buf, *len, *from, *to, *id, *flags);
-//SerialUSB.println(buffer);
     uint8_t _from;
     uint8_t _to;
     uint8_t _id;
@@ -130,9 +214,6 @@ char buffer[255];
     // Get the message before its clobbered by the ACK (shared rx and tx buffer in some drivers
     if (available() && recvfrom(buf, len, &_from, &_to, &_id, &_flags))
     {
-//sprintf(buffer, "recvfromAck/recvfrom: buf=\"%s\", len=%d, _from=%d _to=%d _id=%d _flags=%d", (char*)buf, *len, _from, _to, _id, _flags);
-//SerialUSB.println(buffer);
-
 	// Never ACK an ACK
 	if (!(_flags & RH_FLAGS_ACK))
 	{
@@ -143,14 +224,15 @@ char buffer[255];
 	        // Its for this node and
 		// Its not a broadcast, so ACK it
 		// Acknowledge message with ACK set in flags and ID set to received ID
-		acknowledge(_id, _from);  // How does the ACK header get the RH_PAIRING_ADDRESS?
-//sprintf(buffer, "recvfromAck/acknowledge: _id=%d, _from=%d", _id, _from);
-//SerialUSB.println(buffer);
+		acknowledge(_id, _from);
 	    }
-	    // If we have not seen this message before, then we are interested in it
-//	    if (_to == RH_PAIRING_ADDRESS) *from = _from;
-//	    if (_to == RH_PAIRING_ADDRESS) return true;
-	    if (_id != _seenIds[_from] || _to == RH_PAIRING_ADDRESS)
+            // Filter out retried messages that we have seen before. This explicitly
+            // only filters out messages that are marked as retries to protect against
+            // the scenario where a transmitting device sends just one message and
+            // shuts down between transmissions. Devices that do this will report the
+            // the same ID each time since their internal sequence number will reset
+            // to zero each time the device starts up.
+	    if ((RH_ENABLE_EXPLICIT_RETRY_DEDUP && !(_flags & RH_FLAGS_RETRY)) || (_id != _seenIds[_from] || _to == RH_PAIRING_ADDRESS))
 	    {
 		if (from)  *from =  _from;
 		if (to)    *to =    _to;
@@ -204,4 +286,18 @@ void RHReliableDatagram::acknowledge(uint8_t id, uint8_t from)
     uint8_t ack = '!';
     sendto(&ack, sizeof(ack), from);
     waitPacketSent();
+}
+
+void RHReliableDatagram::acknowledge(uint8_t id, uint8_t from, uint16_t timeout)
+{
+    setHeaderId(id);
+    setHeaderFlags(RH_FLAGS_ACK);
+    // We would prefer to send a zero length ACK,
+    // but if an RH_RF22 receives a 0 length message with a CRC error, it will never receive
+    // a 0 length message again, until its reset, which makes everything hang :-(
+    // So we send an ACK of 1 octet
+    // REVISIT: should we send the RSSI for the information of the sender?
+    uint8_t ack = '!';
+    sendto(&ack, sizeof(ack), from);
+    waitPacketSent(timeout);
 }

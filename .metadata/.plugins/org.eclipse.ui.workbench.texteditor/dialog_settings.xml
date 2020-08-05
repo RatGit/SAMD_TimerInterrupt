@@ -2,44 +2,44 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="CAP_CHARGE_DELAY_MINUTES" key="selection"/>
+		<item value="LED_" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
-		<item value="false" key="wrap"/>
-		<item value="true" key="wholeword"/>
+		<item value="true" key="wrap"/>
+		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="FIRST_DATA_DELAY_MINUTES"/>
-			<item value="alarmMatch"/>
-			<item value="setAlarm"/>
-			<item value="serialPtr"/>
-			<item value="POWER_OFF_PIN"/>
-			<item value="USE_FLASH"/>
-			<item value="radio.sleep"/>
-			<item value="TEST_CURRENT"/>
-			<item value="standbyMode"/>
-			<item value="sleep"/>
-			<item value="CRC ERROR"/>
-			<item value="PN5180 Hard-Reset..."/>
-			<item value="SerialFlash"/>
-			<item value="NUM_PAIRINGS_MINUTES"/>
-			<item value="serialPrint"/>
+			<item value="LED_"/>
+			<item value="serialInHeadPtr"/>
+			<item value="LORA_BUFFER_LENGTH"/>
+			<item value="serialOutTailPtr"/>
+			<item value="serialOutHeadPtr"/>
+			<item value="serialFlashOk"/>
+			<item value="serverAddress"/>
+			<item value="LORA_ADDRESS"/>
+			<item value="SERIAL_PACKET_LENGTH"/>
+			<item value="DEFAULT_CLIENT_ADDRESS"/>
+			<item value="SERVER_ACK_TIMEOUT"/>
+			<item value="USE_SERIAL"/>
+			<item value="loraInData"/>
+			<item value="loraData"/>
+			<item value="serialTailPtr"/>
 		</list>
 		<list key="replacehistory">
+			<item value="LORA_PACKET_LENGTH"/>
+			<item value="LORA_ADDRESS"/>
+			<item value="DATA_BUFFER_LENGTH"/>
+			<item value="loraOutData"/>
+			<item value="loraInData"/>
+			<item value="serialInTailPtr"/>
+			<item value="serialInHeadPtr"/>
+			<item value="serialInData"/>
+			<item value="serialHeadPtr"/>
+			<item value="SEND_TIMEOUT"/>
 			<item value="CAP_CHARGE_DELAY_MINUTES"/>
 			<item value="serialPrint(USE_SERIAL, "/>
 			<item value="serialPrintf(USE_SERIAL, "/>
 			<item value="serialbuf"/>
 			<item value="ENABLE_VERBOSE"/>
-			<item value="load"/>
-			<item value="Load"/>
-			<item value="pickupPulseHighCounter"/>
-			<item value="pickupPulseLowCounter"/>
-			<item value="loadPulseLowCounter"/>
-			<item value="loadPulseHighCounter"/>
-			<item value="RADIO_DIO_"/>
-			<item value="0003:AA"/>
-			<item value="0002:6E"/>
-			<item value="1000:32"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">

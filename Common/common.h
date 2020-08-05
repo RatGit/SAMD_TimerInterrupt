@@ -192,6 +192,11 @@
 //  Macro Definitions  //
 /////////////////////////
 
+// Hardware Target
+//#define USE_MINI_ULTRA_PRO  // RocketScream Mini Ultra Pro V3 Board
+#define USE_MUPPET_MODULE   // Muppet Core Module
+//#define USE_CDS_1           // CDS Version 1 Board
+
 #define BAUD_RATE 115200
 
 #define EUI64_CHIP_ADDRESS 0x50
@@ -205,10 +210,11 @@
 #define PAIRING_ADDRESS  RH_PAIRING_ADDRESS  // RH_BROADCAST_ADDRESS
 #define PACKET_LENGTH 33  // = 24bit OUI + 40bit UID + ':' + 12bit Temperature (Float) + ':' + 12bit Relative Humidity (Float) + ':' + 8bit CRC  (All in hexadecimal), eg: "0004A30B001A531C:DF7:234:7E"
 #define CLIENT_ACK_TIMEOUT 5000
+#define SEND_TIMEOUT 5000
 #define NUM_RETRIES 10
 
 #if defined(ARDUINO_SAMD_ZERO) && !defined(SerialUSB)
- #define Serial SerialUSB  // Need this on Arduino Zero with SerialUSB port (eg RocketScream Mini Ultra Pro)
+ #define Serial SerialUSB  // Use the USB Serial Port
 #endif
 
 // Serial Message Codes
@@ -222,26 +228,47 @@
 #define COMMAND_UNKNOWN "1002"  // Unknown Serial Command
 #define CLIENT_PAIRED   "1003"  // Client Paired Successfully
 
-#define OUI "0004A3"  // Have to apply for an OUI
-
 // SAMD21 MCU Unique 128-Bit ID Memory Address Locations
 #define ID_ADDR_0 0x0080A00C
 #define ID_ADDR_1 0x0080A040
 #define ID_ADDR_2 0x0080A044
 #define ID_ADDR_3 0x0080A048
 
-// Power Off GPIO Pin
-#define POWER_OFF_PIN 9
+// GPIO Pin Assignment
+#if defined USE_MINI_ULTRA_PRO
+ #define OUI "0004A3"  // Have to apply for an OUI
 
-// Chip Select Pin Numbers
-#define radioDio0        2
-#define radioDio1        6
-#define radioDio2        7
-#define radioReset       3
-#define radioChipSelect  5
+ #define radioDio0        2
+ #define radioDio1        6
+ #define radioDio2        7
+ #define radioReset       3
+ #define radioChipSelect  5
 
-#define flashChipSelect 4
+ #define flashChipSelect  4
+#elif defined USE_MUPPET_MODULE
+ #define OUI "0004A3"  // Have to apply for an OUI
 
+ #define radioDio0        2
+ #define radioDio1        6
+ #define radioDio2        7
+ #define radioReset       3
+ #define radioChipSelect  5
+
+ #define flashChipSelect  4
+#elif defined USE_CDS_1
+ #define OUI "0004A3"  // Have to apply for an OUI
+
+ // Power Off GPIO Pin
+ #define POWER_OFF_PIN    A0
+
+ #define radioDio0        5
+ #define radioDio1        6
+ #define radioDio2        12
+ #define radioReset       4
+ #define radioChipSelect  A3
+
+ #define flashChipSelect  4
+#endif
 
 ////////////////////////
 //  Type Definitions  //

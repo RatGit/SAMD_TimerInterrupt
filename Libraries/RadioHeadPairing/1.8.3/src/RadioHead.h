@@ -1,7 +1,7 @@
 // RadioHead.h
 // Author: Mike McCauley (mikem@airspayce.com) DO NOT CONTACT THE AUTHOR DIRECTLY
 // Copyright (C) 2014 Mike McCauley
-// $Id: RadioHead.h,v 1.70 2018/02/11 23:57:18 mikem Exp mikem $
+// $Id: RadioHead.h,v 1.80 2020/01/05 07:02:23 mikem Exp mikem $
 
 /*! \mainpage RadioHead Packet Radio library for embedded microprocessors
 
@@ -10,7 +10,7 @@ It provides a complete object-oriented library for sending and receiving packeti
 via a variety of common data radios and other transports on a range of embedded microprocessors.
 
 The version of the package that this documentation refers to can be downloaded
-from http://www.airspayce.com/mikem/arduino/RadioHead/RadioHead-1.83.zip
+from http://www.airspayce.com/mikem/arduino/RadioHead/RadioHead-1.98.zip
 You can find the latest version of the documentation at http://www.airspayce.com/mikem/arduino/RadioHead
 
 You can also find online help and discussion at
@@ -62,7 +62,7 @@ The following Drivers are provided:
 Works with Hope-RF
 RF22B and RF23B based transceivers, and compatible chips and modules,
 including the RFM22B transceiver module such as
-this bare module: http://www.sparkfun.com/products/10153
+hthis bare module: http://www.sparkfun.com/products/10153
 and this shield: http://www.sparkfun.com/products/11018
 and this board: http://www.anarduino.com/miniwireless
 and RF23BP modules such as: http://www.anarduino.com/details.jsp?pid=130
@@ -98,7 +98,9 @@ Works with Nordic nRF905 based 433/868/915 MHz radio modules.
 - RH_NRF51
 Works with Nordic nRF51 compatible 2.4 GHz SoC/devices such as the nRF51822.
 Also works with Sparkfun nRF52832 breakout board, with Arduino 1.6.13 and
-Sparkfun nRF52 boards manager 0.2.3
+Sparkfun nRF52 boards manager 0.2.3. Caution: although RadioHead compiles with nRF52832 as at 2019-06-06
+there appears to be a problem with the support of interupt handlers in the Sparkfun support libraries,
+and drivers (ie most of the SPI based radio drivers) that require interrupts do not work correctly.
 
 - RH_RF95
 Works with Semtech SX1276/77/78/79, Modtronix inAir4 and inAir9,
@@ -136,7 +138,7 @@ testing of Manager classes on Linux and without need for real radios or other tr
 
 - RHEncryptedDriver
 Adds encryption and decryption to any RadioHead transport driver, using any encrpytion cipher
-supported by ArduinoLibs Cryptogrphic Library http://rweather.github.io/arduinolibs/crypto.html
+supported by ArduinoLibs Cryptographic Library http://rweather.github.io/arduinolibs/crypto.html
 
 Drivers can be used on their own to provide unaddressed, unreliable datagrams.
 All drivers have the same identical API.
@@ -144,9 +146,16 @@ Or you can use any Driver with any of the Managers described below.
 
 We welcome contributions of well tested and well documented code to support other transports.
 
+If your radio or transciever is not on the list above, there is a good chance it
+wont work without modifying RadioHead to suit it.  If you wish for
+support for another radio or transciever, and you send 2 of them to
+AirSpayce Pty Ltd, we will consider adding support for it.
+
 \par Managers
 
-The following Managers are provided:
+The drivers above all provide for unaddressed, unreliable, variable
+length messages, but if you need more than that, the following
+Managers are provided:
 
 - RHDatagram
 Addressed, unreliable variable length messages, with optional broadcast facilities.
@@ -156,7 +165,7 @@ Addressed, reliable, retransmitted, acknowledged variable length messages.
 
 - RHRouter
 Multi-hop delivery of RHReliableDatagrams from source node to destination node via 0 or more
-intermediate nodes, with manual routing.
+intermediate nodes, with manual, pre-programmed routing.
 
 - RHMesh
 Multi-hop delivery of RHReliableDatagrams with automatic route discovery and rediscovery.
@@ -165,7 +174,7 @@ Any Manager may be used with any Driver.
 
 \par Platforms
 
-A range of platforms is supported:
+A range of processors and platforms are supported:
 
 - Arduino and the Arduino IDE (version 1.0 to 1.8.1 and later)
 Including Diecimila, Uno, Mega, Leonardo, Yun, Due, Zero etc. http://arduino.cc/, Also similar boards such as
@@ -177,18 +186,28 @@ Including Diecimila, Uno, Mega, Leonardo, Yun, Due, Zero etc. http://arduino.cc/
     https://github.com/LowPowerLab/Moteino/tree/master/MEGA/Core)
  - ESP8266 on Arduino IDE and Boards Manager per https://github.com/esp8266/Arduino
    Tested using Arduino 1.6.8 with esp8266 by ESP8266 Community version 2.1.0
+   Also Arduino 1.8.1 with esp8266 by SparkFun Electronics 2.5.2
    Examples serial_reliable_datagram_* and ask_* are shown to work.
    CAUTION: The GHz radio included in the ESP8266 is
    not yet supported.
+   CAUTION: tests here show that when powered by an FTDI USB-Serial converter,
+   the ESP8266 can draw so much power when transmitting on its GHz WiFi that VCC will sag
+   causing random crashes. We strongly recommend a large cap, say 1000uF 10V on VCC if you are also using the WiFi.
  - Various Talk2 Whisper boards eg https://wisen.com.au/store/products/whisper-node-lora.
    Use Arduino Board Manager to install the Talk2 code support.
  - etc.
 
+- STM32 F4 Discover board, using Arduino 1.8.2 or later and
+   Roger Clarkes Arduino_STM from https://github.com/rogerclarkmelbourne/Arduino_STM32
+   Caution: with this library and board, sending text to Serial causes the board to hang in mysterious ways.
+   Serial2 emits to PA2. The default SPI pins are SCK: PB3, MOSI PB5, MISO PB4.
+   We tested with PB0 as slave select and PB1 as interrupt pin for various radios. RH_ASK and RH_Serial also work.
+
 - ChipKIT Core with Arduino IDE on any ChipKIT Core supported Digilent processor (tested on Uno32)
-http://chipkit.net/wiki/index.php?title=ChipKIT_core
+  http://chipkit.net/wiki/index.php?title=ChipKIT_core
 
 - Maple and Flymaple boards with libmaple and the Maple-IDE development environment
-http://leaflabs.com/devices/maple/ and http://www.open-drone.org/flymaple
+  http://leaflabs.com/devices/maple/ and http://www.open-drone.org/flymaple
 
 - Teensy including Teensy 3.1 and earlier built using Arduino IDE 1.0.5 to 1.6.4 and later with
   teensyduino addon 1.18 to 1.23 and later.
@@ -199,26 +218,37 @@ http://leaflabs.com/devices/maple/ and http://www.open-drone.org/flymaple
   but can be used to control other SPI based radios, Serial ports etc.
   See below for details on how to build RadioHead for Photon
 
-- ATtiny built using Arduino IDE 1.0.5 with the arduino-tiny support from https://code.google.com/p/arduino-tiny/
-  and Digispark built with Arduino 1.6.5.
+- ATTiny built using Arduino IDE 1.8 and the ATTiny core from
+  https://raw.githubusercontent.com/damellis/attiny/ide-1.6.x-boards-manager/package_damellis_attiny_index.json
+  using the instructions at
+  https://medium.com/jungletronics/attiny85-easy-flashing-through-arduino-b5f896c48189
   (Caution: these are very small processors and not all RadioHead features may be available, depending on memory requirements)
+  (Caution: we have not had good success building RH_ASK sketches for ATTiny 85  with SpenceKonde ATTinyCore)
+
+- AtTiny Mega chips supported by Spencer Konde's megaTinyCore (https://github.com/SpenceKonde/megaTinyCore)
+  (on Arduino 1.8.9 or later) such as AtTiny 3216, AtTiny 1616 etc. These chips can be easily programmed through their
+  UPDI pin, using an ordinary Arduino board programmed as a jtag2updi programmer as described in
+  https://github.com/SpenceKonde/megaTinyCore/blob/master/MakeUPDIProgrammer.md.
+  Make sure you set the programmer type to jtag2updi in the Arduino Tools->Programmer menu.
+  See https://github.com/SpenceKonde/megaTinyCore/blob/master/megaavr/extras/ImportantInfo.md for links to pinouts
+  and pin numbering information for all the suported chips.
 
 - nRF51 compatible Arm chips such as nRF51822 with Arduino 1.6.4 and later using the procedures
   in http://redbearlab.com/getting-started-nrf51822/
 
 - nRF52 compatible Arm chips such as as Adafruit BLE Feather board
-https://www.adafruit.com/product/3406
+  https://www.adafruit.com/product/3406
 
 - Adafruit Feather. These are excellent boards that are available with a variety of radios. We tested with the
   Feather 32u4 with RFM69HCW radio, with Arduino IDE 1.6.8 and the Adafruit AVR Boards board manager version 1.6.10.
   https://www.adafruit.com/products/3076
-//
+
 - Adafruit Feather M0 boards with Arduino 1.8.1 and later, using the Arduino and Adafruit SAMD board support.
   https://learn.adafruit.com/adafruit-feather-m0-basic-proto/using-with-arduino-ide
 
-- ESP32 built using Arduino IDE 1.8.1 or later using the ESP32 toolchain installed per
-  https://diyprojects.io/programming-esp32-board-arduino-ide-macos-windows-linux-arm-raspberrypi-orangepi/
-  The internal 2.4GHz radio is not yet supported. Tested with RFM22 using SPI interfcace
+- ESP32 built using Arduino IDE 1.8.9 or later using the ESP32 toolchain installed per
+  https://github.com/espressif/arduino-esp32
+  The internal 2.4GHz radio is not yet supported. Tested with RFM22 using SPI interface
 
 - Raspberry Pi
   Uses BCM2835 library for GPIO http://www.airspayce.com/mikem/bcm2835/
@@ -228,11 +258,21 @@ https://www.adafruit.com/product/3406
 - Linux and OSX
   Using the RHutil/HardwareSerial class, the RH_Serial driver and any manager will
   build and run on Linux and OSX. These can be used to build programs that talk securely and reliably to
-  Arduino and other processors or to other Linux or OSX hosts on a reliable, error detected datagram
+  Arduino and other processors or to other Linux or OSX hosts on a reliable, error detected (and possibly encrypted) datagram
   protocol over various types of serial line.
+
+- Mongoose OS, courtesy Paul Austen. Mongoose OSis an Internet of Things Firmware Development Framework
+  available under Apache License Version 2.0. It supports low power, connected microcontrollers such as:
+  ESP32, ESP8266, TI CC3200, TI CC3220, STM32.
+  https://mongoose-os.com/
 
 Other platforms are partially supported, such as Generic AVR 8 bit processors, MSP430.
 We welcome contributions that will expand the range of supported platforms.
+
+If your processor is not on the list above, there is a good chance it
+wont work without modifying RadioHead to suit it.  If you wish for
+support for another processor, and you send 2 of them to
+AirSpayce Pty Ltd, we will consider adding support for it.
 
 RadioHead is available (through the efforts of others)
 for PlatformIO. PlatformIO is a cross-platform code builder and the missing library manager.
@@ -269,7 +309,7 @@ http://arduino.cc/en/Guide/Libraries
 The Photon is not supported by the Arduino IDE, so it takes a little effort to set up a build environment.
 Heres what we did to enable building of RadioHead example sketches on Linux,
 but there are other ways to skin this cat.
-Basic reference for getting stated is: http://particle-firmware.readthedocs.org/en/develop/build/
+Basic reference for getting started is: http://particle-firmware.readthedocs.org/en/develop/build/
 - Download the ARM gcc cross compiler binaries and unpack it in a suitable place:
 \code
 cd /tmp
@@ -296,8 +336,8 @@ unzip develop.zip
 cd /tmp
 mkdir RadioHead
 cd RadioHead
-cp /usr/local/projects/arduino/libraries/RadioHead/*.h .
-cp /usr/local/projects/arduino/libraries/RadioHead/*.cpp .
+cp /usr/local/projects/arduino/libraries/RadioHead/ *.h .
+cp /usr/local/projects/arduino/libraries/RadioHead/ *.cpp .
 cp /usr/local/projects/arduino/libraries/RadioHead/examples/cc110/cc110_client/cc110_client.pde application.cpp
 \endcode
 - Edit application.cpp and comment out any \#include <SPI.h> so it looks like:
@@ -357,7 +397,7 @@ It is not to be confused with any other similar marks covering other goods and s
 
 \par Copyright
 
-This software is Copyright (C) 2011-2016 Mike McCauley. Use is subject to license
+This software is Copyright (C) 2011-2018 Mike McCauley. Use is subject to license
 conditions. The main licensing options available are GPL V2 or Commercial:
 
 \par Open Source Licensing GPL V2
@@ -373,7 +413,7 @@ distributed. See https://www.gnu.org/licenses/gpl-2.0.html
 
 This is the appropriate option if you are creating proprietary applications
 and you are not prepared to distribute and share the source code of your
-application. Purchase commercial licenses at http://airspayce.binpress.com
+application. To purchase a commercial license, contact info@airspayce.com
 
 \par Revision History
 \version 1.1 2014-04-14<br>
@@ -836,6 +876,89 @@ application. Purchase commercial licenses at http://airspayce.binpress.com
              Fixed a problem with RHEncryptedDriver that could cause a crash on some platforms when used
              with RHReliableDatagram. Reported by Joachim Baumann.<br>
 	     Improvments to doxygen doc layout in RadioHead.h
+\version 1.84 2018-05-07
+             Compiles with Roger Clarkes Arduino_STM32 https://github.com/rogerclarkmelbourne/Arduino_STM32,
+	     to support STM32F103C etc, and STM32 F4 Discovery etc.<br>
+	     Tested STM32 F4 Discovery board with RH_RF22, RH_ASK and RH_Serial.
+
+\version 1.85 2018-07-09
+             RHGenericDriver methods changed to virtual, to allow overriding by RHEncrypredDriver:
+	     lastRssi(), mode(), setMode(). Reported by Eyal Gal.<br>
+	     Fixed a problem with compiling RH_E32 on some older IDEs, contributed by Philippe Rochat.<br>
+	     Improvements to RH_RF95 to improve detection of bad packets, contributed by PiNi.<br>
+	     Fixed an error in RHEncryptedDriver that caused incorrect message lengths for messages multiples of 16 bytes
+	     when STRICT_CONTENT_LEN is defined.<br>
+	     Fixed a bug in RHMesh which causes the creation of a route to the address which is the byte
+	     behind the end of the route array. Reported by Pascal Gillès de Pélichy.<br>
+\version 1.86 2018-08-28
+             Update commercial licensing, remove binpress.
+\version 1.87 2018-10-06
+             RH_RF22 now resets all registers to default state before initialisation commences. Suggested by Wothke.<br>
+	     Added RH_ENABLE_EXPLICIT_RETRY_DEDUP which improves the handling of duplicate detection especiually
+	     in the case where a transmitter periodically wakes up and start tranmitting from the first sequence number.
+	     Patch courtesy Justin Newitter. Thanks.
+\version 1.88 2018-11-13
+             Updated to support ATTiny using instructions in
+             https://medium.com/jungletronics/attiny85-easy-flashing-through-arduino-b5f896c48189
+	     Updated examples ask_transmitter and ask_receiver to compile cleanly on ATTiny.
+	     Tested using ATTiny85 and Arduino 1.8.1. <br>
+\version 1.89 2018-11-15
+             Testing with ATTiny core from https://github.com/SpenceKonde/ATTinyCore and RH_ASK,
+	     using example ask_transmitter. This resulted in 'Low Memory, instability may occur',
+             and the resulting sketch would transmit only one packet. Suggest ATTiny users do not use this core, but use
+	     the one from https://raw.githubusercontent.com/damellis/attiny/ide-1.6.x-boards-manager/package_damellis_attiny_index.json
+	     as described in https://medium.com/jungletronics/attiny85-easy-flashing-through-arduino-b5f896c48189 <br>
+	     Added support for RH_RF95::setSpreadingFactor(), RH_RF95::setSignalBandwidth(), RH_RF95::setLowDatarate() and
+	     RH_RF95::setPayloadCRC(). Patch from Brian Norman. Thanks.<br>
+
+\version 1.90 2019-05-21
+             Fixed a block size error in RhEncryptedDriver for the case when
+             using STRICT_CONTENT_LEN and sending messages of exactly _blockcipher.blockSize() bytes in length.
+	     Reported and patched by Philippe Rochat.
+             Patch from Samuel Archibald to prevent compile errors with RH_AAK.cpp fo ATSAMD51.
+	     Fixed a probem in RH_RF69::setSyncWords that prevented setSyncWords(NULL, 0) correctly
+	     disabling sync detection and generation. Reported by Federico Maggi.
+	     RHHardwareSPI::usingInterrupt() was a noop. Fixed to call SPI.usingInterrupt(interrupt);.
+
+\version 1.91 2019-06-01
+             Fixed a problem with new RHHardwareSPI::usingInterrupt() that prevented compilation on ESP8266
+	     which does not have that call.
+
+\version 1.92 2019-07-14
+             Retested serial_reliable_datagram_client.pde and serial_reliable_datagram_server.pde built on Linux
+	     as described in their headers, and with USB-RS485 adapters. No changes, working correctly.
+	     Testing of nRF5232 with Sparkfun nRF52 board support 0.2.3 shows that there appears to be a problem with
+	     interrupt handlers on this board, and none of the interrupt based radio drivers can be expected to work
+	     with this chip.
+	     Ensured all interrupt routines are flagged with ICACHE_RAM_ATTR when compiled for ESP8266, to prevent crashes.
+
+\version 1.94 2019-09-02
+             Fixed a bug in RHSoftwareSPI where RHGenericSPI::setBitOrder() has no effect for
+	     on RHSoftwareSPI. Reported by Peter.<br>
+	     Added support in RHRouter for a node to optionally be leaf node, and not participate as a router in the
+	     network. See RHRouter::setNodeTypePatch from Alex Evans.<br>
+	     Fixed a problem with ESP32 causing compile errors over missing SPI.usingInterrupt().<br>
+
+\version 1.95 2019-10-14
+             Fixed some typos in RH_RF05.h macro definitions reported by Clayton Smith.<br>
+	     Patch from Michael Cain from RH_ASK on ESP32, untested by me.<br>
+	     Added support for RPi Zero and Zero W for the RF95, contributed by Brody Mahoney.
+	     Not tested by me.<br>
+
+\version 1.96 2019-10-14
+             Added examples for RPi Zero and Zero W to examples/raspi/rf95, contributed by Brody Mahoney
+	     not tested by me. <br>
+
+\version 1.97 2019-11-02
+             Added support for Mongoose OS, contributed by Paul Austen.
+
+\version 1.98 2020-01-06
+             Rationalised use of RH_PLATFORM_ATTINY to be consistent with other platforms.<br>
+	     Added support for RH_PLATFORM_ATTINY_MEGA, for use with Spencer Konde's megaTinyCore
+	     https://github.com/SpenceKonde/megaTinyCore on Atmel megaAVR AtTiny chips.
+	     Tested with AtTiny 3217, 3216 and 1614, using
+	     RH_Serial, RH_ASK, and RH_RF22 drivers.<br>
+
 
 \author  Mike McCauley. DO NOT CONTACT THE AUTHOR DIRECTLY. USE THE GOOGLE LIST GIVEN ABOVE
 */
@@ -870,7 +993,7 @@ your RadioHead distribution.  But your needs may be more complicated
 than that.
 
 The essence of all engineering is compromise so it will be up to you to
-decide whats best for your paricular needs. The main choices are:
+decide whats best for your particular needs. The main choices are:
 - Raw Binary
 - Network Order Binary
 - ASCII
@@ -880,7 +1003,7 @@ decide whats best for your paricular needs. The main choices are:
 With this technique you just pack the raw binary numbers into the packet:
 
 \code
-// Sending a single integer
+// Sending a single 16 bit unsigned integer
 // in the transmitter:
 ...
 uint16_t data = getsomevalue();
@@ -906,7 +1029,7 @@ If you need to send more than one number at a time, its best to pack
 them into a structure
 
 \code
-// Sending several integers in a structure
+// Sending several 16 bit unsigned integers in a structure
 // in a common header for your project:
 typedef struct
 {
@@ -959,7 +1082,7 @@ will only ever use the same processor endianness in the transmitter and receiver
 One solution to the issue of endianness in your processors is to
 always convert your data from the processor's native byte order to
 'network byte order' before transmission and then convert it back to
-the receiver's native byte order on receoption. You do this with the
+the receiver's native byte order on reception. You do this with the
 htons (host to network short) macro and friends. These functions may
 be a no-op on big-endian processors.
 
@@ -970,7 +1093,7 @@ that explicitly specify their size so we can be sure of applying the
 right conversions):
 
 \code
-// Sending a single integer
+// Sending a single 16 bit unsigned integer
 // in the transmitter:
 ...
 uint16_t data = htons(getsomevalue());
@@ -995,7 +1118,7 @@ If you need to send more than one number at a time, its best to pack
 them into a structure
 
 \code
-// Sending several integers in a structure
+// Sending several 16 bit unsigned integers in a structure
 // in a common header for your project:
 typedef struct
 {
@@ -1084,7 +1207,7 @@ these examples and explanations and extend them to suit your needs.
 
 // Official version numbers are maintained automatically by Makefile:
 #define RH_VERSION_MAJOR 1
-#define RH_VERSION_MINOR 83
+#define RH_VERSION_MINOR 98
 
 // Symbolic names for currently supported platform types
 #define RH_PLATFORM_ARDUINO          1
@@ -1102,24 +1225,34 @@ these examples and explanations and extend them to suit your needs.
 #define RH_PLATFORM_CHIPKIT_CORE     13
 #define RH_PLATFORM_ESP32            14
 #define RH_PLATFORM_NRF52            15
+#define RH_PLATFORM_MONGOOSE_OS      16
+#define RH_PLATFORM_ATTINY           17
+// Spencer Kondes megaTinyCore:
+#define RH_PLATFORM_ATTINY_MEGA      18
 
 ////////////////////////////////////////////////////
 // Select platform automatically, if possible
 #ifndef RH_PLATFORM
- #if (MPIDE>=150 && defined(ARDUINO))
+ #if (defined(MPIDE) && MPIDE>=150 && defined(ARDUINO))
   // Using ChipKIT Core on Arduino IDE
   #define RH_PLATFORM RH_PLATFORM_CHIPKIT_CORE
  #elif defined(MPIDE)
   // Uno32 under old MPIDE, which has been discontinued:
   #define RH_PLATFORM RH_PLATFORM_UNO32
-#elif defined(NRF51)
+ #elif defined(NRF51)
   #define RH_PLATFORM RH_PLATFORM_NRF51
-#elif defined(NRF52)
+ #elif defined(NRF52)
   #define RH_PLATFORM RH_PLATFORM_NRF52
  #elif defined(ESP8266)
   #define RH_PLATFORM RH_PLATFORM_ESP8266
  #elif defined(ESP32)
   #define RH_PLATFORM RH_PLATFORM_ESP32
+ #elif defined(MGOS)
+  #define RH_PLATFORM RH_PLATFORM_MONGOOSE_OS
+ #elif defined(ARDUINO_attinyxy2) || defined(ARDUINO_attinyxy4) || defined(ARDUINO_attinyxy6) || defined(ARDUINO_attinyxy7)
+  #define RH_PLATFORM RH_PLATFORM_ATTINY_MEGA
+ #elif defined(__AVR_ATtiny84__) || defined(__AVR_ATtiny85__) || defined(__AVR_ATtiny24__) || defined(__AVR_ATtiny44__) || defined(__AVR_ATtiny45__) || defined(__AVR_ATtinyX4__) || defined(__AVR_ATtinyX5__) || defined(__AVR_ATtiny2313__) || defined(__AVR_ATtiny4313__) || defined(__AVR_ATtinyX313__) || defined(ARDUINO_attiny)
+  #define RH_PLATFORM RH_PLATFORM_ATTINY
  #elif defined(ARDUINO)
   #define RH_PLATFORM RH_PLATFORM_ARDUINO
  #elif defined(__MSP430G2452__) || defined(__MSP430G2553__)
@@ -1132,17 +1265,13 @@ these examples and explanations and extend them to suit your needs.
   #define RH_PLATFORM RH_PLATFORM_STM32STD
  #elif defined(RASPBERRY_PI)
   #define RH_PLATFORM RH_PLATFORM_RASPI
-#elif defined(__unix__) // Linux
+ #elif defined(__unix__) // Linux
   #define RH_PLATFORM RH_PLATFORM_UNIX
-#elif defined(__APPLE__) // OSX
+ #elif defined(__APPLE__) // OSX
   #define RH_PLATFORM RH_PLATFORM_UNIX
  #else
   #error Platform not defined!
  #endif
-#endif
-
-#if defined(__AVR_ATtiny84__) || defined(__AVR_ATtiny85__) || defined(__AVR_ATtiny24__) || defined(__AVR_ATtiny44__) || defined(__AVR_ATtiny45__) || defined(__AVR_ATtinyX4__) || defined(__AVR_ATtinyX5__) || defined(__AVR_ATtiny2313__) || defined(__AVR_ATtiny4313__) || defined(__AVR_ATtinyX313__)
- #define RH_PLATFORM_ATTINY
 #endif
 
 ////////////////////////////////////////////////////
@@ -1153,32 +1282,65 @@ these examples and explanations and extend them to suit your needs.
  #else
   #include <wiring.h>
  #endif
- #ifdef RH_PLATFORM_ATTINY
-  #warning Arduino TinyCore does not support hardware SPI. Use software SPI instead.
- #else
   #include <SPI.h>
   #define RH_HAVE_HARDWARE_SPI
   #define RH_HAVE_SERIAL
+ #if defined(ARDUINO_ARCH_STM32F4)
+  // output to Serial causes hangs on STM32 F4 Discovery board
+  // There seems to be no way to output text to the USB connection
+  #define Serial Serial2
  #endif
-
+#elif (RH_PLATFORM == RH_PLATFORM_ATTINY)
+  #warning Arduino TinyCore does not support hardware SPI. Use software SPI instead.
+#elif (RH_PLATFORM == RH_PLATFORM_ATTINY_MEGA)
+ #include <SPI.h>
+  #define RH_HAVE_HARDWARE_SPI
+  #define RH_HAVE_SERIAL
 #elif (RH_PLATFORM == RH_PLATFORM_ESP8266) // ESP8266 processor on Arduino IDE
  #include <Arduino.h>
  #include <SPI.h>
  #define RH_HAVE_HARDWARE_SPI
  #define RH_HAVE_SERIAL
+ #define RH_MISSING_SPIUSINGINTERRUPT
 
 #elif (RH_PLATFORM == RH_PLATFORM_ESP32)   // ESP32 processor on Arduino IDE
  #include <Arduino.h>
  #include <SPI.h>
  #define RH_HAVE_HARDWARE_SPI
  #define RH_HAVE_SERIAL
+ #define RH_MISSING_SPIUSINGINTERRUPT
+
+ #elif (RH_PLATFORM == RH_PLATFORM_MONGOOSE_OS) // Mongoose OS platform
+  #include <mgos.h>
+  #include <mgos_adc.h>
+  #include <mgos_pwm.h>
+  #include <MGOSCompat/HardwareSerial.h>
+  #include <MGOSCompat/HardwareSPI.h>
+  #include <MGOSCompat/MGOS.h>
+  #include <math.h> // We use the floor() math function.
+  #define RH_HAVE_HARDWARE_SPI
+   //If a Radio is connected via a serial port then this defines the serial
+   //port the radio is connected to.
+  #if defined(RH_SERIAL_PORT)
+   #if RH_SERIAL_PORT == 0
+    #define Serial Serial0
+   #elif RH_SERIAL_PORT == 1
+    #define Serial Serial1
+   #elif RH_SERIAL_PORT == 2
+    #define Serial Serial2
+   #endif
+  #else
+   #warning "RH_SERIAL_PORT not defined. Therefore serial port 0 selected"
+   #define Serial Serial0
+  #endif
+  #define RH_HAVE_SERIAL
 
 #elif (RH_PLATFORM == RH_PLATFORM_MSP430) // LaunchPad specific
  #include "legacymsp430.h"
  #include "Energia.h"
  #include <SPI.h>
  #define RH_HAVE_HARDWARE_SPI
- #define RH_HAVE_SERIAL
+ #define RH_HAVE_SERIALg
 
 #elif (RH_PLATFORM == RH_PLATFORM_UNO32 || RH_PLATFORM == RH_PLATFORM_CHIPKIT_CORE)
  #include <WProgram.h>
@@ -1242,7 +1404,11 @@ these examples and explanations and extend them to suit your needs.
  #define RH_HAVE_HARDWARE_SPI
  #define RH_HAVE_SERIAL
  #define PROGMEM
- #include <RHutil/RasPi.h>
+ #if (__has_include (<pigpio.h>))
+  #include <RHutil_pigpio/RasPi.h>
+ #else
+  #include <RHutil/RasPi.h>
+ #endif
  #include <string.h>
  //Define SS for CS0 or pin 24
  #define SS 8
@@ -1305,11 +1471,19 @@ these examples and explanations and extend them to suit your needs.
 // Try to be compatible with systems that support yield() and multitasking
 // instead of spin-loops
 // Recent Arduino IDE or Teensy 3 has yield()
-#if (RH_PLATFORM == RH_PLATFORM_ARDUINO && ARDUINO >= 155 && !defined(RH_PLATFORM_ATTINY)) || (TEENSYDUINO && defined(__MK20DX128__))
+#if (RH_PLATFORM == RH_PLATFORM_ARDUINO && ARDUINO >= 155) || (defined(TEENSYDUINO) && defined(__MK20DX128__))
  #define YIELD yield();
 #elif (RH_PLATFORM == RH_PLATFORM_ESP8266)
 // ESP8266 also has it
  #define YIELD yield();
+#elif (RH_PLATFORM == RH_PLATFORM_MONGOOSE_OS)
+ //ESP32 and ESP8266 use freertos so we include calls
+ //that we would normall exit a function and return to
+ //the rtos in mgosYield() (E.G flush TX uart buffer
+ extern "C" {
+   void mgosYield(void);
+ }
+ #define YIELD mgosYield()
 #else
  #define YIELD
 #endif
@@ -1364,6 +1538,18 @@ these examples and explanations and extend them to suit your needs.
 // Slave select pin, some platforms such as ATTiny do not define it.
 #ifndef SS
  #define SS 10
+#endif
+
+// Some platforms require specail attributes for interrupt routines
+#if (RH_PLATFORM == RH_PLATFORM_ESP8266)
+    // interrupt handler and related code must be in RAM on ESP8266,
+    // according to issue #46.
+    #define RH_INTERRUPT_ATTR ICACHE_RAM_ATTR
+
+#elif (RH_PLATFORM == RH_PLATFORM_ESP32)
+    #define RH_INTERRUPT_ATTR IRAM_ATTR
+#else
+    #define RH_INTERRUPT_ATTR
 #endif
 
 // These defs cause trouble on some versions of Arduino
