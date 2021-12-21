@@ -385,7 +385,11 @@ class SAMDTimerInterrupt
 typedef enum
 {
   TIMER_TC3 = 0,
-  TIMER_TCC = 1,
+  TIMER_TC4 = 1,
+  TIMER_TC5 = 2,
+  TIMER_TCC0 = 3,
+  TIMER_TCC1 = 4,
+  TIMER_TCC2 = 5,
   MAX_TIMER
 } SAMDTimerNumber;
 
@@ -419,6 +423,32 @@ void TC3_Handler()
   }
 }
 
+void TC4_Handler()
+{
+  // get timer struct
+ TcCount16* TC = (TcCount16*) TC4;
+
+  // If the compare register matching the timer count, trigger this interrupt
+  if (TC->INTFLAG.bit.MC0 == 1)
+  {
+    TC->INTFLAG.bit.MC0 = 1;
+  (*TC3_callback)();
+  }
+}
+
+void TC5_Handler()
+{
+  // get timer struct
+ TcCount16* TC = (TcCount16*) TC5;
+
+  // If the compare register matching the timer count, trigger this interrupt
+  if (TC->INTFLAG.bit.MC0 == 1)
+  {
+    TC->INTFLAG.bit.MC0 = 1;
+  (*TC3_callback)();
+  }
+}
+
 void TCC0_Handler()
 {
   // get timer struct
@@ -438,6 +468,46 @@ void TCC0_Handler()
 	  TC->INTFLAG.bit.OVF = 1;
   }
 }
+
+void TCC1_Handler()
+{
+  // get timer struct
+  Tcc* TC = (Tcc*) TCC1;
+
+  // If the compare register matching the timer count, trigger this interrupt
+  if (TC->INTFLAG.bit.MC0 == 1)
+  {
+    // A compare to cc0 caused the interrupt
+   TC->INTFLAG.bit.MC0 = 1;    // writing a one clears the flag ovf flag
+  }
+
+  if (TC->INTFLAG.bit.OVF == 1)
+  {
+   (*TCC_callback)();
+
+   TC->INTFLAG.bit.OVF = 1;
+  }
+}
+
+void TCC2_Handler()
+{
+  // get timer struct
+  Tcc* TC = (Tcc*) TCC2;
+
+  // If the compare register matching the timer count, trigger this interrupt
+  if (TC->INTFLAG.bit.MC0 == 1)
+  {
+    // A compare to cc0 caused the interrupt
+   TC->INTFLAG.bit.MC0 = 1;    // writing a one clears the flag ovf flag
+  }
+
+  if (TC->INTFLAG.bit.OVF == 1)
+  {
+   (*TCC_callback)();
+
+   TC->INTFLAG.bit.OVF = 1;
+  }
+}
   
 class SAMDTimerInterrupt
 {
@@ -451,7 +521,7 @@ class SAMDTimerInterrupt
     float           _frequency;       // Timer frequency
     //uint32_t        _timerCount;      // count to activate timer
     
-    float   _period;
+    float           _period;
     int             _prescaler;
     int             _compareValue;
 
@@ -465,9 +535,25 @@ class SAMDTimerInterrupt
       {
         _SAMDTimer = (TcCount16*) TC3;    
       }
-      else if (_timerNumber == TIMER_TCC)
+      if (_timerNumber == TIMER_TC4)
+      {
+        _SAMDTimer = (TcCount16*) TC4;
+      }
+      if (_timerNumber == TIMER_TC5)
+      {
+        _SAMDTimer = (TcCount16*) TC5;
+      }
+      else if (_timerNumber == TIMER_TCC0)
       {
         _SAMDTimer = (Tcc*) TCC0;        
+      }
+      else if (_timerNumber == TIMER_TCC1)
+      {
+        _SAMDTimer = (Tcc*) TCC1;
+      }
+      else if (_timerNumber == TIMER_TCC2)
+      {
+        _SAMDTimer = (Tcc*) TCC2;
       }
       
       _callback = NULL;      
@@ -520,8 +606,80 @@ class SAMDTimerInterrupt
 
         _callback     = callback;
 	      TC3_callback  = callback;
-	    }
-	    else if (_timerNumber == TIMER_TCC)
+	     }
+      else if (_timerNumber == TIMER_TC4)
+      {
+        REG_GCLK_CLKCTRL = (uint16_t) (GCLK_CLKCTRL_CLKEN | GCLK_CLKCTRL_GEN_GCLK0 | GCLK_CLKCTRL_ID (GCM_TC4_TC5));
+
+        while ( GCLK->STATUS.bit.SYNCBUSY == 1 );
+
+        TISR_LOGWARN3(F("SAMDTimerInterrupt: F_CPU (MHz) ="), F_CPU/1000000, F(", TIMER_HZ ="), TIMER_HZ/1000000);
+        TISR_LOGWARN3(F("TC5_Timer::startTimer _Timer = 0x"), String((uint32_t) _SAMDTimer, HEX), F(", TC4 = 0x"), String((uint32_t) TC4, HEX));
+
+        SAMD_TC3->CTRLA.reg &= ~TC_CTRLA_ENABLE;
+
+        // Use the 16-bit timer
+        SAMD_TC3->CTRLA.reg |= TC_CTRLA_MODE_COUNT16;
+
+        while (SAMD_TC3->STATUS.bit.SYNCBUSY == 1);
+
+        // Use match mode so that the timer counter resets when the count matches the compare register
+        SAMD_TC3->CTRLA.reg |= TC_CTRLA_WAVEGEN_MFRQ;
+
+        while (SAMD_TC3->STATUS.bit.SYNCBUSY == 1);
+
+        setPeriod_TIMER_TC3(_period);
+
+        // Enable the compare interrupt
+        SAMD_TC3->INTENSET.reg = 0;
+        SAMD_TC3->INTENSET.bit.MC0 = 1;
+
+        NVIC_EnableIRQ(TC4_IRQn);
+
+        SAMD_TC3->CTRLA.reg |= TC_CTRLA_ENABLE;
+
+        while (SAMD_TC3->STATUS.bit.SYNCBUSY == 1);
+
+        _callback     = callback;
+       TC3_callback  = callback;
+      }
+      else if (_timerNumber == TIMER_TC5)
+      {
+        REG_GCLK_CLKCTRL = (uint16_t) (GCLK_CLKCTRL_CLKEN | GCLK_CLKCTRL_GEN_GCLK0 | GCLK_CLKCTRL_ID (GCM_TC4_TC5));
+
+        while ( GCLK->STATUS.bit.SYNCBUSY == 1 );
+
+        TISR_LOGWARN3(F("SAMDTimerInterrupt: F_CPU (MHz) ="), F_CPU/1000000, F(", TIMER_HZ ="), TIMER_HZ/1000000);
+        TISR_LOGWARN3(F("TC5_Timer::startTimer _Timer = 0x"), String((uint32_t) _SAMDTimer, HEX), F(", TC5 = 0x"), String((uint32_t) TC5, HEX));
+
+        SAMD_TC3->CTRLA.reg &= ~TC_CTRLA_ENABLE;
+
+        // Use the 16-bit timer
+        SAMD_TC3->CTRLA.reg |= TC_CTRLA_MODE_COUNT16;
+
+        while (SAMD_TC3->STATUS.bit.SYNCBUSY == 1);
+
+        // Use match mode so that the timer counter resets when the count matches the compare register
+        SAMD_TC3->CTRLA.reg |= TC_CTRLA_WAVEGEN_MFRQ;
+
+        while (SAMD_TC3->STATUS.bit.SYNCBUSY == 1);
+
+        setPeriod_TIMER_TC3(_period);
+
+        // Enable the compare interrupt
+        SAMD_TC3->INTENSET.reg = 0;
+        SAMD_TC3->INTENSET.bit.MC0 = 1;
+
+        NVIC_EnableIRQ(TC5_IRQn);
+
+        SAMD_TC3->CTRLA.reg |= TC_CTRLA_ENABLE;
+
+        while (SAMD_TC3->STATUS.bit.SYNCBUSY == 1);
+
+        _callback     = callback;
+       TC3_callback  = callback;
+      }
+	     else if (_timerNumber == TIMER_TCC0)
       {
         REG_GCLK_CLKCTRL = (uint16_t) (GCLK_CLKCTRL_CLKEN | GCLK_CLKCTRL_GEN_GCLK0 | GCLK_CLKCTRL_ID(GCM_TCC0_TCC1));
 	    
@@ -555,6 +713,74 @@ class SAMDTimerInterrupt
 	      _callback     = callback;
 	      TCC_callback  = callback;
       }
+      else if (_timerNumber == TIMER_TCC1)
+      {
+        REG_GCLK_CLKCTRL = (uint16_t) (GCLK_CLKCTRL_CLKEN | GCLK_CLKCTRL_GEN_GCLK0 | GCLK_CLKCTRL_ID(GCM_TCC0_TCC1));
+
+       while ( GCLK->STATUS.bit.SYNCBUSY == 1 );
+
+       TISR_LOGWARN3(F("SAMDTimerInterrupt: F_CPU (MHz) ="), F_CPU/1000000, F(", TIMER_HZ ="), TIMER_HZ/1000000);
+        TISR_LOGWARN3(F("TCC_Timer::startTimer _Timer = 0x"), String((uint32_t) _SAMDTimer, HEX), F(", TCC1 = 0x"), String((uint32_t) TCC1, HEX));
+
+        SAMD_TCC->CTRLA.reg &= ~TCC_CTRLA_ENABLE;   // Disable TC
+
+        while (SAMD_TCC->SYNCBUSY.bit.ENABLE == 1); // wait for sync
+
+       setPeriod_TIMER_TCC(_period);
+
+        // Use match mode so that the timer counter resets when the count matches the compare register
+        SAMD_TCC->WAVE.reg |= TCC_WAVE_WAVEGEN_NFRQ;   // Set wave form configuration
+
+        while (SAMD_TCC->SYNCBUSY.bit.WAVE == 1); // wait for sync
+
+        // Enable the compare interrupt
+        SAMD_TCC->INTENSET.reg = 0;
+       SAMD_TCC->INTENSET.bit.OVF = 1;
+        SAMD_TCC->INTENSET.bit.MC0 = 1;
+
+        NVIC_EnableIRQ(TCC1_IRQn);
+
+        SAMD_TCC->CTRLA.reg |= TCC_CTRLA_ENABLE;
+
+        while (SAMD_TCC->SYNCBUSY.bit.ENABLE == 1); // wait for sync
+
+       _callback     = callback;
+       TCC_callback  = callback;
+      }
+      else if (_timerNumber == TIMER_TCC2)
+      {
+        REG_GCLK_CLKCTRL = (uint16_t) (GCLK_CLKCTRL_CLKEN | GCLK_CLKCTRL_GEN_GCLK0 | GCLK_CLKCTRL_ID(GCM_TCC2_TC3));
+
+       while ( GCLK->STATUS.bit.SYNCBUSY == 1 );
+
+       TISR_LOGWARN3(F("SAMDTimerInterrupt: F_CPU (MHz) ="), F_CPU/1000000, F(", TIMER_HZ ="), TIMER_HZ/1000000);
+        TISR_LOGWARN3(F("TCC_Timer::startTimer _Timer = 0x"), String((uint32_t) _SAMDTimer, HEX), F(", TCC2 = 0x"), String((uint32_t) TCC2, HEX));
+
+        SAMD_TCC->CTRLA.reg &= ~TCC_CTRLA_ENABLE;   // Disable TC
+
+        while (SAMD_TCC->SYNCBUSY.bit.ENABLE == 1); // wait for sync
+
+       setPeriod_TIMER_TCC(_period);
+
+        // Use match mode so that the timer counter resets when the count matches the compare register
+        SAMD_TCC->WAVE.reg |= TCC_WAVE_WAVEGEN_NFRQ;   // Set wave form configuration
+
+        while (SAMD_TCC->SYNCBUSY.bit.WAVE == 1); // wait for sync
+
+        // Enable the compare interrupt
+        SAMD_TCC->INTENSET.reg = 0;
+       SAMD_TCC->INTENSET.bit.OVF = 1;
+        SAMD_TCC->INTENSET.bit.MC0 = 1;
+
+        NVIC_EnableIRQ(TCC2_IRQn);
+
+        SAMD_TCC->CTRLA.reg |= TCC_CTRLA_ENABLE;
+
+        while (SAMD_TCC->SYNCBUSY.bit.ENABLE == 1); // wait for sync
+
+       _callback     = callback;
+       TCC_callback  = callback;
+      }
     
       return true;
     }
@@ -585,9 +811,25 @@ class SAMDTimerInterrupt
       {
         NVIC_DisableIRQ(TC3_IRQn); 
       }
-      else if (_timerNumber == TIMER_TCC)
+      else if (_timerNumber == TIMER_TC4)
       {
-        NVIC_DisableIRQ(TCC0_IRQn);     
+        NVIC_DisableIRQ(TC4_IRQn);
+      }
+      else if (_timerNumber == TIMER_TC5)
+      {
+        NVIC_DisableIRQ(TC5_IRQn);
+      }
+      else if (_timerNumber == TIMER_TCC0)
+      {
+        NVIC_DisableIRQ(TCC0_IRQn);
+      }
+      else if (_timerNumber == TIMER_TCC1)
+      {
+        NVIC_DisableIRQ(TCC1_IRQn);
+      }
+      else if (_timerNumber == TIMER_TCC2)
+      {
+        NVIC_DisableIRQ(TCC2_IRQn);
       }
     }
 
@@ -599,7 +841,27 @@ class SAMDTimerInterrupt
         // Disable TC3
         SAMD_TC3->CTRLA.reg &= ~TC_CTRLA_ENABLE;
       }
-      else if (_timerNumber == TIMER_TCC)
+      else if (_timerNumber == TIMER_TC4)
+      {
+        // Disable TC4
+        SAMD_TC3->CTRLA.reg &= ~TC_CTRLA_ENABLE;
+      }
+      else if (_timerNumber == TIMER_TC5)
+      {
+        // Disable TC5
+        SAMD_TC3->CTRLA.reg &= ~TC_CTRLA_ENABLE;
+      }
+      else if (_timerNumber == TIMER_TCC0)
+      {
+        // Disable TCC
+        SAMD_TCC->CTRLA.reg &= ~TCC_CTRLA_ENABLE;
+      }
+      else if (_timerNumber == TIMER_TCC1)
+      {
+        // Disable TCC
+        SAMD_TCC->CTRLA.reg &= ~TCC_CTRLA_ENABLE;
+      }
+      else if (_timerNumber == TIMER_TCC2)
       {       
         // Disable TCC
         SAMD_TCC->CTRLA.reg &= ~TCC_CTRLA_ENABLE;
@@ -614,9 +876,25 @@ class SAMDTimerInterrupt
       {
         NVIC_EnableIRQ(TC3_IRQn); 
       }
-      else if (_timerNumber == TIMER_TCC)
+      else if (_timerNumber == TIMER_TC4)
+      {
+        NVIC_EnableIRQ(TC4_IRQn);
+      }
+      else if (_timerNumber == TIMER_TC5)
+      {
+        NVIC_EnableIRQ(TC5_IRQn);
+      }
+      else if (_timerNumber == TIMER_TCC0)
       {
         NVIC_EnableIRQ(TCC0_IRQn);     
+      }
+      else if (_timerNumber == TIMER_TCC1)
+      {
+        NVIC_EnableIRQ(TCC1_IRQn);
+      }
+      else if (_timerNumber == TIMER_TCC2)
+      {
+        NVIC_EnableIRQ(TCC2_IRQn);
       }
     }
 
@@ -629,7 +907,27 @@ class SAMDTimerInterrupt
         // Enable TC3
         SAMD_TC3->CTRLA.reg |= TC_CTRLA_ENABLE;
       }
-      else if (_timerNumber == TIMER_TCC)
+      else if (_timerNumber == TIMER_TC4)
+      {
+        // Enable TC4
+        SAMD_TC3->CTRLA.reg |= TC_CTRLA_ENABLE;
+      }
+      else if (_timerNumber == TIMER_TC5)
+      {
+        // Enable TC5
+        SAMD_TC3->CTRLA.reg |= TC_CTRLA_ENABLE;
+      }
+      else if (_timerNumber == TIMER_TCC0)
+      {
+        // Enable TCC
+        SAMD_TCC->CTRLA.reg |= TCC_CTRLA_ENABLE;
+      }
+      else if (_timerNumber == TIMER_TCC1)
+      {
+        // Enable TCC
+        SAMD_TCC->CTRLA.reg |= TCC_CTRLA_ENABLE;
+      }
+      else if (_timerNumber == TIMER_TCC2)
       {        
         // Enable TCC
         SAMD_TCC->CTRLA.reg |= TCC_CTRLA_ENABLE;
