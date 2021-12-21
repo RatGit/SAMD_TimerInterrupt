@@ -409,7 +409,9 @@ timerCallback TCC_callback;
 
 ////////////////////////////////////////////////////////
 
-
+#if defined(RadioHead_h)
+ #warning "TC3 Timer/Counter is already used by RadioHead Library"
+#else
 void TC3_Handler()
 {
   // get timer struct
@@ -422,6 +424,7 @@ void TC3_Handler()
 		(*TC3_callback)();
   }
 }
+#endif
 
 void TC4_Handler()
 {
